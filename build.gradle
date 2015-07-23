@@ -1,0 +1,21 @@
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = targetCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+    compile 'com.sparkjava:spark-core:2.2'
+    compile 'com.sparkjava:spark-template-mustache:1.0.0'
+    compile 'org.mockito:mockito-all:1.10.19'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
