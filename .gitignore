@@ -24,6 +24,9 @@ Thumbs.db
 # Bower
 **/bower_components
 
+# Sass
+.sass-cache
+
 # Build
 out
 build

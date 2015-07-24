@@ -13,8 +13,15 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            static_files: {
-                files: ['**/*.html', '**/*.css'],
+            html_files: {
+                files: '**/*.html',
+                options: {
+                    livereload: true
+                }
+            },
+            scss_files: {
+                files: '**/*.scss',
+                tasks: 'compass',
                 options: {
                     livereload: true
                 }
@@ -22,11 +29,20 @@ module.exports = function(grunt) {
             js_files: {
                 files: '**/*.js'
             }
+        },
+
+        compass: {
+            compile: {
+                options: {
+                    config: 'config.rb'
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['connect', 'watch']);
+    grunt.registerTask('default', ['connect', 'watch', 'compass']);
 };
