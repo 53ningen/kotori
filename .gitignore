@@ -18,6 +18,9 @@ Thumbs.db
 .gradle
 !gradle-wrapper.jar
 
+# Grunt
+**/node_modules
+
 # Bower
 **/bower_components
 
