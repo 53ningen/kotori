@@ -6,6 +6,11 @@ Java8+Sparkで掲示板
 ## Install
 
 ```
-$ ./gradlew
+$ bower install
 ```
 
+### Build
+
+```
+$ ./gradlew
+```

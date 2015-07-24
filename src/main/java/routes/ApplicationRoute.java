@@ -30,6 +30,7 @@ public class ApplicationRoute implements ApplicationRouteInterface {
      */
     public void initServerConf() {
         port(9000); // ポート番号を設定
+        staticFileLocation("/templates");
         initRoutes();
     }
 

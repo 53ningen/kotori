@@ -18,6 +18,9 @@ Thumbs.db
 .gradle
 !gradle-wrapper.jar
 
+# Bower
+**/bower_components
+
 # Build
 out
 build
