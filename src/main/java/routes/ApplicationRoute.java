@@ -1,6 +1,8 @@
 package routes;
 
 import static spark.Spark.*;
+
+import models.posts.PostContentModel;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -10,11 +12,13 @@ import java.util.HashMap;
 /**
  * ルーティングを行うクラス
  */
-public class ApplicationRoute implements ApplicationRouteInterface {
+public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
+    private PostContentModel postContentModel;
     private HashMap<String, Object> model;
 
     private ApplicationRoute() {
+        this.postContentModel = new PostContentModel();
         this.model = new HashMap<>();
     }
 
@@ -30,7 +34,7 @@ public class ApplicationRoute implements ApplicationRouteInterface {
      */
     public void initServerConf() {
         port(9000); // ポート番号を設定
-        staticFileLocation("/templates");
+        staticFileLocation("/templates"); // 静的ファイルのパスを設定
         initRoutes();
     }
 
@@ -44,9 +48,10 @@ public class ApplicationRoute implements ApplicationRouteInterface {
             return getRoot(request, response);
         }), engine);
 
-        get("/stop", ((request, response) -> {
-            return getStop(request, response);
-        }), engine);
+        get("/stop", ((request, response) -> stopServer()));
+
+        post("/post", ((request, response) -> postContentModel.requestPostContent(request, response)));
+
     }
 
     /**
@@ -55,7 +60,6 @@ public class ApplicationRoute implements ApplicationRouteInterface {
      * @param res レスポンス
      * @return indexのModelAndView
      */
-    @Override
     public ModelAndView getRoot(Request req, Response res) {
         model.put("msg", "hello");
         return new ModelAndView(model, "index.mustache.html");
@@ -64,12 +68,8 @@ public class ApplicationRoute implements ApplicationRouteInterface {
 
     /**
      * サーバを停止する
-     * @param req リクエスト
-     * @param res レスポンス
-     * @return null
      */
-    @Override
-    public ModelAndView getStop(Request req, Response res) {
+    public String stopServer() {
         stop();
         return null;
     }

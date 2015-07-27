@@ -13,12 +13,32 @@
     <!-- endbuild -->
 </head>
 <body>
-    <h1>{{msg}}</h1>
+    <!-- startHeader -->
+    <header>
+        <h1>{{msg}}</h1>
+    </header>
+    <!-- endHeader -->
+
+    <!-- startMain -->
+    <main>
+        <form id="post-content">
+            <textarea class="post-content--text" cols="30" rows="10"></textarea>
+            <input type="submit" value="送信">
+        </form>
+    </main>
+    <!-- endMain -->
+
+    <!-- startFooter -->
+    <footer>
+
+    </footer>
+    <!-- endFooter -->
 
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></link>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <!-- endbower -->
     <!-- build:js -->
+    <script src="scripts/main.js"></script>
     <!-- endbuild -->
 </body>
 </html>

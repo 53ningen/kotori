@@ -6,7 +6,7 @@ module.exports = function(grunt) {
             site: {
                 options: {
                     hostname: 'localhost',
-                    port: 9000,
+                    port: 9001,
                     base: 'src/main/resources/templates/'
                 }
             }
