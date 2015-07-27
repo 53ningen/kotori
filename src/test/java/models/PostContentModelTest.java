@@ -39,8 +39,10 @@ public class PostContentModelTest {
         String content = "{\"content\":}";
         when(request.body()).thenReturn(content);
 
-        // verify
+        // exercise
         postContentModel.requestPostContent(request, response);
+        
+        // verify
         verify(response).status(400);
     }
 
@@ -50,8 +52,10 @@ public class PostContentModelTest {
         String content = "{\"content\": \"hoge\"}";
         when(request.body()).thenReturn(content);
 
-        // verify
+        // exercise
         String id = postContentModel.requestPostContent(request, response);
+
+        // verify
         verify(response).status(200);
         assertThat(id, is("1"));
     }
@@ -62,10 +66,11 @@ public class PostContentModelTest {
         String content = "{\"content\": \"hoge\"}";
         when(request.body()).thenReturn(content);
 
-        // verify
+        // exercise
         String id = postContentModel.requestPostContent(request, response);
         String id2 = postContentModel.requestPostContent(request, response);
 
+        // verify
         assertThat(id, is("1"));
         assertThat(id2, is("2"));
     }
