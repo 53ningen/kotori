@@ -9,6 +9,11 @@ import java.io.IOException;
 
 public class PostContentModel {
     private static final int HTTP_BAD_REQUEST = 400;
+    private PostDB postDB;
+
+    public PostContentModel() {
+        postDB = new PostDB();
+    }
 
     /**
      * postによる投稿を受け付ける
@@ -17,7 +22,6 @@ public class PostContentModel {
      * @return 投稿ID
      */
     public String requestPostContent(Request request, Response response) {
-        PostDB db = new PostDB();
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -26,7 +30,7 @@ public class PostContentModel {
                 response.status(HTTP_BAD_REQUEST);
                 return "";
             }
-            String id = db.createPost(postPayload);
+            String id = postDB.createPost(postPayload);
             response.status(200);
             response.type("application/json");
             return id;
