@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import models.posts.PostDB;
+import models.posts.PostInfo;
 import models.posts.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,6 @@ public class PostDBTest {
         postPayload = new PostPayload();
         postPayload.setContent("hoge");
     }
-
 
     @Test
     public void 受け取った投稿をDBに格納しID1を返す() throws Exception {
@@ -38,5 +38,17 @@ public class PostDBTest {
         // verify
         assertThat(id1, is("1"));
         assertThat(id2, is("2"));
+    }
+
+    @Test
+    public void 受け取った投稿がDBに格納されている() throws Exception {
+        // exercise
+        postDB.createPost(postPayload);
+
+        // verify
+        PostInfo actual = postDB.getAllPosts().get(0);
+        assertThat(actual.getId(), is(1));
+        assertThat(actual.getContent(), is("hoge"));
+
     }
 }

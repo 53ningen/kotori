@@ -25,6 +25,12 @@
             <textarea class="post-content--text" cols="30" rows="10"></textarea>
             <input type="submit" value="送信">
         </form>
+
+        <ul>
+            {{#posts}}
+            <li>{{id}} : {{content}}</li>
+            {{/posts}}
+        </ul>
     </main>
     <!-- endMain -->
 

@@ -6,11 +6,7 @@ import spark.Response;
 
 public class PostContentModel {
     private static final int HTTP_BAD_REQUEST = 400;
-    private PostDB postDB;
-
-    public PostContentModel() {
-        postDB = new PostDB();
-    }
+    private PostDB postDB = PostDB.getPostDB();
 
     /**
      * postによる投稿を受け付ける
@@ -24,16 +20,19 @@ public class PostContentModel {
             ObjectMapper mapper = new ObjectMapper();
             PostPayload postPayload = mapper.readValue(request.body(), PostPayload.class);
             if (!postPayload.isValid()) {
-                response.status(HTTP_BAD_REQUEST);
-                return "";
+                return sendBadRequest(response);
             }
             String id = postDB.createPost(postPayload);
             response.status(200);
             response.type("application/json");
             return id;
         } catch (Exception e) {
-            response.status(HTTP_BAD_REQUEST);
-            return "";
+            return sendBadRequest(response);
         }
+    }
+
+    private String sendBadRequest(Response response) {
+        response.status(HTTP_BAD_REQUEST);
+        return "";
     }
 }
