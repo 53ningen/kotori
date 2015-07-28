@@ -23,7 +23,7 @@ public class PostContentModelTest {
     }
 
     @Test
-    public void bodyが空の場合BadRequestを返す() throws Exception {
+    public void bodyがnullの場合BadRequestを返す() throws Exception {
         // setup
         when(request.body()).thenReturn(null);
 
