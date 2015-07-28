@@ -1,7 +1,5 @@
 package models;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
 import helper.RequestHelper;
@@ -24,13 +22,16 @@ public class PostContentModelTest {
         response = ResponseHelper.Responseモックの生成();
     }
 
-    @Test (expected = RuntimeException.class)
-    public void bodyが空の場合RuntimeExceptionを返す() throws Exception {
+    @Test
+    public void bodyが空の場合BadRequestを返す() throws Exception {
         // setup
-        when(request.body()).thenReturn("");
+        when(request.body()).thenReturn(null);
+
+        // exercise
+        postContentModel.requestPostContent(request, response);
 
         // verify
-        postContentModel.requestPostContent(request, response);
+        verify(response).status(400);
     }
 
     @Test
@@ -47,7 +48,7 @@ public class PostContentModelTest {
     }
 
     @Test
-    public void contentのパラメータが正しければ200OKを返しid1を割り当てる() throws Exception {
+    public void contentのパラメータが正しければ200OKを返す() throws Exception {
         // setup
         String content = "{\"content\": \"hoge\"}";
         when(request.body()).thenReturn(content);
@@ -57,22 +58,6 @@ public class PostContentModelTest {
 
         // verify
         verify(response).status(200);
-        assertThat(id, is("1"));
-    }
-
-    @Test
-    public void 投稿idがインクリメントされる() throws Exception {
-        // setup
-        String content = "{\"content\": \"hoge\"}";
-        when(request.body()).thenReturn(content);
-
-        // exercise
-        String id = postContentModel.requestPostContent(request, response);
-        String id2 = postContentModel.requestPostContent(request, response);
-
-        // verify
-        assertThat(id, is("1"));
-        assertThat(id2, is("2"));
     }
 
 }
