@@ -22,13 +22,22 @@
     <!-- startMain -->
     <main>
         <form id="post-content">
+            <input class="post-content--title" type="text" maxlength="20">
+            <br>
             <textarea class="post-content--text" cols="30" rows="10"></textarea>
+            <br>
             <input type="submit" value="送信">
         </form>
 
         <ul>
             {{#posts}}
-            <li>{{id}} : {{date}} : {{content}}</li>
+            <li>
+                {{id}} : {{date}}
+                <br>
+                {{title}}
+                <br>
+                {{content}}
+            </li>
             {{/posts}}
         </ul>
     </main>

@@ -2,6 +2,7 @@ package models.posts;
 
 public class PostInfo {
     private int id;
+    private String title;
     private String content;
     private String date;
 
@@ -11,6 +12,14 @@ public class PostInfo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

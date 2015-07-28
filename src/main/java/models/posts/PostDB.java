@@ -27,6 +27,7 @@ public class PostDB {
         PostInfo postInfo = new PostInfo();
         postInfo.setId(id);
         postInfo.setDate(postCalender.getPostDate());
+        postInfo.setTitle(payload.getTitle());
         postInfo.setContent(payload.getContent());
         posts.put(id, postInfo);
         return String.valueOf(id);

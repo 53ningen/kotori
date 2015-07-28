@@ -19,6 +19,7 @@ public class PostDBTest extends PostDB {
     public void setUp() throws Exception {
         postDB = new PostDB();
         postPayload = new PostPayload();
+        postPayload.setTitle("fuga");
         postPayload.setContent("hoge");
     }
 
@@ -50,8 +51,8 @@ public class PostDBTest extends PostDB {
         // verify
         PostInfo actual = postDB.getAllPosts().get(0);
         assertThat(actual.getId(), is(1));
+        assertThat(actual.getTitle(), is("fuga"));
         assertThat(actual.getContent(), is("hoge"));
-
     }
 
     @Test

@@ -5,8 +5,11 @@
     event.preventDefault();
 
     var jsondata = {
+      title: $('.post-content--title').val(),
       content: $('.post-content--text').val()
     };
+
+    console.log(JSON.stringify(jsondata));
 
     $.ajax({
       url: '/post',
