@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import models.posts.PostDB;
+import models.posts.PostInfo;
 import models.posts.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +46,9 @@ public class PostDBTest {
         postDB.createPost(postPayload);
 
         // verify
-        String actual = postDB.getAllPosts().get(0).getContent();
-        assertThat(actual, is("hoge"));
+        PostInfo actual = postDB.getAllPosts().get(0);
+        assertThat(actual.getId(), is(1));
+        assertThat(actual.getContent(), is("hoge"));
 
     }
 }
