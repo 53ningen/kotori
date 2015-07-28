@@ -6,11 +6,7 @@ import spark.Response;
 
 public class PostContentModel {
     private static final int HTTP_BAD_REQUEST = 400;
-    private PostDB postDB;
-
-    public PostContentModel() {
-        postDB = new PostDB();
-    }
+    private PostDB postDB = PostDB.getPostDB();
 
     /**
      * postによる投稿を受け付ける
@@ -28,6 +24,7 @@ public class PostContentModel {
                 return "";
             }
             String id = postDB.createPost(postPayload);
+            postPayload.setId(id);
             response.status(200);
             response.type("application/json");
             return id;

@@ -3,6 +3,7 @@ package routes;
 import static spark.Spark.*;
 
 import models.posts.PostContentModel;
+import models.posts.PostDB;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
     private PostContentModel postContentModel = new PostContentModel();
+    private PostDB postDB = PostDB.getPostDB();
     private HashMap<String, Object> model = new HashMap<>();
 
     private ApplicationRoute() {
@@ -59,6 +61,7 @@ public class ApplicationRoute {
      */
     public ModelAndView getRoot(Request req, Response res) {
         model.put("msg", "hello");
+        model.put("posts", postDB.getAllPosts());
         return new ModelAndView(model, "index.mustache.html");
     }
 
