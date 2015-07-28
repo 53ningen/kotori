@@ -1,6 +1,6 @@
 package models.posts;
 
-public class PostInfo{
+public class PostInfo {
     private int id;
     private String content;
     private String date;

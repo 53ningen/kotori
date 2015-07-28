@@ -1,5 +1,7 @@
 package models.posts;
 
+import static java.util.Comparator.*;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +33,11 @@ public class PostDB {
     }
 
     /**
-     * 全ての投稿を返す
-     * @return
+     * 全ての投稿をID降順で返す
+     * @return 投稿リスト
      */
     public List<PostInfo> getAllPosts() {
-        return posts.keySet().stream().sorted().map((id) -> posts.get(id)).collect(Collectors.toList());
+        return posts.keySet().stream().sorted(reverseOrder()).map(posts::get).collect(Collectors.toList());
     }
 
 
@@ -63,7 +65,6 @@ public class PostDB {
             String day = convertPostDateStr(cal.get(Calendar.DATE));
             String hour = convertPostDateStr(cal.get(Calendar.HOUR_OF_DAY));
             String minute = convertPostDateStr(cal.get(Calendar.MINUTE));
-
 
             return year + "/" + month + "/" + day + " " + hour + ":" + minute;
         }
