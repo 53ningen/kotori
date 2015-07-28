@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class PostDB {
     private int nextId = 1;
-    private Map posts = new HashMap<>();
+    private HashMap<Integer, PostPayload> posts = new HashMap<>();
 
     /**
      * 受け取った投稿をDBに格納する
@@ -18,15 +18,9 @@ public class PostDB {
      * @return 投稿ID
      */
     public String createPost(PostPayload payload) {
-        try {
-            int id = nextId++;
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(payload);
-            posts.put(id, json);
-            return String.valueOf(id);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("JsonProcessingException from a writeValueAsString?");
-        }
+        int id = nextId++;
+        posts.put(id, payload);
+        return String.valueOf(id);
     }
 
     /**
@@ -34,7 +28,7 @@ public class PostDB {
      * @return
      */
     public List getAllPosts() {
-        return (List) posts.keySet().stream().sorted().map((id) -> posts.get(id)).collect(Collectors.toList());
+        return posts.keySet().stream().sorted().map((id) -> posts.get(id)).collect(Collectors.toList());
     }
 
 }
