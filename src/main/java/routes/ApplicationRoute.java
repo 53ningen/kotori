@@ -14,12 +14,12 @@ import java.util.HashMap;
  */
 public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
-    private PostContentModel postContentModel;
-    private HashMap<String, Object> model;
+    private PostContentModel postContentModel = new PostContentModel();
+    private HashMap<String, Object> model = new HashMap<>();
 
     private ApplicationRoute() {
-        this.postContentModel = new PostContentModel();
-        this.model = new HashMap<>();
+        initServerConf();
+        initRoutes();
     }
 
     /**
@@ -32,10 +32,9 @@ public class ApplicationRoute {
     /**
      * サーバの設定を行う
      */
-    public void initServerConf() {
+    private void initServerConf() {
         port(9000); // ポート番号を設定
         staticFileLocation("/templates"); // 静的ファイルのパスを設定
-        initRoutes();
     }
 
     /**
@@ -44,9 +43,7 @@ public class ApplicationRoute {
     private void initRoutes() {
         MustacheTemplateEngine engine = new MustacheTemplateEngine();
 
-        get("/", ((request, response) -> {
-            return getRoot(request, response);
-        }), engine);
+        get("/", ((request, response) -> getRoot(request, response)), engine);
 
         get("/stop", ((request, response) -> stopServer()));
 
