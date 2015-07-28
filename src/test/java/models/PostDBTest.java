@@ -19,7 +19,6 @@ public class PostDBTest {
         postPayload.setContent("hoge");
     }
 
-
     @Test
     public void 受け取った投稿をDBに格納しID1を返す() throws Exception {
         // exercise
@@ -38,5 +37,16 @@ public class PostDBTest {
         // verify
         assertThat(id1, is("1"));
         assertThat(id2, is("2"));
+    }
+
+    @Test
+    public void 受け取った投稿がDBに格納されている() throws Exception {
+        // exercise
+        postDB.createPost(postPayload);
+
+        // verify
+        String actual = postDB.getAllPosts().get(0).getContent();
+        assertThat(actual, is("hoge"));
+
     }
 }
