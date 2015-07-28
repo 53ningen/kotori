@@ -20,17 +20,19 @@ public class PostContentModel {
             ObjectMapper mapper = new ObjectMapper();
             PostPayload postPayload = mapper.readValue(request.body(), PostPayload.class);
             if (!postPayload.isValid()) {
-                response.status(HTTP_BAD_REQUEST);
-                return "";
+                return sendBadRequest(response);
             }
             String id = postDB.createPost(postPayload);
-            postPayload.setId(id);
             response.status(200);
             response.type("application/json");
             return id;
         } catch (Exception e) {
-            response.status(HTTP_BAD_REQUEST);
-            return "";
+            return sendBadRequest(response);
         }
+    }
+
+    private String sendBadRequest(Response response) {
+        response.status(HTTP_BAD_REQUEST);
+        return "";
     }
 }

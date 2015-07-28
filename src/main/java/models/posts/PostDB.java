@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class PostDB {
     private static PostDB postDB = new PostDB();
     private int nextId = 1;
-    private HashMap<Integer, PostPayload> posts = new HashMap<>();
+    private HashMap<Integer, PostInfo> posts = new HashMap<>();
 
     public static PostDB getPostDB() {
         return postDB;
@@ -20,7 +20,10 @@ public class PostDB {
      */
     public String createPost(PostPayload payload) {
         int id = nextId++;
-        posts.put(id, payload);
+        PostInfo postInfo = new PostInfo();
+        postInfo.setId(id);
+        postInfo.setContent(payload.getContent());
+        posts.put(id, postInfo);
         return String.valueOf(id);
     }
 
@@ -28,7 +31,7 @@ public class PostDB {
      * 全ての投稿を返す
      * @return
      */
-    public List<PostPayload> getAllPosts() {
+    public List<PostInfo> getAllPosts() {
         return posts.keySet().stream().sorted().map((id) -> posts.get(id)).collect(Collectors.toList());
     }
 

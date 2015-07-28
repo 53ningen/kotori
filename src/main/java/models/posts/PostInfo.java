@@ -1,10 +1,15 @@
 package models.posts;
 
-public class PostPayload {
+public class PostInfo{
+    private int id;
     private String content;
 
-    public boolean isValid() {
-        return !content.isEmpty();
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getContent() {
