@@ -1,11 +1,8 @@
-package models;
+package models.posts;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
-import models.posts.PostDB;
-import models.posts.PostInfo;
-import models.posts.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,11 +1,10 @@
-package models;
+package models.posts;
 
 import static java.util.stream.Collectors.*;
 import static org.mockito.Mockito.*;
 
 import helper.RequestHelper;
 import helper.ResponseHelper;
-import models.posts.PostContentModel;
 import org.junit.Before;
 import org.junit.Test;
 import spark.Request;
