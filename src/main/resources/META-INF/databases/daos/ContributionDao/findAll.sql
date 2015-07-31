@@ -4,3 +4,4 @@ FROM
   contribution
 ORDER BY
   id
+DESC

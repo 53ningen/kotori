@@ -17,7 +17,7 @@ public interface ContributionDao {
     List<Contribution> findAll();
 
     @Select
-    Optional<Contribution> find(int id);
+    Optional<Contribution> findById(int id);
 
     @Insert
     int insert(Contribution cont);

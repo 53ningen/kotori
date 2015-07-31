@@ -21,9 +21,6 @@ public class Contribution {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Version
-    private int version;
-
     public int getId() {
         return id;
     }
@@ -39,7 +36,6 @@ public class Contribution {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-
 
     public void setTitle(String title) {
         this.title = title;

@@ -1,83 +1,50 @@
 package models.posts;
 
-import static java.util.Comparator.*;
+import bulletinBoard.DBConfig;
+import databases.daos.ContributionDao;
+import databases.entities.Contribution;
+import helper.DaoImplHelper;
+import org.seasar.doma.jdbc.tx.TransactionManager;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class PostDB {
     private static PostDB postDB = new PostDB();
-    private int nextId = 1;
-    private HashMap<Integer, PostInfo> posts = new HashMap<>();
-
+    private final ContributionDao dao = DaoImplHelper.get(ContributionDao.class);
+    private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
     public static PostDB getPostDB() {
         return postDB;
     }
 
     /**
-     * 受け取った投稿をDBに格納する
-     * @param payload
-     * @return 投稿ID
+     * 受け取ったPayloadを基にContributionを生成する
+     * @param payload PostPayloadインスタンス
+     * @return Contributionインスタンス
      */
-    public String createPost(PostPayload payload) {
-        int id = nextId++;
-        PostCalender postCalender = new PostCalender();
-        PostInfo postInfo = new PostInfo();
-        postInfo.setId(id);
-        postInfo.setDate(postCalender.getPostDate());
-        postInfo.setTitle(payload.getTitle());
-        postInfo.setContent(payload.getContent());
-        posts.put(id, postInfo);
-        return String.valueOf(id);
+    public Optional<Contribution> createContribution(PostPayload payload) {
+        Contribution contribution = new Contribution();
+        contribution.setCreatedAt(LocalDateTime.now());
+        contribution.setTitle(payload.getTitle());
+        contribution.setContent(payload.getContent());
+        return Optional.of(contribution);
+    }
+
+    /**
+     * 受け取ったContributionをDBに格納する
+     * @param contribution Contributionインスタンス
+     * @return 処理した投稿数
+     */
+    public int insertContribution(Contribution contribution) {
+        return tm.required(() -> dao.insert(contribution));
     }
 
     /**
      * 全ての投稿をID降順で返す
      * @return 投稿リスト
      */
-    public List<PostInfo> getAllPosts() {
-        return posts.keySet().stream().sorted(reverseOrder()).map(posts::get).collect(Collectors.toList());
-    }
-
-
-    /**
-     * 投稿日時を管理するネストトップクラス
-     */
-    protected static class PostCalender {
-        private final Calendar cal;
-
-        public PostCalender() {
-            this.cal = Calendar.getInstance();
-        }
-
-        public PostCalender(Calendar cal) {
-            this.cal = cal;
-        }
-
-        /**
-         * 現在の日時を返す
-         * @return "yyyy/mm/dd hh:mm"形式の日時
-         */
-        public String getPostDate() {
-            int year = cal.get(Calendar.YEAR);
-            String month = convertPostDateStr(cal.get(Calendar.MONTH) + 1);
-            String day = convertPostDateStr(cal.get(Calendar.DATE));
-            String hour = convertPostDateStr(cal.get(Calendar.HOUR_OF_DAY));
-            String minute = convertPostDateStr(cal.get(Calendar.MINUTE));
-
-            return year + "/" + month + "/" + day + " " + hour + ":" + minute;
-        }
-
-        /**
-         * 日付を整形して返す
-         * @param date
-         * @return 整形済みのString
-         */
-        private String convertPostDateStr(int date) {
-            return date < 10 ? "0" + date : String.valueOf(date);
-        }
-
+    public List<Contribution> findAllContributions()
+    {
+        return tm.required(dao::findAll);
     }
 }

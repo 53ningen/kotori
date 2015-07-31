@@ -2,15 +2,14 @@ create table if not exists contribution (
     id int(11) unsigned not null primary key auto_increment,
     title varchar(20),
     content varchar(140),
-    created_at datetime,
-    version int(11) not null
+    created_at datetime
 );
 
-insert into contribution(title, content, created_at, version)
-       values ('hoge', 'テスト1', '2008-01-01 12:12:12', '0');
+insert into contribution(title, content, created_at)
+       values ('hoge', 'テスト1', '2008-01-01 12:12:12');
 
-insert into contribution(title, content, created_at, version)
-       values ('bar', 'テスト2', '2009-01-01 12:12:13', '0');
+insert into contribution(title, content, created_at)
+       values ('bar', 'テスト2', '2009-01-01 12:12:13');
 
-insert into contribution(title, content, created_at, version)
-       values ('zoi', 'テスト3', '2010-01-01 12:12:14', '0');
+insert into contribution(title, content, created_at)
+       values ('zoi', 'テスト3', '2010-01-01 12:12:14');
