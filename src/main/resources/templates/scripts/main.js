@@ -5,6 +5,7 @@
     event.preventDefault();
 
     var jsondata = {
+      title: $('.post-content--title').val(),
       content: $('.post-content--text').val()
     };
 

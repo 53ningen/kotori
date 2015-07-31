@@ -9,7 +9,9 @@ import models.posts.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PostDBTest {
+import java.util.Calendar;
+
+public class PostDBTest extends PostDB {
     private PostDB postDB;
     private PostPayload postPayload;
 
@@ -17,6 +19,7 @@ public class PostDBTest {
     public void setUp() throws Exception {
         postDB = new PostDB();
         postPayload = new PostPayload();
+        postPayload.setTitle("fuga");
         postPayload.setContent("hoge");
     }
 
@@ -48,7 +51,31 @@ public class PostDBTest {
         // verify
         PostInfo actual = postDB.getAllPosts().get(0);
         assertThat(actual.getId(), is(1));
+        assertThat(actual.getTitle(), is("fuga"));
         assertThat(actual.getContent(), is("hoge"));
+    }
 
+    @Test
+    public void 投稿した日付が整形されてDBに格納されている() throws Exception {
+        // setup
+        PostCalender sut = new PostCalender(newCalender(2015, 0, 1, 12, 0));
+
+        // verify
+        assertThat(sut.getPostDate(), is("2015/01/01 12:00"));
+    }
+
+    /**
+     * テストする日付を設定する
+     * @param year
+     * @param month 0から始まる
+     * @param day
+     * @param hour
+     * @param minute
+     * @return Calenderオブジェクト
+     */
+    private Calendar newCalender(int year, int month, int day, int hour, int minute) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day, hour, minute);
+        return cal;
     }
 }
