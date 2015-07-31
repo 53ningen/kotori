@@ -8,6 +8,7 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 
 import java.util.List;
+import java.util.Optional;
 
 @Dao(config = DBConfig.class)
 public interface ContributionDao {
@@ -16,7 +17,7 @@ public interface ContributionDao {
     List<Contribution> findAll();
 
     @Select
-    Contribution find(int id);
+    Optional<Contribution> find(int id);
 
     @Insert
     int insert(Contribution cont);
