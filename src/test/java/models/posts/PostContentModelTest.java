@@ -38,7 +38,7 @@ public class PostContentModelTest {
     }
 
     @Test
-    public void パラメータが空の場合BadRequestを返す() throws Exception {
+    public void パラメータが足りない場合BadRequestを返す() throws Exception {
         // setup
         String content = "{\"title\": \"hoge\", \"content\":}";
         when(request.body()).thenReturn(content);
@@ -72,7 +72,7 @@ public class PostContentModelTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        String id = postContentModel.requestPostContent(request, response);
+        postContentModel.requestPostContent(request, response);
 
         // verify
         verify(response).status(200);

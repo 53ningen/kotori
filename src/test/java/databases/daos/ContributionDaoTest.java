@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +19,12 @@ public class ContributionDaoTest {
     @Rule
     public final DBResource resource = new DBResource();
     private final ContributionDao dao = DaoImplHelper.get(ContributionDao.class);
+    private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
 
     @Test
     public void 用意したテストデータをidを指定して取得できる() {
-        TransactionManager tm = DBConfig.singleton().getTransactionManager();
         tm.required(() -> {
-            Optional<Contribution> contributionOpt = dao.find(1);
+            Optional<Contribution> contributionOpt = dao.findById(1);
             Contribution contribution = contributionOpt.orElse(new Contribution());
             assertThat(contribution.getId(), is(1));
             assertThat(contribution.getTitle(), is("hoge"));
@@ -34,10 +33,8 @@ public class ContributionDaoTest {
         });
     }
 
-
     @Test
     public void 用意したテストデータを全件取得できる() {
-        TransactionManager tm = DBConfig.singleton().getTransactionManager();
         tm.required(() -> {
             List<Contribution> contributions = dao.findAll();
             Contribution contribution = contributions.get(1);
@@ -51,16 +48,15 @@ public class ContributionDaoTest {
         });
     }
 
-
     @Test
     public void INSERTが問題なく実行できる() {
-        TransactionManager tm = DBConfig.singleton().getTransactionManager();
         tm.required(() -> {
             Contribution contribution = new Contribution();
             contribution.setTitle("foo");
             contribution.setContent("test");
             contribution.setCreatedAt(LocalDateTime.of(2015, 7, 31, 12, 24, 36));
-            dao.insert(contribution);
+            int result = dao.insert(contribution);
+            assertThat(result, is(1));
         });
     }
 }
