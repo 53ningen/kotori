@@ -1,4 +1,243 @@
-/* line 3, ../../sass/main.scss */
+/**
+ * CommonSettings
+ **/
+/* line 47, ../../sass/main.scss */
+html, body {
+  color: #554236;
+}
+
+/* line 51, ../../sass/main.scss */
 header, main, footer {
-  margin: 0 1rem;
+  position: relative;
+}
+
+/**
+ * Header
+ **/
+/* line 59, ../../sass/main.scss */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  height: 50px;
+  text-align: center;
+  background-color: #F1EFA5;
+  z-index: 9000;
+}
+/* line 70, ../../sass/main.scss */
+header .write-button {
+  left: 1rem;
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+}
+/* line 75, ../../sass/main.scss */
+header .user-button {
+  right: 1rem;
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+}
+/* line 80, ../../sass/main.scss */
+header .user-button {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  margin-top: -20px;
+}
+/* line 87, ../../sass/main.scss */
+header h1.title {
+  margin: 0;
+  padding: 0;
+  line-height: 50px;
+  font-family: "Quicksand", sans-serif;
+}
+
+/**
+ * main
+ **/
+/* line 98, ../../sass/main.scss */
+main {
+  margin-top: 70px;
+  padding: 1rem;
+}
+
+/* line 103, ../../sass/main.scss */
+#posts {
+  display: none;
+}
+/* line 107, ../../sass/main.scss */
+#posts form#post-contribution input, #posts form#post-contribution textarea {
+  float: left;
+  outline: none;
+  border: 1px solid #554236;
+  transition: all .3s;
+}
+/* line 112, ../../sass/main.scss */
+#posts form#post-contribution input:focus, #posts form#post-contribution textarea:focus {
+  border: 1px solid #60B99A;
+}
+/* line 117, ../../sass/main.scss */
+#posts form#post-contribution textarea.post-content--text {
+  width: calc(100% - 100px);
+}
+/* line 121, ../../sass/main.scss */
+#posts form#post-contribution .contribution-content {
+  position: relative;
+  padding-bottom: .5rem;
+}
+/* line 126, ../../sass/main.scss */
+#posts form#post-contribution .contribution-submit {
+  text-align: right;
+}
+/* line 130, ../../sass/main.scss */
+#posts form#post-contribution .guide-text {
+  width: 94px;
+  float: left;
+}
+
+/* line 138, ../../sass/main.scss */
+#contributions .contribution {
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #60B99A;
+}
+/* line 144, ../../sass/main.scss */
+#contributions .contribution .contribution-user .user--icon {
+  float: left;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: #FAFAFA;
+  background-color: #D3CE3D;
+  border-radius: 3px;
+}
+/* line 155, ../../sass/main.scss */
+#contributions .contribution .contribution-user .user--name {
+  float: left;
+  padding-left: .5rem;
+}
+/* line 161, ../../sass/main.scss */
+#contributions .contribution .contribution-body {
+  margin-top: 1rem;
+}
+/* line 164, ../../sass/main.scss */
+#contributions .contribution .contribution-body .body--content {
+  font-size: 0.9rem;
+}
+/* line 169, ../../sass/main.scss */
+#contributions .contribution .contribution-footer {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+/* line 173, ../../sass/main.scss */
+#contributions .contribution .contribution-footer .footer--new {
+  color: #F77825;
+}
+
+/**
+ * Footer
+ **/
+/* line 184, ../../sass/main.scss */
+footer {
+  height: 50px;
+  padding: 10px 0;
+  background-color: #60B99A;
+}
+/* line 189, ../../sass/main.scss */
+footer .sns-button {
+  left: 1rem;
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+}
+
+/**
+ * Components
+ **/
+/* line 198, ../../sass/main.scss */
+button.header-circle {
+  background-color: #FAFAFA;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  color: #554236;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  transition: all .3s;
+  border-radius: 50%;
+}
+/* line 201, ../../sass/main.scss */
+button.header-circle:hover {
+  transform: scale(1.1, 1.1);
+  background-color: #D3CE3D;
+}
+
+/* line 207, ../../sass/main.scss */
+button.main-circle {
+  background-color: #F1EFA5;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  color: #554236;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  transition: all .3s;
+  border-radius: 50%;
+}
+/* line 210, ../../sass/main.scss */
+button.main-circle:hover {
+  transform: scale(1.1, 1.1);
+  background-color: #D3CE3D;
+}
+
+/* line 216, ../../sass/main.scss */
+button.footer-circle {
+  margin-right: 5px;
+  background-color: #FAFAFA;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  color: #554236;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  transition: all .3s;
+  border-radius: 50%;
+}
+/* line 220, ../../sass/main.scss */
+button.footer-circle:hover {
+  transform: scale(1.1, 1.1);
+  background-color: #F1EFA5;
+}
+
+/**
+ * ClearFix
+ **/
+/* line 229, ../../sass/main.scss */
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+/* line 235, ../../sass/main.scss */
+.cf:after {
+  clear: both;
+}
+
+/* line 239, ../../sass/main.scss */
+.cf {
+  *zoom: 1;
 }
