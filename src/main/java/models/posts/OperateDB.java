@@ -54,7 +54,7 @@ public class OperateDB {
         LocalDateTime now = LocalDateTime.now();
         contributions.forEach(contribution -> {
             LocalDateTime ldt = contribution.getCreatedAt();
-            contribution.setEditedCreatedTime(ldt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss")));
+            contribution.setEditedCreatedTime(ldt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
             contribution.setIsNew(now.isAfter(ldt) && now.isBefore(ldt.plusDays(1)));
         });
         return contributions;
