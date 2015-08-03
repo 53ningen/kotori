@@ -1,12 +1,13 @@
-package models;
+package models.posts;
 
 import static java.util.stream.Collectors.*;
 import static org.mockito.Mockito.*;
 
+import databases.DBResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
-import models.posts.PostContentModel;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import spark.Request;
 import spark.Response;
@@ -14,7 +15,9 @@ import spark.Response;
 import java.util.stream.Stream;
 
 public class PostContentModelTest {
-    private final int LIMIT_TITLE_LENGTH = 20;
+    @Rule
+    public final DBResource resource = new DBResource();
+    private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;
     private PostContentModel postContentModel;
     private Request request;
     private Response response;
@@ -39,9 +42,9 @@ public class PostContentModelTest {
     }
 
     @Test
-    public void パラメータが空の場合BadRequestを返す() throws Exception {
+    public void パラメータが足りない場合BadRequestを返す() throws Exception {
         // setup
-        String content = "{\"title\": \"hoge\", \"content\":}";
+        String content = "{\"username\": \"小泉花陽\", \"title\": \"hoge\", \"content\":}";
         when(request.body()).thenReturn(content);
 
         // exercise
@@ -54,8 +57,8 @@ public class PostContentModelTest {
     @Test
     public void 制限以上の文字数が送られてきた場合BadRequestを返す() throws Exception {
         // setup
-        String title = Stream.generate(() -> "a").limit(LIMIT_TITLE_LENGTH + 1).collect(joining());
-        String content = "{\"title\": \""+ title +"\", \"content\": \"hoge\"}";
+        String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH + 1).collect(joining());
+        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoge\"}";
         when(request.body()).thenReturn(content);
 
         // exercise
@@ -68,12 +71,12 @@ public class PostContentModelTest {
     @Test
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
-        String title = Stream.generate(() -> "a").limit(LIMIT_TITLE_LENGTH).collect(joining());
-        String content = "{\"title\": \""+ title +"\", \"content\": \"hoge\"}";
+        String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
+        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoge\"}";
         when(request.body()).thenReturn(content);
 
         // exercise
-        String id = postContentModel.requestPostContent(request, response);
+        postContentModel.requestPostContent(request, response);
 
         // verify
         verify(response).status(200);

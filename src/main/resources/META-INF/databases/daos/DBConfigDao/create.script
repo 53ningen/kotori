@@ -1,0 +1,16 @@
+create table if not exists contribution (
+    id int(11) unsigned not null primary key auto_increment,
+    username varchar(20),
+    title varchar(20),
+    content varchar(140),
+    created_at datetime
+);
+
+insert into contribution(username, title, content, created_at)
+       values ('小泉花陽', 'hoge', 'テスト1', '2008-01-01 12:12:12');
+
+insert into contribution(username, title, content, created_at)
+       values ('西木野真姫', 'bar', 'テスト2', '2009-01-01 12:12:13');
+
+insert into contribution(username, title, content, created_at)
+       values ('星空凛', 'zoi', 'テスト3', '2010-01-01 12:12:14');

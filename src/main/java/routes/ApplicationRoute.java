@@ -45,11 +45,11 @@ public class ApplicationRoute {
     private void initRoutes() {
         MustacheTemplateEngine engine = new MustacheTemplateEngine();
 
-        get("/", ((request, response) -> getRoot(request, response)), engine);
+        get("/", (this::getRoot), engine);
 
-        get("/stop", ((request, response) -> stopServer()));
+        get("/stop", (this::stopServer));
 
-        post("/post", ((request, response) -> postContentModel.requestPostContent(request, response)));
+        post("/post", (postContentModel::requestPostContent));
 
     }
 
@@ -59,9 +59,9 @@ public class ApplicationRoute {
      * @param res レスポンス
      * @return indexのModelAndView
      */
-    public ModelAndView getRoot(Request req, Response res) {
+    private ModelAndView getRoot(Request req, Response res) {
         model.put("msg", "hello");
-        model.put("posts", postDB.getAllPosts());
+        model.put("posts", postDB.findAllContributions());
         return new ModelAndView(model, "index.mustache.html");
     }
 
@@ -69,7 +69,7 @@ public class ApplicationRoute {
     /**
      * サーバを停止する
      */
-    public String stopServer() {
+    private Object stopServer(Request req, Response res) {
         stop();
         return null;
     }
