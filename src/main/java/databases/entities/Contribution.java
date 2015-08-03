@@ -1,5 +1,6 @@
 package databases.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
@@ -22,6 +23,7 @@ public class Contribution extends SupContribution {
     @Column(name = "content")
     private String content;
 
+    @JsonIgnore
     @Column(name = "created_at")
     private Timestamp createdAt;
 

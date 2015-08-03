@@ -65,7 +65,7 @@ public class ApplicationRoute {
     private ModelAndView getRoot(Request req, Response res) {
         model.put("msg", "hello");
         List<Contribution> contributions = operateDB.findAllContributions();
-        model.put("posts", operateDB.addInformationContributions(contributions));
+        model.put("contributions", operateDB.addInformationContributions(contributions));
         return new ModelAndView(model, "index.mustache.html");
     }
 

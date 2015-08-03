@@ -24,6 +24,7 @@ public class OperateDB {
         contribution.setUsername(payload.getUsername());
         contribution.setTitle(payload.getTitle());
         contribution.setContent(payload.getContent());
+        contribution.setCreatedAt(LocalDateTime.now());
         return Optional.of(contribution);
     }
 
@@ -51,12 +52,20 @@ public class OperateDB {
      * @return 情報が付与された投稿リスト
      */
     public List<Contribution> addInformationContributions(List<Contribution> contributions) {
-        LocalDateTime now = LocalDateTime.now();
-        contributions.forEach(contribution -> {
-            LocalDateTime ldt = contribution.getCreatedAt();
-            contribution.setEditedCreatedTime(ldt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
-            contribution.setIsNew(now.isAfter(ldt) && now.isBefore(ldt.plusDays(1)));
-        });
+        contributions.forEach(this::addInformationContribution);
         return contributions;
+    }
+
+    /**
+     * 投稿に整形した日付と新着投稿かどうかの情報を付与する
+     * @param contribution 投稿
+     * @return 情報が付与された投稿
+     */
+    public Contribution addInformationContribution(Contribution contribution) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime ldt = contribution.getCreatedAt();
+        contribution.setEditedCreatedTime(ldt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
+        contribution.setIsNew(now.isAfter(ldt) && now.isBefore(ldt.plusDays(1)));
+        return contribution;
     }
 }
