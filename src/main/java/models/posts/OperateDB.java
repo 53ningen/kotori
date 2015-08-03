@@ -21,7 +21,6 @@ public class OperateDB {
      */
     public Optional<Contribution> createContribution(Payload payload) {
         Contribution contribution = new Contribution();
-        contribution.setCreatedAt(LocalDateTime.now());
         contribution.setUsername(payload.getUsername());
         contribution.setTitle(payload.getTitle());
         contribution.setContent(payload.getContent());

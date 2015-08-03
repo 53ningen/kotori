@@ -25,10 +25,12 @@ public class OperateDBTest extends OperateDB {
     @Test
     public void 受け取ったPayloadがContributionインスタンスとして正しく生成される() throws Exception {
         // exercise
-        Optional<Contribution> contribution = operateDB.createContribution(payload);
+        Optional<Contribution> contributionOpt = operateDB.createContribution(payload);
+        Contribution contribution = contributionOpt.get();
 
         // verify
-        assertThat(contribution.get().getTitle(), is("fuga"));
-        assertThat(contribution.get().getContent(), is("hoge"));
+        assertThat(contribution.getUsername(), is("小泉花陽"));
+        assertThat(contribution.getTitle(), is("fuga"));
+        assertThat(contribution.getContent(), is("hoge"));
     }
 }

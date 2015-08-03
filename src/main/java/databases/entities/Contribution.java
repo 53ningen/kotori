@@ -3,6 +3,7 @@ package databases.entities;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity(naming = NamingType.LOWER_CASE)
@@ -22,7 +23,7 @@ public class Contribution extends SupContribution {
     private String content;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
     public int getId() {
         return id;
@@ -41,7 +42,7 @@ public class Contribution extends SupContribution {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return createdAt.toLocalDateTime();
     }
 
     public void setUsername(String username) {
@@ -57,7 +58,7 @@ public class Contribution extends SupContribution {
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = Timestamp.valueOf(createdAt);
     }
 }
 
