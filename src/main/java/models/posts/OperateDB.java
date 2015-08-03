@@ -7,22 +7,19 @@ import helper.DaoImplHelper;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class PostDB {
-    private static PostDB postDB = new PostDB();
+public class OperateDB {
     private final ContributionDao dao = DaoImplHelper.get(ContributionDao.class);
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
-    public static PostDB getPostDB() {
-        return postDB;
-    }
 
     /**
      * 受け取ったPayloadを基にContributionを生成する
      * @param payload PostPayloadインスタンス
      * @return Contributionインスタンス
      */
-    public Optional<Contribution> createContribution(PostPayload payload) {
+    public Optional<Contribution> createContribution(Payload payload) {
         Contribution contribution = new Contribution();
         contribution.setCreatedAt(LocalDateTime.now());
         contribution.setUsername(payload.getUsername());
@@ -47,5 +44,20 @@ public class PostDB {
     public List<Contribution> findAllContributions()
     {
         return tm.required(dao::findAll);
+    }
+
+    /**
+     * 全ての投稿に整形した日付と新着投稿かどうかの情報を付与する
+     * @param contributions 投稿リスト
+     * @return 情報が付与された投稿リスト
+     */
+    public List<Contribution> addInformationContributions(List<Contribution> contributions) {
+        LocalDateTime now = LocalDateTime.now();
+        contributions.forEach(contribution -> {
+            LocalDateTime ldt = contribution.getCreatedAt();
+            contribution.setEditedCreatedTime(ldt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss")));
+            contribution.setIsNew(now.isAfter(ldt) && now.isBefore(ldt.plusDays(1)));
+        });
+        return contributions;
     }
 }

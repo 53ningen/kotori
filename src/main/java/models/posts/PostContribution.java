@@ -7,9 +7,9 @@ import spark.Response;
 
 import java.util.Optional;
 
-public class PostContentModel {
+public class PostContribution {
     private final int HTTP_BAD_REQUEST = 400;
-    private PostDB postDB = PostDB.getPostDB();
+    private OperateDB operateDB = new OperateDB();
 
     /**
      * postによる投稿を受け付ける
@@ -17,20 +17,20 @@ public class PostContentModel {
      * @param response レスポンス
      * @return 投稿処理数
      */
-    public int requestPostContent(Request request, Response response) {
+    public int requestPostContribution(Request request, Response response) {
 
         try {
             // postPayloadを生成する
-            PostPayload postPayload = new ObjectMapper().readValue(request.body(), PostPayload.class);
-            if (!postPayload.isValid()) {
+            Payload payload = new ObjectMapper().readValue(request.body(), Payload.class);
+            if (!payload.isValid()) {
                 return sendBadRequest(response);
             }
 
             // OptionalなContributionを生成する
-            Optional<Contribution> contributionOpt = postDB.createContribution(postPayload);
+            Optional<Contribution> contributionOpt = operateDB.createContribution(payload);
 
             // ContributionがNotNullならばDBに挿入する
-            int result = postDB.insertContribution(contributionOpt.get());
+            int result = operateDB.insertContribution(contributionOpt.get());
             if (result < 1) {
                 return sendBadRequest(response);
             }

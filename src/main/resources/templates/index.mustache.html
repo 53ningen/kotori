@@ -32,11 +32,17 @@
         <ul>
             {{#posts}}
             <li>
-                {{id}} : {{createdAt}}
+                {{id}} : {{createdAt}} : {{editedCreatedTime}}
+                <br>
+                {{username}}
                 <br>
                 {{title}}
                 <br>
                 {{content}}
+                <br>
+                {{#isNew}}
+                <p>New</p>
+                {{/isNew}}
             </li>
             {{/posts}}
         </ul>

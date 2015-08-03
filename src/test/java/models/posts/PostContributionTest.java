@@ -14,17 +14,17 @@ import spark.Response;
 
 import java.util.stream.Stream;
 
-public class PostContentModelTest {
+public class PostContributionTest {
     @Rule
     public final DBResource resource = new DBResource();
     private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;
-    private PostContentModel postContentModel;
+    private PostContribution postContribution;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() throws Exception {
-        postContentModel = new PostContentModel();
+        postContribution = new PostContribution();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
@@ -35,7 +35,7 @@ public class PostContentModelTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        postContentModel.requestPostContent(request, response);
+        postContribution.requestPostContribution(request, response);
 
         // verify
         verify(response).status(400);
@@ -48,7 +48,7 @@ public class PostContentModelTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        postContentModel.requestPostContent(request, response);
+        postContribution.requestPostContribution(request, response);
         
         // verify
         verify(response).status(400);
@@ -62,7 +62,7 @@ public class PostContentModelTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        postContentModel.requestPostContent(request, response);
+        postContribution.requestPostContribution(request, response);
 
         // verify
         verify(response).status(400);
@@ -76,7 +76,7 @@ public class PostContentModelTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        postContentModel.requestPostContent(request, response);
+        postContribution.requestPostContribution(request, response);
 
         // verify
         verify(response).status(200);

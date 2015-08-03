@@ -2,21 +2,24 @@ package routes;
 
 import static spark.Spark.*;
 
-import models.posts.PostContentModel;
-import models.posts.PostDB;
+import databases.entities.Contribution;
+import models.posts.PostContribution;
+import models.posts.OperateDB;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
+
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * ルーティングを行うクラス
  */
 public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
-    private PostContentModel postContentModel = new PostContentModel();
-    private PostDB postDB = PostDB.getPostDB();
+    private PostContribution postContribution = new PostContribution();
+    private OperateDB operateDB = new OperateDB();
     private HashMap<String, Object> model = new HashMap<>();
 
     private ApplicationRoute() {
@@ -49,7 +52,7 @@ public class ApplicationRoute {
 
         get("/stop", (this::stopServer));
 
-        post("/post", (postContentModel::requestPostContent));
+        post("/post", (postContribution::requestPostContribution));
 
     }
 
@@ -61,7 +64,8 @@ public class ApplicationRoute {
      */
     private ModelAndView getRoot(Request req, Response res) {
         model.put("msg", "hello");
-        model.put("posts", postDB.findAllContributions());
+        List<Contribution> contributions = operateDB.findAllContributions();
+        model.put("posts", operateDB.addInformationContributions(contributions));
         return new ModelAndView(model, "index.mustache.html");
     }
 

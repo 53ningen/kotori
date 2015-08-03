@@ -9,23 +9,23 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-public class PostDBTest extends PostDB {
-    private PostDB postDB;
-    private PostPayload postPayload;
+public class OperateDBTest extends OperateDB {
+    private OperateDB operateDB;
+    private Payload payload;
 
     @Before
     public void setUp() throws Exception {
-        postDB = new PostDB();
-        postPayload = new PostPayload();
-        postPayload.setUsername("小泉花陽");
-        postPayload.setTitle("fuga");
-        postPayload.setContent("hoge");
+        operateDB = new OperateDB();
+        payload = new Payload();
+        payload.setUsername("小泉花陽");
+        payload.setTitle("fuga");
+        payload.setContent("hoge");
     }
 
     @Test
     public void 受け取ったPayloadがContributionインスタンスとして正しく生成される() throws Exception {
         // exercise
-        Optional<Contribution> contribution = postDB.createContribution(postPayload);
+        Optional<Contribution> contribution = operateDB.createContribution(payload);
 
         // verify
         assertThat(contribution.get().getTitle(), is("fuga"));

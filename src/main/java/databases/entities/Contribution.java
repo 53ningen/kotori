@@ -6,7 +6,7 @@ import org.seasar.doma.jdbc.entity.NamingType;
 import java.time.LocalDateTime;
 
 @Entity(naming = NamingType.LOWER_CASE)
-public class Contribution {
+public class Contribution extends SupContribution {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
