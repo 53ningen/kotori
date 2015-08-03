@@ -8,7 +8,7 @@ import spark.Response;
 import java.util.Optional;
 
 public class PostContentModel {
-    private static final int HTTP_BAD_REQUEST = 400;
+    private final int HTTP_BAD_REQUEST = 400;
     private PostDB postDB = PostDB.getPostDB();
 
     /**

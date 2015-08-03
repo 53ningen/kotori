@@ -25,6 +25,7 @@ public class PostDB {
     public Optional<Contribution> createContribution(PostPayload payload) {
         Contribution contribution = new Contribution();
         contribution.setCreatedAt(LocalDateTime.now());
+        contribution.setUsername(payload.getUsername());
         contribution.setTitle(payload.getTitle());
         contribution.setContent(payload.getContent());
         return Optional.of(contribution);

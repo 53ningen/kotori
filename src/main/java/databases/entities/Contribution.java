@@ -12,6 +12,9 @@ public class Contribution {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "title")
     private String title;
 
@@ -25,6 +28,10 @@ public class Contribution {
         return id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -35,6 +42,10 @@ public class Contribution {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setTitle(String title) {

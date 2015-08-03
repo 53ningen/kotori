@@ -17,6 +17,7 @@ public class PostDBTest extends PostDB {
     public void setUp() throws Exception {
         postDB = new PostDB();
         postPayload = new PostPayload();
+        postPayload.setUsername("小泉花陽");
         postPayload.setTitle("fuga");
         postPayload.setContent("hoge");
     }
