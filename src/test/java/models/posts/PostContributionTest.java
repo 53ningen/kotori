@@ -1,6 +1,8 @@
 package models.posts;
 
 import static java.util.stream.Collectors.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import databases.DBResource;
@@ -12,6 +14,7 @@ import org.junit.Test;
 import spark.Request;
 import spark.Response;
 
+import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
 public class PostContributionTest {
@@ -82,4 +85,17 @@ public class PostContributionTest {
         verify(response).status(200);
     }
 
+    @Test
+    public void unicodeエスケープされた文字列を元に戻す() throws Exception {
+        // setup
+        String escapeStr = "{\"username\":\"\\\\u897f\\\\u6728\\\\u91ce\\\\u771f\\\\u59eb\"}";
+        Method method = postContribution.getClass().getDeclaredMethod("unescapeUnicode", String.class);
+        method.setAccessible(true);
+
+        // exercise
+        String unescapeStr = (String) method.invoke(postContribution, escapeStr);
+
+        // verify
+        assertThat(unescapeStr, is("{\"username\":\"西木野真姫\"}"));
+    }
 }

@@ -7,6 +7,8 @@ import spark.Request;
 import spark.Response;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PostContribution {
     private final int HTTP_BAD_REQUEST = 400;
@@ -22,7 +24,7 @@ public class PostContribution {
 
         try {
             // postPayloadを生成する
-            Payload payload = new ObjectMapper().readValue(request.body(), Payload.class);
+            Payload payload = new ObjectMapper().readValue(unescapeUnicode(request.body()), Payload.class);
             if (!payload.isValid()) {
                 return sendBadRequest(response);
             }
@@ -51,6 +53,25 @@ public class PostContribution {
     }
 
     /**
+     *
+     * @param body
+     * @return
+     */
+    private String unescapeUnicode(String body) {
+        String regex = "\\\\\\\\u([a-fA-F0-9]{4})";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(body);
+
+        StringBuffer strBuf = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(strBuf, String.valueOf((char) Integer.parseInt(m.group(1), 16)));
+        }
+        m.appendTail(strBuf);
+
+        return strBuf.toString();
+    }
+
+    /**
      * 投稿情報をjson文字列に変換する
      * @param contribution 投稿情報
      * @return json文字列
@@ -58,7 +79,6 @@ public class PostContribution {
      */
     private String convertContributionToJson(Contribution contribution) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        System.out.print(mapper.writeValueAsString(contribution));
         return mapper.writeValueAsString(contribution);
     }
 
