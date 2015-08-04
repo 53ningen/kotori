@@ -53,9 +53,9 @@ public class PostContribution {
     }
 
     /**
-     *
-     * @param body
-     * @return
+     * unicodeエスケープされた文字列を元に戻す
+     * @param body unicodeが含まれる文字列
+     * @return アンエスケープした文字列
      */
     private String unescapeUnicode(String body) {
         String regex = "\\\\\\\\u([a-fA-F0-9]{4})";
