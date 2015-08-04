@@ -15,12 +15,24 @@
     <!-- endbuild -->
 </head>
 <body>
+
     <!-- startHeader -->
     <header>
         <div class="write-button">
             <button class="header-circle">
                 <i class="fa fa-pencil"></i>
             </button>
+            <div class="write-button-details">
+                <button class="main-circle">
+                    <i class="fa fa-pencil"></i>
+                    <div class="button-menu">hoge</div>
+                </button>
+                <br>
+                <button class="main-circle">
+                    <i class="fa fa-pencil"></i>
+                    <div class="button-menu">hoge</div>
+                </button>
+            </div>
         </div>
         <h1 class="title">Kotori</h1>
         <div class="user-button">
@@ -33,36 +45,6 @@
 
     <!-- startMain -->
     <main>
-
-        <!-- startSection#Posts -->
-        <section id="posts">
-            <form id="post-contribution">
-                <div class="contribution-content cf">
-                    <div class="guide-text">
-                        名前
-                    </div>
-                    <input class="post-content--username" type="text" maxlength="20">
-                </div>
-                <div class="contribution-content cf">
-                    <div class="guide-text">
-                        タイトル
-                    </div>
-                    <input class="post-content--title" type="text" maxlength="20">
-                </div>
-                <div class="contribution-content cf">
-                    <div class="guide-text">
-                        本文
-                    </div>
-                    <textarea class="post-content--text" rows="10"></textarea>
-                </div>
-                <div class="contribution-submit">
-                    <button id="submit" class="main-circle">
-                        <i class="fa fa-commenting-o"></i>
-                    </button>
-                </div>
-            </form>
-        </section>
-        <!-- endSection#Posts -->
 
         <!-- startSection#Contributions -->
         <section id="contributions">
@@ -110,6 +92,36 @@
         </div>
     </footer>
     <!-- endFooter -->
+
+    <!-- startPosts -->
+    <div id="posts">
+        <form id="post-contribution">
+            <div class="contribution-content cf">
+                <div class="guide-text">
+                    名前
+                </div>
+                <input class="post-content--username" type="text" maxlength="20">
+            </div>
+            <div class="contribution-content cf">
+                <div class="guide-text">
+                    タイトル
+                </div>
+                <input class="post-content--title" type="text" maxlength="20">
+            </div>
+            <div class="contribution-content cf">
+                <div class="guide-text">
+                    本文
+                </div>
+                <textarea class="post-content--text" rows="10"></textarea>
+            </div>
+            <div class="contribution-submit">
+                <button id="submit" class="sub-circle">
+                    <i class="fa fa-commenting-o"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <!-- endPosts -->
 
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
