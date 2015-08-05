@@ -76,32 +76,12 @@
    * サーバからのjsonレスポンスをDOMに反映する
    */
   var createContribution = function(data) {
-    var contribution = '<div class="contribution"><div class="contribution-user cf"><div class="user--icon">icon</div><div class="user--name">'+sanitizeData(data.username)+'</div></div><div class="contribution-body"><div class="body--title">'+sanitizeData(data.title)+'</div><div class="body--content">'+sanitizeData(data.content)+'</div></div><div class="contribution-footer">';
+    var contribution = '<div class="contribution"><div class="contribution-user cf"><div class="user--icon">icon</div><div class="user--name">'+data.username+'</div></div><div class="contribution-body"><div class="body--title">'+data.title+'</div><div class="body--content">'+data.content+'</div></div><div class="contribution-footer">';
     if (data.isNew === true) {
       contribution += '<span class="footer--new">New</span>';
     }
-    contribution += ' '+sanitizeData(data.editedCreatedTime)+' ・ #'+sanitizeData(data.id)+'</div></div>';
+    contribution += ' '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
     return contribution;
-  }
-
-  /**
-   * json文字列のサニタイズ処理を行う
-   */
-  var sanitizeData = function(data) {
-    if (!data) return;
-    var dataList = data.split(/\r?\n/g);
-    if (dataList.length > 1) {
-      var sanitizedData = "";
-      dataList.forEach(function(el) {
-        sanitizedData += sanitize(el) + '<br>'
-      });
-      return sanitizedData;
-    } else {
-      return sanitize(data);
-    }
-    function sanitize(str) {
-      return $('<div>').text(str).html();
-    }
   }
 
   /**

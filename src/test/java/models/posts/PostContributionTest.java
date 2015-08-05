@@ -90,7 +90,7 @@ public class PostContributionTest {
     @Test
     public void unicodeエスケープされた文字列を元に戻す() throws Exception {
         // setup
-        String escapeStr = "{\"username\":\"\\\\u897f\\\\u6728\\\\u91ce\\\\u771f\\\\u59eb\", \"content\":\"\\\\u0024\"}";
+        String escapeStr = "{\"username\":\"\\\\u897f\\\\u6728\\\\u91ce\\\\u771f\\\\u59eb\", \"content\":\"\\\\u000a\"}";
         Method method = postContribution.getClass().getDeclaredMethod("unescapeUnicode", String.class);
         method.setAccessible(true);
 
@@ -98,6 +98,20 @@ public class PostContributionTest {
         String unescapeStr = (String) method.invoke(postContribution, escapeStr);
 
         // verify
-        assertThat(unescapeStr, is("{\"username\":\"西木野真姫\", \"content\":\"$\"}"));
+        assertThat(unescapeStr, is("{\"username\":\"西木野真姫\", \"content\":\"\\\\n\"}"));
+    }
+
+    @Test
+    public void HTMLタグを除いた文字列を返す() throws Exception {
+        // setup
+        String str = "{\"content\":\"hoge<b>foo</b>bar\"}";
+        Method method = postContribution.getClass().getDeclaredMethod("validateBody", String.class);
+        method.setAccessible(true);
+
+        // exercise
+        String excludedStr = (String) method.invoke(postContribution, str);
+
+        // verify
+        assertThat(excludedStr, is("{\"content\":\"hogefoobar\"}"));
     }
 }

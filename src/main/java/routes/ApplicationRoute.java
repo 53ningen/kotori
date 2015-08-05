@@ -3,6 +3,7 @@ package routes;
 import static spark.Spark.*;
 
 import databases.entities.Contribution;
+import models.contributions.HandleContribution;
 import models.posts.PostContribution;
 import models.posts.OperateDB;
 import spark.ModelAndView;
@@ -20,6 +21,7 @@ public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
     private PostContribution postContribution = new PostContribution();
     private OperateDB operateDB = new OperateDB();
+    private HandleContribution handleContribution = new HandleContribution();
     private HashMap<String, Object> model = new HashMap<>();
 
     private ApplicationRoute() {
@@ -64,7 +66,7 @@ public class ApplicationRoute {
      */
     private ModelAndView getRoot(Request req, Response res) {
         List<Contribution> contributions = operateDB.findAllContributions();
-        model.put("contributions", operateDB.addInformationContributions(contributions));
+        model.put("contributions", handleContribution.addInformationContributions(contributions));
         return new ModelAndView(model, "index.mustache.html");
     }
 
