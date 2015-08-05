@@ -1,15 +1,15 @@
 package suites;
 
 import databases.daos.ContributionDaoTest;
+import models.contributions.HandleContributionTest;
 import models.posts.PostContributionTest;
-import models.posts.OperateDBTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         PostContributionTest.class,
-        OperateDBTest.class,
+        HandleContributionTest.class,
         ContributionDaoTest.class
 })
 public class ModelTests {

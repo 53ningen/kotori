@@ -1,9 +1,7 @@
-package models.posts;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+package models.contributions;
 
 import databases.entities.Contribution;
+import models.posts.Payload;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,13 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OperateDBTest extends OperateDB {
-    private OperateDB operateDB;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+public class HandleContributionTest {
+    private HandleContribution handleContribution;
     private Payload payload;
 
     @Before
     public void setUp() throws Exception {
-        operateDB = new OperateDB();
+        handleContribution = new HandleContribution();
         payload = new Payload();
         payload.setUsername("小泉花陽");
         payload.setTitle("fuga");
@@ -28,7 +30,7 @@ public class OperateDBTest extends OperateDB {
     @Test
     public void 受け取ったPayloadがContributionインスタンスとして正しく生成される() throws Exception {
         // exercise
-        Optional<Contribution> contributionOpt = operateDB.createContribution(payload);
+        Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
         Contribution contribution = contributionOpt.get();
 
         // verify
@@ -46,7 +48,7 @@ public class OperateDBTest extends OperateDB {
         contributions.add(contribution);
 
         // exercise
-        Contribution editedContribution = operateDB.addInformationContributions(contributions).get(0);
+        Contribution editedContribution = handleContribution.addInformationContributions(contributions).get(0);
 
         // verify
         assertNotNull(editedContribution);
@@ -72,7 +74,7 @@ public class OperateDBTest extends OperateDB {
         contributions.add(contribution);
 
         // exercise
-        List<Contribution> editedContributions = operateDB.addInformationContributions(contributions);
+        List<Contribution> editedContributions = handleContribution.addInformationContributions(contributions);
 
         // verify
         assertNotNull(editedContributions);

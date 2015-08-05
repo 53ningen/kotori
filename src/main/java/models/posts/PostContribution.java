@@ -1,10 +1,10 @@
 package models.posts;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.Contribution;
+import models.contributions.HandleContribution;
 import spark.Request;
 import spark.Response;
 
@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class PostContribution {
     private final int HTTP_BAD_REQUEST = 400;
     private OperateDB operateDB = new OperateDB();
+    private HandleContribution handleContribution = new HandleContribution();
 
     /**
      * postによる投稿を受け付ける
@@ -32,7 +33,7 @@ public class PostContribution {
             }
 
             // OptionalなContributionを生成する
-            Optional<Contribution> contributionOpt = operateDB.createContribution(payload);
+            Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
 
             // ContributionがNotNullならばDBに挿入する
             int result = operateDB.insertContribution(contributionOpt.get());
@@ -41,7 +42,7 @@ public class PostContribution {
             }
 
             // Contributionに新着情報を付与する
-            Contribution contribution = operateDB.addInformationContribution(contributionOpt.get());
+            Contribution contribution = handleContribution.addInformationContribution(contributionOpt.get());
 
             // ステータスコード200 OKを設定する
             response.status(200);
@@ -66,12 +67,23 @@ public class PostContribution {
 
         StringBuffer strBuf = new StringBuffer();
         while (m.find()) {
-            if (m.group(1).matches("000a|000d|0009")) continue; // 改行、ラインフィールド、タブはUnicodeのまま保存する
-            m.appendReplacement(strBuf, Matcher.quoteReplacement(String.valueOf((char) Integer.parseInt(m.group(1), 16))));
+            if (m.group(1).matches("000a|000d"))
+                m.appendReplacement(strBuf, "\\\\\\\\n"); // 改行、ラインフィールドは改行コードとして保存する
+            else
+                m.appendReplacement(strBuf, Matcher.quoteReplacement(String.valueOf((char) Integer.parseInt(m.group(1), 16))));
         }
         m.appendTail(strBuf);
 
-        return strBuf.toString();
+        return validateBody(strBuf.toString());
+    }
+
+    /**
+     * タグを削除した文字列を返す
+     * @param body タグが含まれる文字列
+     * @return タグを削除した文字列
+     */
+    private String validateBody(String body) {
+        return body.replaceAll("<(\".*?\"|'.*?'|[^'\"])*?>", "");
     }
 
     /**
