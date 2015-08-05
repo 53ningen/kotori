@@ -4,10 +4,9 @@ import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class OperateDB {
@@ -24,12 +23,15 @@ public class OperateDB {
     }
 
     /**
-     * 全ての投稿をID降順で返す
+     * offsetの位置からlimit分だけ投稿情報をID降順で返す
+     * @param offset 開始位置
+     * @param limit 表示数
      * @return 投稿リスト
      */
-    public List<Contribution> findAllContributions()
+    public List<Contribution> findContributionsWithLimit(int offset, int limit)
     {
-        return tm.required(dao::findAll);
+        SelectOptions options = SelectOptions.get().offset(offset).limit(limit);
+        return tm.required(() -> dao.findWithLimit(options));
     }
 
 }

@@ -6,6 +6,7 @@ import databases.entities.Contribution;
 import models.contributions.HandleContribution;
 import models.posts.PostContribution;
 import models.posts.OperateDB;
+import models.requests.HandleRequest;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -65,7 +66,7 @@ public class ApplicationRoute {
      * @return indexのModelAndView
      */
     private ModelAndView getRoot(Request req, Response res) {
-        List<Contribution> contributions = operateDB.findAllContributions();
+        List<Contribution> contributions = operateDB.findContributionsWithLimit(0, HandleRequest.setShowLimit(req));
         model.put("contributions", handleContribution.addInformationContributions(contributions));
         return new ModelAndView(model, "index.mustache.html");
     }

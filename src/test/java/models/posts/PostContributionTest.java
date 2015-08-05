@@ -5,8 +5,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.fasterxml.jackson.core.io.CharacterEscapes;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.DBResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
