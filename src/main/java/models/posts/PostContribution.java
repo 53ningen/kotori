@@ -1,5 +1,7 @@
 package models.posts;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.Contribution;
@@ -64,7 +66,8 @@ public class PostContribution {
 
         StringBuffer strBuf = new StringBuffer();
         while (m.find()) {
-            m.appendReplacement(strBuf, String.valueOf((char) Integer.parseInt(m.group(1), 16)));
+            if (m.group(1).matches("000a|000d|0009")) continue; // 改行、ラインフィールド、タブはUnicodeのまま保存する
+            m.appendReplacement(strBuf, Matcher.quoteReplacement(String.valueOf((char) Integer.parseInt(m.group(1), 16))));
         }
         m.appendTail(strBuf);
 
@@ -79,6 +82,8 @@ public class PostContribution {
      */
     private String convertContributionToJson(Contribution contribution) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+        System.out.println(mapper.writeValueAsString(contribution));
         return mapper.writeValueAsString(contribution);
     }
 

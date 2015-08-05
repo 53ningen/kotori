@@ -63,12 +63,10 @@ public class ApplicationRoute {
      * @return indexのModelAndView
      */
     private ModelAndView getRoot(Request req, Response res) {
-        model.put("msg", "hello");
         List<Contribution> contributions = operateDB.findAllContributions();
         model.put("contributions", operateDB.addInformationContributions(contributions));
         return new ModelAndView(model, "index.mustache.html");
     }
-
 
     /**
      * サーバを停止する
