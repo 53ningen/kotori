@@ -2,52 +2,126 @@
 <html lang="ja">
 <head>
     <meta charset="utf-8">
-    <title>Bulletin Board Sample</title>
+    <title>Kotori</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
     <!-- endbower -->
     <!-- build:css -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
 <body>
+
     <!-- startHeader -->
     <header>
-        <h1>{{msg}}</h1>
+        <div class="write-button">
+            <button class="header-circle">
+                <i class="fa fa-pencil"></i>
+            </button>
+            <div class="write-button-details">
+                <button class="main-circle">
+                    <i class="fa fa-pencil"></i>
+                    <div class="button-menu">hoge</div>
+                </button>
+                <br>
+                <button class="main-circle">
+                    <i class="fa fa-pencil"></i>
+                    <div class="button-menu">hoge</div>
+                </button>
+            </div>
+        </div>
+        <h1 class="title">Kotori</h1>
+        <div class="user-button">
+            <button class="header-circle">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
     </header>
     <!-- endHeader -->
 
     <!-- startMain -->
     <main>
-        <form id="post-content">
-            <input class="post-content--title" type="text" maxlength="20">
-            <br>
-            <textarea class="post-content--text" cols="30" rows="10"></textarea>
-            <br>
-            <input type="submit" value="送信">
-        </form>
 
-        <ul>
-            {{#posts}}
-            <li>
-                {{id}} : {{createdAt}}
-                <br>
-                {{title}}
-                <br>
-                {{content}}
-            </li>
-            {{/posts}}
-        </ul>
+        <!-- startSection#Contributions -->
+        <section id="contributions">
+            {{#contributions}}
+            <div class="contribution">
+                <div class="contribution-user cf">
+                    <div class="user--icon">
+                        icon
+                    </div>
+                    <div class="user--name">
+                        {{username}}
+                    </div>
+                </div>
+                <div class="contribution-body">
+                    <div class="body--title">
+                        {{title}}
+                    </div>
+                    <div class="body--content">
+                        {{content}}
+                    </div>
+                </div>
+                <div class="contribution-footer">
+                    {{#isNew}}
+                    <span class="footer--new">New</span>
+                    {{/isNew}}
+                    {{editedCreatedTime}} ・ #{{id}}
+                </div>
+            </div>
+            {{/contributions}}
+        </section>
+        <!-- endSection#Contributions -->
+
     </main>
     <!-- endMain -->
 
     <!-- startFooter -->
     <footer>
-
+        <div class="sns-button">
+            <button class="footer-circle">
+                <i class="fa fa-twitter"></i>
+            </button>
+            <button class="footer-circle">
+                <i class="fa fa-github"></i>
+            </button>
+        </div>
     </footer>
     <!-- endFooter -->
+
+    <!-- startPosts -->
+    <div id="posts">
+        <form id="post-contribution">
+            <div class="contribution-content cf">
+                <div class="guide-text">
+                    名前
+                </div>
+                <input class="post-content--username" type="text" maxlength="20">
+            </div>
+            <div class="contribution-content cf">
+                <div class="guide-text">
+                    タイトル
+                </div>
+                <input class="post-content--title" type="text" maxlength="20">
+            </div>
+            <div class="contribution-content cf">
+                <div class="guide-text">
+                    本文
+                </div>
+                <textarea class="post-content--text" rows="10"></textarea>
+            </div>
+            <div class="contribution-submit">
+                <button id="submit" class="sub-circle">
+                    <i class="fa fa-commenting-o"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <!-- endPosts -->
 
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>

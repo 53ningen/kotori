@@ -1,12 +1,14 @@
 package databases.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity(naming = NamingType.LOWER_CASE)
-public class Contribution {
+public class Contribution extends SupContribution {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +23,9 @@ public class Contribution {
     @Column(name = "content")
     private String content;
 
+    @JsonIgnore
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
     public int getId() {
         return id;
@@ -41,7 +44,7 @@ public class Contribution {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return createdAt.toLocalDateTime();
     }
 
     public void setUsername(String username) {
@@ -57,7 +60,7 @@ public class Contribution {
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = Timestamp.valueOf(createdAt);
     }
 }
 
