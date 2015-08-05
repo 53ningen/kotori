@@ -25,7 +25,48 @@
     */
   });
 
-  /*
+  _document.on('click', '.header-circle--right', function() {
+    var $details = $('.user-button-details');
+
+    if ($details.hasClass('active')) {
+      $details.removeClass('active').css({
+        top: 0,
+        opacity: 0
+      });
+    } else {
+      $details.addClass('active').css({
+        top: '60px',
+        opacity: 1
+      });
+    }
+  });
+
+  _document.on('click', '.main-circle', function() {
+    var $details = $('.user-button-details');
+    var $settings = $('.settings');
+
+    if ($settings.hasClass('active')) {
+      $settings.removeClass('active').css({
+        top: '-70px',
+        opacity: 0
+      });
+    } else {
+      if (!$details.hasClass('active')) return false;
+      $settings.addClass('active').css({
+        top: 0,
+        opacity: 1
+      });
+    }
+  });
+
+  _document.on('click', '.close-button', function() {
+    var $settings = $('.settings');
+    $settings.removeClass('active').css({
+      top: '-70px',
+      opacity: 0
+    });
+  })
+
   _document.on('mouseenter', '.main-circle', function() {
     var $buttonMenu = $(this).find('.button-menu');
     $buttonMenu.css({opacity: 1});
@@ -34,7 +75,6 @@
     var $buttonMenu = $(this).find('.button-menu');
     $buttonMenu.css({opacity: 0});
   });
-  */
 
   /**
    * 投稿ボタンをクリックした時のイベント

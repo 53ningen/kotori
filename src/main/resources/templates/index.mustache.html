@@ -22,30 +22,54 @@
             <button class="header-circle">
                 <i class="fa fa-pencil"></i>
             </button>
-            <div class="write-button-details">
+        </div>
+        <h1 class="title">Kotori</h1>
+        <div class="user-button">
+            <button class="header-circle header-circle--right">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="user-button-details">
                 <button class="main-circle">
-                    <i class="fa fa-pencil"></i>
-                    <div class="button-menu">hoge</div>
-                </button>
-                <br>
-                <button class="main-circle">
-                    <i class="fa fa-pencil"></i>
+                    <i class="fa fa-comments"></i>
                     <div class="button-menu">hoge</div>
                 </button>
             </div>
         </div>
-        <h1 class="title">Kotori</h1>
-        <div class="user-button">
-            <button class="header-circle">
-                <i class="fa fa-bars"></i>
-            </button>
+
+        <div class="settings">
+            <div class="close-button">
+                <button class="setting-circle">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
         </div>
     </header>
     <!-- endHeader -->
 
     <!-- startMain -->
     <main>
-
+        <section id="mainsettings">
+            <div class="setting-button">
+                <button class="sub-circle">
+                    <i class="fa fa-comments"></i>
+                </button>
+                <a href="/?show[limit]=10">
+                    <button class="setting-circle">
+                        <span class="setting-text">10</span>
+                    </button>
+                </a>
+                <a href="/?show[limit]=30">
+                    <button class="setting-circle">
+                        <span class="setting-text">30</span>
+                    </button>
+                </a>
+                <a href="/?show[limit]=50">
+                    <button class="setting-circle">
+                      <span class="setting-text">50</span>
+                    </button>
+                </a>
+            </div>
+        </section>
         <!-- startSection#Contributions -->
         <section id="contributions">
             {{#contributions}}
