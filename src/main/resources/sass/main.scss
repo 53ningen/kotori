@@ -195,6 +195,7 @@ main {
 
       .body--content {
         font-size: $sml-text;
+        word-wrap: break-word;
       }
     }
 

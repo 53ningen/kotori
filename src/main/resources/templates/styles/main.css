@@ -1,12 +1,10 @@
 /**
  * CommonSettings
  **/
-/* line 53, ../../sass/main.scss */
 html, body {
   color: #554236;
 }
 
-/* line 57, ../../sass/main.scss */
 header, main, footer {
   position: relative;
 }
@@ -14,7 +12,6 @@ header, main, footer {
 /**
  * Header
  **/
-/* line 65, ../../sass/main.scss */
 header {
   position: fixed;
   top: 0;
@@ -26,14 +23,12 @@ header {
   background-color: #F1EFA5;
   z-index: 9000;
 }
-/* line 76, ../../sass/main.scss */
 header .write-button {
   left: 1rem;
   position: absolute;
   top: 50%;
   margin-top: -20px;
 }
-/* line 81, ../../sass/main.scss */
 header .write-button-details {
   opacity: 0;
   visibility: hidden;
@@ -41,11 +36,9 @@ header .write-button-details {
   top: 0;
   left: 0;
 }
-/* line 87, ../../sass/main.scss */
 header .write-button-details button {
   margin-top: .75rem;
 }
-/* line 89, ../../sass/main.scss */
 header .write-button-details button .button-menu {
   opacity: 0;
   position: absolute;
@@ -59,14 +52,12 @@ header .write-button-details button .button-menu {
   white-space: nowrap;
   transition: all .3s;
 }
-/* line 105, ../../sass/main.scss */
 header .user-button {
   right: 1rem;
   position: absolute;
   top: 50%;
   margin-top: -20px;
 }
-/* line 110, ../../sass/main.scss */
 header h1.title {
   margin: 0;
   padding: 0;
@@ -77,12 +68,10 @@ header h1.title {
 /**
  * main
  **/
-/* line 121, ../../sass/main.scss */
 main {
   margin-top: 70px;
 }
 
-/* line 125, ../../sass/main.scss */
 #posts {
   position: fixed;
   top: 70px;
@@ -91,52 +80,42 @@ main {
   background-color: #F1EFA5;
   display: none;
 }
-/* line 133, ../../sass/main.scss */
 #posts form#post-contribution {
   padding: 1rem;
 }
-/* line 136, ../../sass/main.scss */
 #posts form#post-contribution input, #posts form#post-contribution textarea {
   float: left;
   outline: none;
   border: 1px solid #554236;
   transition: all .3s;
 }
-/* line 141, ../../sass/main.scss */
 #posts form#post-contribution input:focus, #posts form#post-contribution textarea:focus {
   border: 1px solid #60B99A;
 }
-/* line 146, ../../sass/main.scss */
 #posts form#post-contribution textarea.post-content--text {
   width: calc(100% - 100px);
 }
-/* line 150, ../../sass/main.scss */
 #posts form#post-contribution .contribution-content {
   position: relative;
   padding-bottom: .5rem;
 }
-/* line 155, ../../sass/main.scss */
 #posts form#post-contribution .contribution-submit {
   text-align: right;
   padding-top: .5rem;
 }
-/* line 160, ../../sass/main.scss */
 #posts form#post-contribution .guide-text {
   width: 94px;
   float: left;
 }
 
-/* line 167, ../../sass/main.scss */
 #contributions {
   padding: 1rem;
 }
-/* line 170, ../../sass/main.scss */
 #contributions .contribution {
   padding: 1rem;
   margin: 1rem 0;
   border: 1px solid #60B99A;
 }
-/* line 176, ../../sass/main.scss */
 #contributions .contribution .contribution-user .user--icon {
   float: left;
   width: 50px;
@@ -147,25 +126,21 @@ main {
   background-color: #D3CE3D;
   border-radius: 3px;
 }
-/* line 187, ../../sass/main.scss */
 #contributions .contribution .contribution-user .user--name {
   float: left;
   padding-left: .5rem;
 }
-/* line 193, ../../sass/main.scss */
 #contributions .contribution .contribution-body {
   margin-top: 1rem;
 }
-/* line 196, ../../sass/main.scss */
 #contributions .contribution .contribution-body .body--content {
   font-size: 0.9rem;
+  word-wrap: break-word;
 }
-/* line 201, ../../sass/main.scss */
 #contributions .contribution .contribution-footer {
   margin-top: 1rem;
   font-size: 0.8rem;
 }
-/* line 205, ../../sass/main.scss */
 #contributions .contribution .contribution-footer .footer--new {
   color: #F77825;
 }
@@ -173,13 +148,11 @@ main {
 /**
  * Footer
  **/
-/* line 216, ../../sass/main.scss */
 footer {
   height: 50px;
   padding: 10px 0;
   background-color: #60B99A;
 }
-/* line 221, ../../sass/main.scss */
 footer .sns-button {
   left: 1rem;
   position: absolute;
@@ -187,7 +160,6 @@ footer .sns-button {
   margin-top: -20px;
 }
 
-/* line 227, ../../sass/main.scss */
 .wrapper {
   position: fixed;
   top: 0;
@@ -203,12 +175,10 @@ footer .sns-button {
 /**
  * Components
  **/
-/* line 242, ../../sass/main.scss */
 div.active {
   visibility: visible;
 }
 
-/* line 246, ../../sass/main.scss */
 button.header-circle {
   background-color: #FAFAFA;
   position: relative;
@@ -224,13 +194,11 @@ button.header-circle {
   transition: all .3s;
   border-radius: 50%;
 }
-/* line 44, ../../sass/main.scss */
 button.header-circle:hover {
   transform: scale(1.1, 1.1);
   background-color: #D3CE3D;
 }
 
-/* line 251, ../../sass/main.scss */
 button.main-circle {
   background-color: #60B99A;
   position: relative;
@@ -246,13 +214,11 @@ button.main-circle {
   transition: all .3s;
   border-radius: 50%;
 }
-/* line 44, ../../sass/main.scss */
 button.main-circle:hover {
   transform: scale(1.1, 1.1);
   background-color: #60B99A;
 }
 
-/* line 256, ../../sass/main.scss */
 button.sub-circle {
   background-color: #F1EFA5;
   position: relative;
@@ -268,13 +234,11 @@ button.sub-circle {
   transition: all .3s;
   border-radius: 50%;
 }
-/* line 44, ../../sass/main.scss */
 button.sub-circle:hover {
   transform: scale(1.1, 1.1);
   background-color: #D3CE3D;
 }
 
-/* line 261, ../../sass/main.scss */
 button.footer-circle {
   margin-right: 5px;
   background-color: #FAFAFA;
@@ -291,7 +255,6 @@ button.footer-circle {
   transition: all .3s;
   border-radius: 50%;
 }
-/* line 44, ../../sass/main.scss */
 button.footer-circle:hover {
   transform: scale(1.1, 1.1);
   background-color: #F1EFA5;
@@ -300,19 +263,16 @@ button.footer-circle:hover {
 /**
  * ClearFix
  **/
-/* line 270, ../../sass/main.scss */
 .cf:before,
 .cf:after {
   content: " ";
   display: table;
 }
 
-/* line 276, ../../sass/main.scss */
 .cf:after {
   clear: both;
 }
 
-/* line 280, ../../sass/main.scss */
 .cf {
   *zoom: 1;
 }

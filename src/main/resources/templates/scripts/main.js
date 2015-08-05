@@ -77,7 +77,7 @@
    */
   var createContribution = function(data) {
     var contribution = '<div class="contribution"><div class="contribution-user cf"><div class="user--icon">icon</div><div class="user--name">'+sanitizeData(data.username)+'</div></div><div class="contribution-body"><div class="body--title">'+sanitizeData(data.title)+'</div><div class="body--content">'+sanitizeData(data.content)+'</div></div><div class="contribution-footer">';
-    if (data.isNew === 'true') {
+    if (data.isNew === true) {
       contribution += '<span class="footer--new">New</span>';
     }
     contribution += ' '+sanitizeData(data.editedCreatedTime)+' ・ #'+sanitizeData(data.id)+'</div></div>';
@@ -88,35 +88,32 @@
    * json文字列のサニタイズ処理を行う
    */
   var sanitizeData = function(data) {
-    return $('<div>').text(data).html();
+    if (!data) return;
+    var dataList = data.split(/\r?\n/g);
+    if (dataList.length > 1) {
+      var sanitizedData = "";
+      dataList.forEach(function(el) {
+        sanitizedData += sanitize(el) + '<br>'
+      });
+      return sanitizedData;
+    } else {
+      return sanitize(data);
+    }
+    function sanitize(str) {
+      return $('<div>').text(str).html();
+    }
   }
 
   /**
-   * unicodeエスケープされたjson文字列を元に戻す
-   */
-  var unescapeData = function(data) {
-    var unescapeData = data;
-    $.each(unescapeData, function(key, value) {
-       unescapeData[key] = value.toString().json_unescape();
-    });
-    return unescapeData;
-  }
-
-  /**
-   * unicode文字列をエスケープする
+   * 文字列をエスケープする
    */
   String.prototype.json_escape = function() {
-    return ("" + this).replace(/\W/g, function (c) {
+    return ("" + this)
+      .replace(/\\/g, "\\\\")
+      .replace(/\"/g, "\\\"")
+      .replace(/\//g, "\\\/")
+      .replace(/\W/g, function (c) {
       return "\\u" + ("000" + c.charCodeAt(0).toString(16)).slice(-4);
-    });
-  };
-
-  /**
-   * unicode文字列をアンエスケープする
-   */
-  String.prototype.json_unescape = function() {
-    return ("" + this).replace(/\\u([a-fA-F0-9]{4})/g, function(match, group) {
-      return String.fromCharCode(parseInt(group, 16));
     });
   };
 
