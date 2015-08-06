@@ -31,10 +31,14 @@ public class HandleDB {
      */
     public List<Contribution> findContributionsWithLimit(int page, int limit)
     {
-        options = SelectOptions.get().offset(page * limit).limit(limit).count();
+        options = SelectOptions.get().offset((page - 1) * limit).limit(limit).count();
         return tm.required(() -> dao.findWithLimit(options));
     }
 
+    /**
+     * DBに格納されている投稿件数を返す
+     * @return 投稿件数
+     */
     public long getContributionCounts() {
         return options.getCount();
     }

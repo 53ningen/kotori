@@ -281,12 +281,26 @@ main {
     position: absolute;
     top: 0;
     left: 1rem;
+    z-index: 10;
+  }
+
+  .page-current {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+    button {
+      margin: 0 3px;
+    }
   }
 
   .page-next {
     position: absolute;
     top: 0;
     right: 1rem;
+    z-index: 10;
   }
 }
 
@@ -335,6 +349,7 @@ button.main-circle {
 }
 
 button.sub-circle {
+  line-height: $nml-text;
   background-color: $sub-color2;
   @include button-circle($sub-color);
 }
@@ -346,13 +361,19 @@ button.footer-circle {
 }
 
 button.setting-circle {
+  line-height: $nml-text;
   background-color: $white-color;
   @include button-circle($sub-color2);
+}
 
-  .setting-text {
-    font-size: $nml-text;
-    line-height: 40px;
-  }
+button.small-circle {
+  width: 30px;
+  height: 30px;
+  vertical-align: bottom;
+}
+
+button > .setting-text {
+  font-size: $nml-text;
 }
 
 /**

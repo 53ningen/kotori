@@ -213,11 +213,24 @@ main {
   position: absolute;
   top: 0;
   left: 1rem;
+  z-index: 10;
+}
+#pagination .page-current {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+#pagination .page-current button {
+  margin: 0 3px;
 }
 #pagination .page-next {
   position: absolute;
   top: 0;
   right: 1rem;
+  z-index: 10;
 }
 
 /**
@@ -295,6 +308,7 @@ button.main-circle:hover {
 }
 
 button.sub-circle {
+  line-height: 1rem;
   background-color: #F1EFA5;
   position: relative;
   width: 40px;
@@ -336,6 +350,7 @@ button.footer-circle:hover {
 }
 
 button.setting-circle {
+  line-height: 1rem;
   background-color: #FAFAFA;
   position: relative;
   width: 40px;
@@ -354,9 +369,15 @@ button.setting-circle:hover {
   transform: scale(1.1, 1.1);
   background-color: #F1EFA5;
 }
-button.setting-circle .setting-text {
+
+button.small-circle {
+  width: 30px;
+  height: 30px;
+  vertical-align: bottom;
+}
+
+button > .setting-text {
   font-size: 1rem;
-  line-height: 40px;
 }
 
 /**

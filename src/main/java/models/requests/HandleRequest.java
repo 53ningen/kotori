@@ -3,7 +3,7 @@ package models.requests;
 import spark.Request;
 
 public class HandleRequest {
-    private final int DEFAULT_PAGE = 0;
+    private final int DEFAULT_PAGE = 1;
     private final int DEFAULT_LIMIT = 10;
     private int showPage;
     private int showLimit;

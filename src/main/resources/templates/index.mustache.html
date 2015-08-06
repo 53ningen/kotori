@@ -23,7 +23,9 @@
                 <i class="fa fa-pencil"></i>
             </button>
         </div>
-        <h1 class="title">Kotori</h1>
+        <h1 class="title">
+            <a href="/">Kotori</a>
+        </h1>
         <div class="user-button">
             <button class="header-circle header-circle--right">
                 <i class="fa fa-bars"></i>
@@ -109,14 +111,37 @@
         {{#pagination}}
         <section id="pagination">
             {{#hasPrev}}
-            <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
-                <div class="page-prev">
+            <div class="page-prev">
+                <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
                     <button class="setting-circle">
                         <i class="fa fa-angle-left"></i>
                     </button>
-                </div>
-            </a>
+                </a>
+            </div>
             {{/hasPrev}}
+
+            <div class="page-current">
+                {{#prevList}}
+                <a href="/?show[limit]={{limit}}&show[page]={{page}}">
+                    <button class="setting-circle small-circle">
+                        <span class="setting-text">{{page}}</span>
+                    </button>
+                </a>
+                {{/prevList}}
+
+                <button class="sub-circle">
+                    <span class="setting-text">{{current}}</span>
+                </button>
+
+                {{#nextList}}
+                <a href="/?show[limit]={{limit}}&show[page]={{page}}">
+                    <button class="setting-circle small-circle">
+                        <span class="setting-text">{{page}}</span>
+                    </button>
+                </a>
+                {{/nextList}}
+            </div>
+
             {{#hasNext}}
             <div class="page-next">
                 <a href="/?show[limit]={{limit}}&show[page]={{next}}">
