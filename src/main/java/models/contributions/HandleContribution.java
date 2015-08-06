@@ -54,7 +54,7 @@ public class HandleContribution {
      * @return 置換された文字列
      */
     private String replaceNewLineToTag(String str) {
-        if (str == null) return str;
+        if (str == null) return "";
         else return str.replaceAll("\\\\n", "<br>");
     }
 

@@ -36,6 +36,18 @@ public class HandleDB {
     }
 
     /**
+     * 指定されたタイトルを含む投稿情報をID降順で返す
+     * @param page 開始ページ
+     * @param limit 表示数
+     * @param query 検索クエリ
+     * @return 投稿リスト
+     */
+    public List<Contribution> findContributionByTitle(int page, int limit, String query) {
+        options = SelectOptions.get().offset((page - 1) * limit).limit(limit).count();
+        return tm.required(() -> dao.findByTitle(options, query));
+    }
+
+    /**
      * DBに格納されている投稿件数を返す
      * @return 投稿件数
      */

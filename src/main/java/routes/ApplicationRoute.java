@@ -8,12 +8,12 @@ import models.paginations.HandlePagination;
 import models.posts.PostContribution;
 import models.posts.HandleDB;
 import models.requests.HandleRequest;
+import models.responses.HandleResponse;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,7 +26,7 @@ public class ApplicationRoute {
     private HandleContribution handleContribution = new HandleContribution();
     private HandlePagination handlePagination = new HandlePagination();
     private HandleRequest handleRequest = new HandleRequest();
-    private HashMap<String, Object> model = new HashMap<>();
+    private HandleResponse handleResponse = new HandleResponse();
 
     private ApplicationRoute() {
         initServerConf();
@@ -56,7 +56,7 @@ public class ApplicationRoute {
 
         get("/", (this::getRoot), engine);
 
-        get("/stop", (this::stopServer));
+        get("/search", (this::getSearch), engine);
 
         post("/post", (postContribution::requestPostContribution));
 
@@ -66,20 +66,45 @@ public class ApplicationRoute {
      * indexページを表示する
      * @param req リクエスト
      * @param res レスポンス
-     * @return indexのModelAndView
+     * @return ModelAndView
      */
     private ModelAndView getRoot(Request req, Response res) {
-        List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest.setShowPage(req), handleRequest.setShowLimit(req));
-        model.put("contributions", handleContribution.addInformationContributions(contributions));
-        model.put("pagination", handlePagination.createPagination(handleDB, handleRequest));
-        return new ModelAndView(model, "index.mustache.html");
+        handleRequest.setRequest(req);
+        List<Contribution> contributions = handleDB.findContributionsWithLimit(
+                handleRequest.getShowPage(),
+                handleRequest.getShowLimit());
+        setResponses(req, contributions, "");
+        return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
     }
 
     /**
-     * サーバを停止する
+     * 検索結果ページを表示する
+     * @param req リクエスト
+     * @param res レスポンス
+     * @return ModelAndView
      */
-    private Object stopServer(Request req, Response res) {
-        stop();
-        return null;
+    private ModelAndView getSearch(Request req, Response res) {
+        handleRequest.setRequestWithQuery(req);
+        List<Contribution> contributions = handleDB.findContributionByTitle(
+                handleRequest.getShowPage(),
+                handleRequest.getShowLimit(),
+                handleRequest.getQuery());
+        setResponses(req, contributions, "q");
+        return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
+    }
+
+    /**
+     * テンプレートエンジンに渡すレスポンスを生成する
+     * @param request リクエスト
+     * @param contributions 投稿情報
+     * @param query urlで指定されたクエリ文字列
+     */
+    private void setResponses(Request request, List<Contribution> contributions, String query) {
+        handleResponse.setResponseMap(
+                request,
+                handleContribution.addInformationContributions(contributions),
+                handlePagination.createPagination(handleDB, handleRequest),
+                query
+        );
     }
 }

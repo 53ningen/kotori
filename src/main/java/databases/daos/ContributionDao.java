@@ -20,6 +20,9 @@ public interface ContributionDao {
     @Select
     Optional<Contribution> findById(int id);
 
+    @Select
+    List<Contribution> findByTitle(SelectOptions options, String title);
+
     @Insert
     int insert(Contribution cont);
 }

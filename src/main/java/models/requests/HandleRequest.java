@@ -7,20 +7,30 @@ public class HandleRequest {
     private final int DEFAULT_LIMIT = 10;
     private int showPage;
     private int showLimit;
+    private String query;
+
+    public void setRequest(Request req) {
+        setShowPage(req);
+        setShowLimit(req);
+    }
+
+    public void setRequestWithQuery(Request req) {
+        setShowPage(req);
+        setShowLimit(req);
+        setQuery(req);
+    }
 
     /**
      * 表示するページ番号を設定する
      * @param req リクエスト
      * @return 表示ページ番号
      */
-    public int setShowPage(Request req) {
+    private void setShowPage(Request req) {
         try {
-            int page = getQueryMapValue(req, "show", "page");
+            int page = Integer.valueOf(getQueryMapValue(req, "show", "page"));
             showPage = page > 0 ? page : DEFAULT_PAGE;
-            return showPage;
         } catch (NumberFormatException | NullPointerException e) {
             showPage = DEFAULT_PAGE;
-            return showPage;
         }
     }
 
@@ -33,19 +43,29 @@ public class HandleRequest {
      * @param req リクエスト
      * @return 表示件数
      */
-    public int setShowLimit(Request req) {
+    private void setShowLimit(Request req) {
         try {
-            int limit = getQueryMapValue(req, "show", "limit");
+            int limit = Integer.valueOf(getQueryMapValue(req, "show", "limit"));
             showLimit = limit > 0 ? limit : DEFAULT_LIMIT;
-            return showLimit;
         } catch (NumberFormatException | NullPointerException e) {
             showLimit = DEFAULT_LIMIT;
-            return showLimit;
         }
     }
 
     public int getShowLimit() {
         return showLimit;
+    }
+
+    private void setQuery(Request req) {
+        try {
+            query = "%"+getQueryMapValue(req, "q", "title")+"%";
+        } catch (NumberFormatException | NullPointerException e) {
+            query = "%";
+        }
+    }
+
+    public String getQuery() {
+        return query;
     }
 
     /**
@@ -57,9 +77,9 @@ public class HandleRequest {
      * @throws NumberFormatException
      * @throws NullPointerException
      */
-    private int getQueryMapValue(Request req, String query1, String query2) throws NumberFormatException, NullPointerException {
+    private String getQueryMapValue(Request req, String query1, String query2) {
         String value = req.queryMap().get(query1, query2).value();
-        if (value.equals("null")) return -1;
-        else return Integer.valueOf(value);
+        if (value.equals("null")) return "-1";
+        else return value;
     }
 }
