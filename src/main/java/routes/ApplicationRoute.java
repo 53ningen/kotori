@@ -67,7 +67,7 @@ public class ApplicationRoute {
      * @return indexのModelAndView
      */
     private ModelAndView getRoot(Request req, Response res) {
-        List<Contribution> contributions = operateDB.findContributionsWithLimit(0, handleRequest.setShowLimit(req));
+        List<Contribution> contributions = operateDB.findContributionsWithLimit(handleRequest.setShowPage(req), handleRequest.setShowLimit(req));
         model.put("contributions", handleContribution.addInformationContributions(contributions));
         return new ModelAndView(model, "index.mustache.html");
     }

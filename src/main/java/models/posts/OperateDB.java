@@ -23,14 +23,14 @@ public class OperateDB {
     }
 
     /**
-     * offsetの位置からlimit分だけ投稿情報をID降順で返す
-     * @param offset 開始位置
+     * pageの位置からlimit分だけ投稿情報をID降順で返す
+     * @param page 開始ページ
      * @param limit 表示数
      * @return 投稿リスト
      */
-    public List<Contribution> findContributionsWithLimit(int offset, int limit)
+    public List<Contribution> findContributionsWithLimit(int page, int limit)
     {
-        SelectOptions options = SelectOptions.get().offset(offset).limit(limit);
+        SelectOptions options = SelectOptions.get().offset(page * 10).limit(limit).count();
         return tm.required(() -> dao.findWithLimit(options));
     }
 

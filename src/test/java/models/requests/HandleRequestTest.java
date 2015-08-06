@@ -12,6 +12,7 @@ import spark.Request;
 
 
 public class HandleRequestTest {
+    private final int DEFAULT_PAGE  = 0;
     private final int DEFAULT_LIMIT = 10;
     private HandleRequest handleRequest = new HandleRequest();
     private Request request;
@@ -22,12 +23,42 @@ public class HandleRequestTest {
     }
 
     @Test
+    public void リクエストのクエリから表示ページ番号を返す() throws Exception {
+        // setup
+        QueryParamsMap map = mock(QueryParamsMap.class);
+        when(request.queryMap()).thenReturn(map);
+        when(map.get("show", "page")).thenReturn(map);
+        when(map.value()).thenReturn("1");
+
+        // exercise
+        int page = handleRequest.setShowPage(request);
+
+        // verify
+        assertThat(page, is(1));
+    }
+
+    @Test
+    public void リクエストのクエリが0以下ならばデフォルトのページ番号を返す() throws Exception {
+        // setup
+        QueryParamsMap map = mock(QueryParamsMap.class);
+        when(request.queryMap()).thenReturn(map);
+        when(map.get("show", "page")).thenReturn(map);
+        when(map.value()).thenReturn("-1");
+
+        // exercise
+        int page = handleRequest.setShowPage(request);
+
+        // verify
+        assertThat(page, is(DEFAULT_PAGE));
+    }
+
+    @Test
     public void リクエストのクエリから表示件数を返す() throws Exception {
         // setup
         QueryParamsMap map = mock(QueryParamsMap.class);
         when(request.queryMap()).thenReturn(map);
         when(map.get("show", "limit")).thenReturn(map);
-        when(map.integerValue()).thenReturn(30);
+        when(map.value()).thenReturn("30");
 
         // exercise
         int limit = handleRequest.setShowLimit(request);
@@ -42,7 +73,7 @@ public class HandleRequestTest {
         QueryParamsMap map = mock(QueryParamsMap.class);
         when(request.queryMap()).thenReturn(map);
         when(map.get("show", "limit")).thenReturn(map);
-        when(map.integerValue()).thenReturn(-1);
+        when(map.value()).thenReturn("-1");
 
         // exercise
         int limit = handleRequest.setShowLimit(request);
