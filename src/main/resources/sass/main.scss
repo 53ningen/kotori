@@ -219,10 +219,28 @@ main {
 }
 
 #mainsettings {
+  position: relative;
+  height: 40px;
   padding: 1rem 1rem 0;
 
-  .setting-button button {
-    margin-right: 5px;
+  .setting-limit {
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+
+    button {
+      margin-right: 5px;
+    }
+  }
+
+  .setting-page {
+    position: absolute;
+    bottom: 0;
+    right: 1rem;
+
+    button {
+      margin-left: 5px;
+    }
   }
 }
 
@@ -352,6 +370,9 @@ button.sub-circle {
   line-height: $nml-text;
   background-color: $sub-color2;
   @include button-circle($sub-color);
+  &:hover {
+    cursor: default;
+  }
 }
 
 button.footer-circle {

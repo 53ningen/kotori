@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Pagination {
+    private final int SHOW_PAGE_NUM = 2;
     private int limit;
     private int next;
     private int current;
@@ -51,8 +52,8 @@ public class Pagination {
     }
 
     public void setPrevList(int current) {
-        // 現在のページから最大3ページ前までのIntStreamを作る
-        IntStream s = IntStream.iterate(current - 3, n -> n + 1).limit(3).filter(n -> n > 0);
+        // 現在のページから最大SHOW_PAGE_NUMページ前までのIntStreamを作る
+        IntStream s = IntStream.iterate(current - SHOW_PAGE_NUM, n -> n + 1).limit(SHOW_PAGE_NUM).filter(n -> n > 0);
         this.prevList = s.boxed().map(Page::new).collect(Collectors.toList()); // Pageオブジェクトとしてリストに変換する
     }
 
@@ -61,8 +62,8 @@ public class Pagination {
     }
 
     public void setNextList(int current, int limit, long count) {
-        // 現在のページから最大3ページ後までのIntStreamを作る
-        IntStream s = IntStream.iterate(current + 1, n -> n + 1).limit(3).filter(n -> (n - 1) * limit < count);
+        // 現在のページから最大SHOW_PAGE_NUMページ後までのIntStreamを作る
+        IntStream s = IntStream.iterate(current + 1, n -> n + 1).limit(SHOW_PAGE_NUM).filter(n -> (n - 1) * limit < count);
         this.nextList = s.boxed().map(Page::new).collect(Collectors.toList()); // Pageオブジェクトとしてリストに変換する
     }
 

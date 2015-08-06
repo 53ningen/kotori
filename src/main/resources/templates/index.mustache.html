@@ -53,7 +53,7 @@
 
         <!-- startSection#mainsettings -->
         <section id="mainsettings">
-            <div class="setting-button">
+            <div class="setting-limit">
                 <button class="sub-circle">
                     <i class="fa fa-comments"></i>
                 </button>
@@ -73,6 +73,25 @@
                     </button>
                 </a>
             </div>
+
+            {{#pagination}}
+            <div class="setting-page">
+                {{#hasPrev}}
+                <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                </a>
+                {{/hasPrev}}
+                {{#hasNext}}
+                <a href="/?show[limit]={{limit}}&show[page]={{next}}">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </a>
+                {{/hasNext}}
+            </div>
+            {{/pagination}}
         </section>
         <!-- endSection#mainsettings -->
 
