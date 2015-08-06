@@ -23,6 +23,7 @@ public class ApplicationRoute {
     private PostContribution postContribution = new PostContribution();
     private OperateDB operateDB = new OperateDB();
     private HandleContribution handleContribution = new HandleContribution();
+    private HandleRequest handleRequest = new HandleRequest();
     private HashMap<String, Object> model = new HashMap<>();
 
     private ApplicationRoute() {
@@ -66,7 +67,7 @@ public class ApplicationRoute {
      * @return indexのModelAndView
      */
     private ModelAndView getRoot(Request req, Response res) {
-        List<Contribution> contributions = operateDB.findContributionsWithLimit(0, HandleRequest.setShowLimit(req));
+        List<Contribution> contributions = operateDB.findContributionsWithLimit(0, handleRequest.setShowLimit(req));
         model.put("contributions", handleContribution.addInformationContributions(contributions));
         return new ModelAndView(model, "index.mustache.html");
     }

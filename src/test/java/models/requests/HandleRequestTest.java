@@ -13,6 +13,7 @@ import spark.Request;
 
 public class HandleRequestTest {
     private final int DEFAULT_LIMIT = 10;
+    private HandleRequest handleRequest = new HandleRequest();
     private Request request;
 
     @Before
@@ -29,7 +30,7 @@ public class HandleRequestTest {
         when(map.integerValue()).thenReturn(30);
 
         // exercise
-        int limit = HandleRequest.setShowLimit(request);
+        int limit = handleRequest.setShowLimit(request);
 
         // verify
         assertThat(limit, is(30));
@@ -44,7 +45,7 @@ public class HandleRequestTest {
         when(map.integerValue()).thenReturn(-1);
 
         // exercise
-        int limit = HandleRequest.setShowLimit(request);
+        int limit = handleRequest.setShowLimit(request);
 
         // verify
         assertThat(limit, is(DEFAULT_LIMIT));
@@ -56,7 +57,7 @@ public class HandleRequestTest {
         when(request.queryMap()).thenReturn(null);
 
         // exercise
-        int limit = HandleRequest.setShowLimit(request);
+        int limit = handleRequest.setShowLimit(request);
 
         // verify
         assertThat(limit, is(DEFAULT_LIMIT));
