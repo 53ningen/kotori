@@ -12,7 +12,7 @@ import spark.Request;
 
 
 public class HandleRequestTest {
-    private final int DEFAULT_PAGE  = 0;
+    private final int DEFAULT_PAGE  = 1;
     private final int DEFAULT_LIMIT = 10;
     private HandleRequest handleRequest = new HandleRequest();
     private Request request;
