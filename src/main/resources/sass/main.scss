@@ -227,7 +227,7 @@ main {
 }
 
 #contributions {
-  padding: 0 1rem 1rem;
+  padding: 0 1rem;
 
   .contribution {
     padding: 1rem;
@@ -269,6 +269,24 @@ main {
         color: $topic-color;
       }
     }
+  }
+}
+
+#pagination {
+  position: relative;
+  height: 40px;
+  padding: 0 1rem 1rem;
+
+  .page-prev {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+  }
+
+  .page-next {
+    position: absolute;
+    top: 0;
+    right: 1rem;
   }
 }
 

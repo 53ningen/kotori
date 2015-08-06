@@ -5,6 +5,8 @@ import spark.Request;
 public class HandleRequest {
     private final int DEFAULT_PAGE = 0;
     private final int DEFAULT_LIMIT = 10;
+    private int showPage;
+    private int showLimit;
 
     /**
      * 表示するページ番号を設定する
@@ -14,10 +16,16 @@ public class HandleRequest {
     public int setShowPage(Request req) {
         try {
             int page = getQueryMapValue(req, "show", "page");
-            return page > 0 ? page : DEFAULT_PAGE;
+            showPage = page > 0 ? page : DEFAULT_PAGE;
+            return showPage;
         } catch (NumberFormatException | NullPointerException e) {
-            return DEFAULT_PAGE;
+            showPage = DEFAULT_PAGE;
+            return showPage;
         }
+    }
+
+    public int getShowPage() {
+        return showPage;
     }
 
     /**
@@ -28,10 +36,16 @@ public class HandleRequest {
     public int setShowLimit(Request req) {
         try {
             int limit = getQueryMapValue(req, "show", "limit");
-            return limit > 0 ? limit : DEFAULT_LIMIT;
+            showLimit = limit > 0 ? limit : DEFAULT_LIMIT;
+            return showLimit;
         } catch (NumberFormatException | NullPointerException e) {
-            return DEFAULT_LIMIT;
+            showLimit = DEFAULT_LIMIT;
+            return showLimit;
         }
+    }
+
+    public int getShowLimit() {
+        return showLimit;
     }
 
     /**

@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class PostContribution {
     private final int HTTP_BAD_REQUEST = 400;
-    private OperateDB operateDB = new OperateDB();
+    private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
 
     /**
@@ -36,7 +36,7 @@ public class PostContribution {
             Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
 
             // ContributionがNotNullならばDBに挿入する
-            int result = operateDB.insertContribution(contributionOpt.get());
+            int result = handleDB.insertContribution(contributionOpt.get());
             if (result < 1) {
                 return sendBadRequest(response);
             }

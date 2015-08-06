@@ -9,9 +9,10 @@ import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.util.*;
 
-public class OperateDB {
+public class HandleDB {
     private final ContributionDao dao = DaoImplHelper.get(ContributionDao.class);
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
+    private SelectOptions options;
 
     /**
      * 受け取ったContributionをDBに格納する
@@ -30,8 +31,12 @@ public class OperateDB {
      */
     public List<Contribution> findContributionsWithLimit(int page, int limit)
     {
-        SelectOptions options = SelectOptions.get().offset(page * 10).limit(limit).count();
+        options = SelectOptions.get().offset(page * limit).limit(limit).count();
         return tm.required(() -> dao.findWithLimit(options));
+    }
+
+    public long getContributionCounts() {
+        return options.getCount();
     }
 
 }

@@ -4,8 +4,9 @@ import static spark.Spark.*;
 
 import databases.entities.Contribution;
 import models.contributions.HandleContribution;
+import models.paginations.HandlePagination;
 import models.posts.PostContribution;
-import models.posts.OperateDB;
+import models.posts.HandleDB;
 import models.requests.HandleRequest;
 import spark.ModelAndView;
 import spark.Request;
@@ -21,8 +22,9 @@ import java.util.List;
 public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
     private PostContribution postContribution = new PostContribution();
-    private OperateDB operateDB = new OperateDB();
+    private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
+    private HandlePagination handlePagination = new HandlePagination();
     private HandleRequest handleRequest = new HandleRequest();
     private HashMap<String, Object> model = new HashMap<>();
 
@@ -67,8 +69,9 @@ public class ApplicationRoute {
      * @return indexのModelAndView
      */
     private ModelAndView getRoot(Request req, Response res) {
-        List<Contribution> contributions = operateDB.findContributionsWithLimit(handleRequest.setShowPage(req), handleRequest.setShowLimit(req));
+        List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest.setShowPage(req), handleRequest.setShowLimit(req));
         model.put("contributions", handleContribution.addInformationContributions(contributions));
+        model.put("pagination", handlePagination.createPagination(handleDB, handleRequest));
         return new ModelAndView(model, "index.mustache.html");
     }
 

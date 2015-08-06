@@ -48,6 +48,8 @@
 
     <!-- startMain -->
     <main>
+
+        <!-- startSection#mainsettings -->
         <section id="mainsettings">
             <div class="setting-button">
                 <button class="sub-circle">
@@ -70,6 +72,8 @@
                 </a>
             </div>
         </section>
+        <!-- endSection#mainsettings -->
+
         <!-- startSection#Contributions -->
         <section id="contributions">
             {{#contributions}}
@@ -100,6 +104,31 @@
             {{/contributions}}
         </section>
         <!-- endSection#Contributions -->
+
+        <!-- startSection#pagination -->
+        {{#pagination}}
+        <section id="pagination">
+            {{#hasPrev}}
+            <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
+                <div class="page-prev">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                </div>
+            </a>
+            {{/hasPrev}}
+            {{#hasNext}}
+            <div class="page-next">
+                <a href="/?show[limit]={{limit}}&show[page]={{next}}">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </a>
+            </div>
+            {{/hasNext}}
+        </section>
+        {{/pagination}}
+        <!-- endSection#pagination -->
 
     </main>
     <!-- endMain -->

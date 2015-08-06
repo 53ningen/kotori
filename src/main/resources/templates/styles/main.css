@@ -168,7 +168,7 @@ main {
 }
 
 #contributions {
-  padding: 0 1rem 1rem;
+  padding: 0 1rem;
 }
 #contributions .contribution {
   padding: 1rem;
@@ -202,6 +202,22 @@ main {
 }
 #contributions .contribution .contribution-footer .footer--new {
   color: #F77825;
+}
+
+#pagination {
+  position: relative;
+  height: 40px;
+  padding: 0 1rem 1rem;
+}
+#pagination .page-prev {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+}
+#pagination .page-next {
+  position: absolute;
+  top: 0;
+  right: 1rem;
 }
 
 /**
