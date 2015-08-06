@@ -6,6 +6,7 @@ import databases.entities.Contribution;
 import helper.DaoImplHelper;
 import org.junit.Rule;
 import org.junit.Test;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.time.LocalDateTime;
@@ -40,8 +41,11 @@ public class ContributionDaoTest {
     @Test
     public void 用意したテストデータを全件取得できる() {
         tm.required(() -> {
+            // setup
+            SelectOptions options = SelectOptions.get().offset(0).limit(10);
+
             // exercise
-            List<Contribution> contributions = dao.findAll();
+            List<Contribution> contributions = dao.findWithLimit(options);
             Contribution contribution = contributions.get(1);
 
             // verify

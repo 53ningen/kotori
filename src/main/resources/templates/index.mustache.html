@@ -22,29 +22,78 @@
             <button class="header-circle">
                 <i class="fa fa-pencil"></i>
             </button>
-            <div class="write-button-details">
+        </div>
+        <h1 class="title">
+            <a href="/">Kotori</a>
+        </h1>
+        <div class="user-button">
+            <button class="header-circle header-circle--right">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="user-button-details">
                 <button class="main-circle">
-                    <i class="fa fa-pencil"></i>
-                    <div class="button-menu">hoge</div>
-                </button>
-                <br>
-                <button class="main-circle">
-                    <i class="fa fa-pencil"></i>
+                    <i class="fa fa-comments"></i>
                     <div class="button-menu">hoge</div>
                 </button>
             </div>
         </div>
-        <h1 class="title">Kotori</h1>
-        <div class="user-button">
-            <button class="header-circle">
-                <i class="fa fa-bars"></i>
-            </button>
+
+        <div class="settings">
+            <div class="close-button">
+                <button class="setting-circle">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
         </div>
     </header>
     <!-- endHeader -->
 
     <!-- startMain -->
     <main>
+
+        <!-- startSection#mainsettings -->
+        <section id="mainsettings">
+            <div class="setting-limit">
+                <button class="sub-circle">
+                    <i class="fa fa-comments"></i>
+                </button>
+                <a href="/?show[limit]=10">
+                    <button class="setting-circle">
+                        <span class="setting-text">10</span>
+                    </button>
+                </a>
+                <a href="/?show[limit]=30">
+                    <button class="setting-circle">
+                        <span class="setting-text">30</span>
+                    </button>
+                </a>
+                <a href="/?show[limit]=50">
+                    <button class="setting-circle">
+                      <span class="setting-text">50</span>
+                    </button>
+                </a>
+            </div>
+
+            {{#pagination}}
+            <div class="setting-page">
+                {{#hasPrev}}
+                <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                </a>
+                {{/hasPrev}}
+                {{#hasNext}}
+                <a href="/?show[limit]={{limit}}&show[page]={{next}}">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </a>
+                {{/hasNext}}
+            </div>
+            {{/pagination}}
+        </section>
+        <!-- endSection#mainsettings -->
 
         <!-- startSection#Contributions -->
         <section id="contributions">
@@ -76,6 +125,54 @@
             {{/contributions}}
         </section>
         <!-- endSection#Contributions -->
+
+        <!-- startSection#pagination -->
+        {{#pagination}}
+        <section id="pagination">
+            {{#hasPrev}}
+            <div class="page-prev">
+                <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                </a>
+            </div>
+            {{/hasPrev}}
+
+            <div class="page-current">
+                {{#prevList}}
+                <a href="/?show[limit]={{limit}}&show[page]={{page}}">
+                    <button class="setting-circle small-circle">
+                        <span class="setting-text">{{page}}</span>
+                    </button>
+                </a>
+                {{/prevList}}
+
+                <button class="sub-circle">
+                    <span class="setting-text">{{current}}</span>
+                </button>
+
+                {{#nextList}}
+                <a href="/?show[limit]={{limit}}&show[page]={{page}}">
+                    <button class="setting-circle small-circle">
+                        <span class="setting-text">{{page}}</span>
+                    </button>
+                </a>
+                {{/nextList}}
+            </div>
+
+            {{#hasNext}}
+            <div class="page-next">
+                <a href="/?show[limit]={{limit}}&show[page]={{next}}">
+                    <button class="setting-circle">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </a>
+            </div>
+            {{/hasNext}}
+        </section>
+        {{/pagination}}
+        <!-- endSection#pagination -->
 
     </main>
     <!-- endMain -->

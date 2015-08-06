@@ -4,15 +4,15 @@ import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class OperateDB {
+public class HandleDB {
     private final ContributionDao dao = DaoImplHelper.get(ContributionDao.class);
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
+    private SelectOptions options;
 
     /**
      * 受け取ったContributionをDBに格納する
@@ -24,12 +24,23 @@ public class OperateDB {
     }
 
     /**
-     * 全ての投稿をID降順で返す
+     * pageの位置からlimit分だけ投稿情報をID降順で返す
+     * @param page 開始ページ
+     * @param limit 表示数
      * @return 投稿リスト
      */
-    public List<Contribution> findAllContributions()
+    public List<Contribution> findContributionsWithLimit(int page, int limit)
     {
-        return tm.required(dao::findAll);
+        options = SelectOptions.get().offset((page - 1) * limit).limit(limit).count();
+        return tm.required(() -> dao.findWithLimit(options));
+    }
+
+    /**
+     * DBに格納されている投稿件数を返す
+     * @return 投稿件数
+     */
+    public long getContributionCounts() {
+        return options.getCount();
     }
 
 }
