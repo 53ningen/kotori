@@ -36,15 +36,22 @@ public class HandleDB {
     }
 
     /**
-     * 指定されたタイトルを含む投稿情報をID降順で返す
+     * 指定されたキーワードを含む投稿情報をID降順で返す
      * @param req クエリリクエスト
      * @return 投稿リスト
      */
     public List<Contribution> findContributionByTitle(HandleRequest req) {
         options = createOptions(req);
-        return tm.required(() -> dao.findByTitle(options, req.getQuery()));
+        return tm.required(() -> dao.findByKeyword(options, req.getQuery()));
     }
 
+    // TODO: SelectOptionsは別クラスに分離しておきたい
+
+    /**
+     * SelectOptionsを作成する
+     * @param req クエリリクエスト
+     * @return SelectOptions
+     */
     private SelectOptions createOptions(HandleRequest req) {
         int page = req.getPage();
         int limit = req.getLimit();

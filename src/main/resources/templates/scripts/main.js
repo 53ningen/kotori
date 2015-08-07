@@ -120,7 +120,7 @@
     event.preventDefault();
 
     var word = $('.search-content--word').val();
-    $(location).attr("href", "/search?q[title]="+word);
+    $(location).attr("href", "/search?q[keyword]="+word);
   })
 
   var toggleHeader = function($current, $target) {

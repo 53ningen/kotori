@@ -34,6 +34,11 @@ public class HandleResponse {
         responseMap.put("path", request.pathInfo());
     }
 
+    /**
+     * URLの該当するクエリマップをHashMapとして返す
+     * @param request リクエスト
+     * @param query 絞り込むクエリ文字列
+     */
     private void setQueryMap(Request request, String query) {
         Map<String, String> queryMap = new HashMap<>();
         request.queryMap(query).toMap().keySet().forEach(param -> {

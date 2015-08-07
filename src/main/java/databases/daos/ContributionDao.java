@@ -21,7 +21,7 @@ public interface ContributionDao {
     Optional<Contribution> findById(int id);
 
     @Select
-    List<Contribution> findByTitle(SelectOptions options, String title);
+    List<Contribution> findByKeyword(SelectOptions options, String keyword);
 
     @Insert
     int insert(Contribution cont);

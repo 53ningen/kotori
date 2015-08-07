@@ -57,7 +57,7 @@ public class HandleRequest {
      */
     private void setQuery(Request req) {
         try {
-            query = "%"+getQueryMapValue(req, "q", "title")+"%";
+            query = "%"+getQueryMapValue(req, "q", "keyword")+"%";
         } catch (NumberFormatException | NullPointerException e) {
             query = "%";
         }
