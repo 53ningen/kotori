@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class HandlePaginationTest extends Pagination {
+public class HandlePaginationTest {
     private final int SHOW_PAGE_NUM = 2;
     private HandlePagination handlePagination;
     private HandleRequest handleRequest;
@@ -20,7 +20,7 @@ public class HandlePaginationTest extends Pagination {
         handlePagination = new HandlePagination();
         handleRequest = mock(HandleRequest.class);
         handleDB = mock(HandleDB.class);
-        when(handleRequest.getShowLimit()).thenReturn(10);
+        when(handleRequest.getLimit()).thenReturn(10);
         when(handleDB.getContributionCounts()).thenReturn((long) 50);
     }
 
@@ -28,7 +28,7 @@ public class HandlePaginationTest extends Pagination {
     public void Paginationオブジェクトが正しく生成される() throws Exception {
         // setup
         int page = 3;
-        when(handleRequest.getShowPage()).thenReturn(page);
+        when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
         Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
@@ -52,7 +52,7 @@ public class HandlePaginationTest extends Pagination {
     public void これ以上ページがない場合は空のリストが返される() throws Exception {
         // setup
         int page = 1;
-        when(handleRequest.getShowPage()).thenReturn(page);
+        when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
         Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
@@ -66,7 +66,7 @@ public class HandlePaginationTest extends Pagination {
     public void 投稿数を超えない分だけのページ番号のリストが返される() throws Exception {
         // setup
         int page = 4;
-        when(handleRequest.getShowPage()).thenReturn(page);
+        when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
         Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);

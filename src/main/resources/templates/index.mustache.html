@@ -57,17 +57,17 @@
                 <button class="sub-circle">
                     <i class="fa fa-comments"></i>
                 </button>
-                <a href="/?show[limit]=10">
+                <a href="{{path}}?s[limit]=10">
                     <button class="setting-circle">
                         <span class="setting-text">10</span>
                     </button>
                 </a>
-                <a href="/?show[limit]=30">
+                <a href="{{path}}?s[limit]=30">
                     <button class="setting-circle">
                         <span class="setting-text">30</span>
                     </button>
                 </a>
-                <a href="/?show[limit]=50">
+                <a href="{{path}}?s[limit]=50">
                     <button class="setting-circle">
                       <span class="setting-text">50</span>
                     </button>
@@ -77,14 +77,14 @@
             {{#pagination}}
             <div class="setting-page">
                 {{#hasPrev}}
-                <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
                     <button class="setting-circle">
                         <i class="fa fa-angle-left"></i>
                     </button>
                 </a>
                 {{/hasPrev}}
                 {{#hasNext}}
-                <a href="/?show[limit]={{limit}}&show[page]={{next}}">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
                     <button class="setting-circle">
                         <i class="fa fa-angle-right"></i>
                     </button>
@@ -131,7 +131,7 @@
         <section id="pagination">
             {{#hasPrev}}
             <div class="page-prev">
-                <a href="/?show[limit]={{limit}}&show[page]={{prev}}">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
                     <button class="setting-circle">
                         <i class="fa fa-angle-left"></i>
                     </button>
@@ -141,7 +141,7 @@
 
             <div class="page-current">
                 {{#prevList}}
-                <a href="/?show[limit]={{limit}}&show[page]={{page}}">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
                     <button class="setting-circle small-circle">
                         <span class="setting-text">{{page}}</span>
                     </button>
@@ -153,7 +153,7 @@
                 </button>
 
                 {{#nextList}}
-                <a href="/?show[limit]={{limit}}&show[page]={{page}}">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
                     <button class="setting-circle small-circle">
                         <span class="setting-text">{{page}}</span>
                     </button>
@@ -163,7 +163,7 @@
 
             {{#hasNext}}
             <div class="page-next">
-                <a href="/?show[limit]={{limit}}&show[page]={{next}}">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
                     <button class="setting-circle">
                         <i class="fa fa-angle-right"></i>
                     </button>

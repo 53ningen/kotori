@@ -22,7 +22,6 @@ public class HandleResponse {
         setQueryMap(request, query);
     }
 
-
     private void setContributions(List<Contribution> contributions) {
         responseMap.put("contributions", contributions);
     }

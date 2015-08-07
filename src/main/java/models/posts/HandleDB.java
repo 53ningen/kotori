@@ -4,6 +4,7 @@ import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
@@ -25,26 +26,29 @@ public class HandleDB {
 
     /**
      * pageの位置からlimit分だけ投稿情報をID降順で返す
-     * @param page 開始ページ
-     * @param limit 表示数
+     * @param req クエリリクエスト
      * @return 投稿リスト
      */
-    public List<Contribution> findContributionsWithLimit(int page, int limit)
+    public List<Contribution> findContributionsWithLimit(HandleRequest req)
     {
-        options = SelectOptions.get().offset((page - 1) * limit).limit(limit).count();
+        options = createOptions(req);
         return tm.required(() -> dao.findWithLimit(options));
     }
 
     /**
      * 指定されたタイトルを含む投稿情報をID降順で返す
-     * @param page 開始ページ
-     * @param limit 表示数
-     * @param query 検索クエリ
+     * @param req クエリリクエスト
      * @return 投稿リスト
      */
-    public List<Contribution> findContributionByTitle(int page, int limit, String query) {
-        options = SelectOptions.get().offset((page - 1) * limit).limit(limit).count();
-        return tm.required(() -> dao.findByTitle(options, query));
+    public List<Contribution> findContributionByTitle(HandleRequest req) {
+        options = createOptions(req);
+        return tm.required(() -> dao.findByTitle(options, req.getQuery()));
+    }
+
+    private SelectOptions createOptions(HandleRequest req) {
+        int page = req.getPage();
+        int limit = req.getLimit();
+        return SelectOptions.get().offset((page - 1) * limit).limit(limit).count();
     }
 
     /**

@@ -5,16 +5,21 @@ import spark.Request;
 public class HandleRequest {
     private final int DEFAULT_PAGE = 1;
     private final int DEFAULT_LIMIT = 10;
-    private int showPage;
-    private int showLimit;
+    private int page;
+    private int limit;
     private String query;
 
-    public void setRequest(Request req) {
-        setShowPage(req);
-        setShowLimit(req);
+    public HandleRequest() {
+        page = DEFAULT_PAGE;
+        limit = DEFAULT_LIMIT;
+        query = "%";
     }
 
-    public void setRequestWithQuery(Request req) {
+    /**
+     * DBに渡すリクエストを更新する
+     * @param req リクエスト
+     */
+    public void updateHandleRequest(Request req) {
         setShowPage(req);
         setShowLimit(req);
         setQuery(req);
@@ -23,49 +28,39 @@ public class HandleRequest {
     /**
      * 表示するページ番号を設定する
      * @param req リクエスト
-     * @return 表示ページ番号
      */
     private void setShowPage(Request req) {
         try {
-            int page = Integer.valueOf(getQueryMapValue(req, "show", "page"));
-            showPage = page > 0 ? page : DEFAULT_PAGE;
+            int p = Integer.valueOf(getQueryMapValue(req, "s", "page"));
+            page = p > 0 ? p : DEFAULT_PAGE;
         } catch (NumberFormatException | NullPointerException e) {
-            showPage = DEFAULT_PAGE;
+            page = DEFAULT_PAGE;
         }
-    }
-
-    public int getShowPage() {
-        return showPage;
     }
 
     /**
      * ページあたりの表示件数を設定する
      * @param req リクエスト
-     * @return 表示件数
      */
     private void setShowLimit(Request req) {
         try {
-            int limit = Integer.valueOf(getQueryMapValue(req, "show", "limit"));
-            showLimit = limit > 0 ? limit : DEFAULT_LIMIT;
+            int l = Integer.valueOf(getQueryMapValue(req, "s", "limit"));
+            limit = l > 0 ? l : DEFAULT_LIMIT;
         } catch (NumberFormatException | NullPointerException e) {
-            showLimit = DEFAULT_LIMIT;
+            limit = DEFAULT_LIMIT;
         }
     }
 
-    public int getShowLimit() {
-        return showLimit;
-    }
-
+    /**
+     * 検索クエリを設定する
+     * @param req リクエスト
+     */
     private void setQuery(Request req) {
         try {
             query = "%"+getQueryMapValue(req, "q", "title")+"%";
         } catch (NumberFormatException | NullPointerException e) {
             query = "%";
         }
-    }
-
-    public String getQuery() {
-        return query;
     }
 
     /**
@@ -81,5 +76,17 @@ public class HandleRequest {
         String value = req.queryMap().get(query1, query2).value();
         if (value.equals("null")) return "-1";
         else return value;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }

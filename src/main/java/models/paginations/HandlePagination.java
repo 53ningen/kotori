@@ -12,20 +12,10 @@ public class HandlePagination {
      * @return Paginationインスタンス
      */
     public Pagination createPagination(HandleDB handleDB, HandleRequest handleRequest) {
-        Pagination pagination = new Pagination();
-        int limit = handleRequest.getShowLimit();
-        int page  = handleRequest.getShowPage();
+        int limit = handleRequest.getLimit();
+        int page  = handleRequest.getPage();
         long count = handleDB.getContributionCounts();
 
-        pagination.setLimit(limit);
-        pagination.setPrev(page - 1);
-        pagination.setCurrent(page);
-        pagination.setNext(page + 1);
-        pagination.setPrevList(page);
-        pagination.setNextList(page, limit, count);
-        pagination.setHasPrev(page - 1);
-        pagination.setHasNext(page, limit, count);
-
-        return pagination;
+        return new Pagination(limit, page, count);
     }
 }

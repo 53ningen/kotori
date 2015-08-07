@@ -69,10 +69,8 @@ public class ApplicationRoute {
      * @return ModelAndView
      */
     private ModelAndView getRoot(Request req, Response res) {
-        handleRequest.setRequest(req);
-        List<Contribution> contributions = handleDB.findContributionsWithLimit(
-                handleRequest.getShowPage(),
-                handleRequest.getShowLimit());
+        handleRequest.updateHandleRequest(req);
+        List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest);
         setResponses(req, contributions, "");
         return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
     }
@@ -84,11 +82,8 @@ public class ApplicationRoute {
      * @return ModelAndView
      */
     private ModelAndView getSearch(Request req, Response res) {
-        handleRequest.setRequestWithQuery(req);
-        List<Contribution> contributions = handleDB.findContributionByTitle(
-                handleRequest.getShowPage(),
-                handleRequest.getShowLimit(),
-                handleRequest.getQuery());
+        handleRequest.updateHandleRequest(req);
+        List<Contribution> contributions = handleDB.findContributionByTitle(handleRequest);
         setResponses(req, contributions, "q");
         return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
     }
