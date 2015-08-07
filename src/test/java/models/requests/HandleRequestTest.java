@@ -27,11 +27,12 @@ public class HandleRequestTest {
         // setup
         QueryParamsMap map = mock(QueryParamsMap.class);
         when(request.queryMap()).thenReturn(map);
-        when(map.get("show", "page")).thenReturn(map);
+        when(map.get("s", "page")).thenReturn(map);
         when(map.value()).thenReturn("1");
+        handleRequest.updateHandleRequest(request);
 
         // exercise
-        int page = handleRequest.setShowPage(request);
+        int page = handleRequest.getPage();
 
         // verify
         assertThat(page, is(1));
@@ -42,11 +43,12 @@ public class HandleRequestTest {
         // setup
         QueryParamsMap map = mock(QueryParamsMap.class);
         when(request.queryMap()).thenReturn(map);
-        when(map.get("show", "page")).thenReturn(map);
+        when(map.get("s", "page")).thenReturn(map);
         when(map.value()).thenReturn("-1");
+        handleRequest.updateHandleRequest(request);
 
         // exercise
-        int page = handleRequest.setShowPage(request);
+        int page = handleRequest.getPage();
 
         // verify
         assertThat(page, is(DEFAULT_PAGE));
@@ -57,11 +59,12 @@ public class HandleRequestTest {
         // setup
         QueryParamsMap map = mock(QueryParamsMap.class);
         when(request.queryMap()).thenReturn(map);
-        when(map.get("show", "limit")).thenReturn(map);
+        when(map.get("s", "limit")).thenReturn(map);
         when(map.value()).thenReturn("30");
+        handleRequest.updateHandleRequest(request);
 
         // exercise
-        int limit = handleRequest.setShowLimit(request);
+        int limit = handleRequest.getLimit();
 
         // verify
         assertThat(limit, is(30));
@@ -72,11 +75,12 @@ public class HandleRequestTest {
         // setup
         QueryParamsMap map = mock(QueryParamsMap.class);
         when(request.queryMap()).thenReturn(map);
-        when(map.get("show", "limit")).thenReturn(map);
+        when(map.get("s", "limit")).thenReturn(map);
         when(map.value()).thenReturn("-1");
+        handleRequest.updateHandleRequest(request);
 
         // exercise
-        int limit = handleRequest.setShowLimit(request);
+        int limit = handleRequest.getLimit();
 
         // verify
         assertThat(limit, is(DEFAULT_LIMIT));
@@ -86,9 +90,10 @@ public class HandleRequestTest {
     public void リクエストのクエリがnullならばデフォルトの表示件数を返す() throws Exception {
         // setup
         when(request.queryMap()).thenReturn(null);
+        handleRequest.updateHandleRequest(request);
 
         // exercise
-        int limit = handleRequest.setShowLimit(request);
+        int limit = handleRequest.getLimit();
 
         // verify
         assertThat(limit, is(DEFAULT_LIMIT));

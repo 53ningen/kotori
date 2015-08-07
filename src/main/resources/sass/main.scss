@@ -9,6 +9,7 @@ $white-color: #FAFAFA;
 $ggl-font: 'Quicksand', sans-serif;
 $sml-text: 0.9rem;
 $nml-text: 1rem;
+$big-text: 1.5rem;
 
 @mixin transition {
   transition: all .3s;
@@ -176,48 +177,6 @@ main {
   margin-top: $header-height + 20;
 }
 
-#posts {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  background-color: $sub-color2;
-  display: none;
-
-  form#post-contribution {
-    padding: 1rem;
-
-    input, textarea {
-      float: left;
-      outline: none;
-      border: 1px solid $text-color;
-      @include transition;
-      &:focus {
-        border: 1px solid $main-color;
-      }
-    }
-
-    textarea.post-content--text {
-      width: calc(100% - 100px);
-    }
-
-    .contribution-content {
-      position: relative;
-      padding-bottom: .5rem;
-    }
-
-    .contribution-submit {
-      text-align: right;
-      padding-top: .5rem;
-    }
-
-    .guide-text {
-      width: 94px;
-      float: left;
-    }
-  }
-}
-
 #mainsettings {
   position: relative;
   height: 40px;
@@ -287,6 +246,14 @@ main {
         color: $topic-color;
       }
     }
+
+    .contribution-empty {
+      font-family: $ggl-font;
+      font-size: $big-text;
+      font-weight: bold;
+      color: $topic-color;
+      margin: 0 0 .5rem;
+    }
   }
 }
 
@@ -350,6 +317,85 @@ footer {
 }
 
 /**
+ * Contents
+ */
+#posts {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: $sub-color2;
+  display: none;
+  z-index: 1000;
+
+  form#post-contribution {
+    padding: 1rem;
+
+    input, textarea {
+      float: left;
+      outline: none;
+      border: 1px solid $text-color;
+      @include transition;
+      &:focus {
+        border: 1px solid $main-color;
+      }
+    }
+
+    textarea.post-content--text {
+      width: calc(100% - 100px);
+    }
+
+    .contribution-content {
+      position: relative;
+      padding-bottom: .5rem;
+    }
+
+    .contribution-submit {
+      text-align: right;
+      padding-top: .5rem;
+    }
+
+    .guide-text {
+      width: 94px;
+      float: left;
+    }
+  }
+}
+
+#search {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: $sub-color2;
+  display: none;
+  z-index: 1000;
+
+  form#search-contribution {
+    padding: 1rem;
+
+    input {
+      float: left;
+      outline: none;
+      border: 1px solid $text-color;
+      @include transition;
+      &:focus {
+        border: 1px solid $main-color;
+      }
+    }
+
+    .search-content {
+      position: relative;
+    }
+
+    .guide-text {
+      width: 94px;
+      float: left;
+    }
+  }
+}
+
+/**
  * Components
  **/
 div.active {
@@ -359,6 +405,9 @@ div.active {
 button.header-circle {
   background-color: $white-color;
   @include button-circle($sub-color);
+}
+button.hc--right {
+  margin-left: 5px;
 }
 
 button.main-circle {
