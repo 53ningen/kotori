@@ -95,7 +95,6 @@ public class PostContribution {
     private String convertContributionToJson(Contribution contribution) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-        System.out.println(mapper.writeValueAsString(contribution));
         return mapper.writeValueAsString(contribution);
     }
 

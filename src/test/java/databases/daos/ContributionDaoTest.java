@@ -71,4 +71,37 @@ public class ContributionDaoTest {
             assertThat(result, is(1));
         });
     }
+
+    @Test
+    public void キーワード検索の結果が正しく取得できる() {
+        tm.required(() -> {
+            // exercise
+            SelectOptions options = SelectOptions.get().offset(0).limit(10);
+            String keyword = "%テスト%";
+
+            // exercise
+            List<Contribution> contributions = dao.findByKeyword(options, keyword);
+
+            // verify
+            assertThat(contributions.size(), is(3));
+            assertThat(contributions.get(0).getContent(), containsString("テスト"));
+        });
+    }
+
+    @Test
+    public void limit分だけキーワード検索の結果が取得できる() {
+        tm.required(() -> {
+            // exercise
+            SelectOptions options = SelectOptions.get().offset(0).limit(1);
+            String keyword = "%テスト%";
+
+            // exercise
+            List<Contribution> contributions = dao.findByKeyword(options, keyword);
+
+            // verify
+            assertThat(contributions.size(), is(1));
+        });
+    }
+
+
 }

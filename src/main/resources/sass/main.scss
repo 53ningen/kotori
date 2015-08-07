@@ -9,6 +9,7 @@ $white-color: #FAFAFA;
 $ggl-font: 'Quicksand', sans-serif;
 $sml-text: 0.9rem;
 $nml-text: 1rem;
+$big-text: 1.5rem;
 
 @mixin transition {
   transition: all .3s;
@@ -244,6 +245,14 @@ main {
       .footer--new {
         color: $topic-color;
       }
+    }
+
+    .contribution-empty {
+      font-family: $ggl-font;
+      font-size: $big-text;
+      font-weight: bold;
+      color: $topic-color;
+      margin: 0 0 .5rem;
     }
   }
 }
