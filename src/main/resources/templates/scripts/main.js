@@ -1,13 +1,13 @@
 ;(function($) {
   var _document = $(document);
   var $posts = $('#posts');
+  var $search = $('#search');
 
   /**
    * 新規投稿ボタンをクリックした時のイベント
    */
   _document.on('click', '.write-button', function() {
-    $posts.slideToggle(400);
-
+    toggleHeader($posts, $search);
     /*
     var $details = $('.write-button-details');
 
@@ -25,7 +25,11 @@
     */
   });
 
-  _document.on('click', '.header-circle--right', function() {
+  _document.on('click', '.hc--search', function() {
+    toggleHeader($search, $posts);
+  });
+
+  _document.on('click', '.hc--setting', function() {
     var $details = $('.user-button-details');
 
     if ($details.hasClass('active')) {
@@ -111,6 +115,31 @@
     });
 
   });
+
+  _document.on('submit', '#search-contribution', function(event) {
+    event.preventDefault();
+
+    var word = $('.search-content--word').val();
+    $(location).attr("href", "/search?q[title]="+word);
+  })
+
+  var toggleHeader = function($current, $target) {
+    if ($current.hasClass('active')) {
+      slOff($current);
+    } else {
+      if ($target.hasClass('active')) {
+        slOff($target);
+      }
+      slOn($current);
+    }
+
+    function slOn($cur) {
+      $cur.addClass('active').slideDown(400);
+    }
+    function slOff($cur) {
+      $cur.removeClass('active').slideUp(400);
+    }
+  }
 
   /**
    * サーバからのjsonレスポンスをDOMに反映する

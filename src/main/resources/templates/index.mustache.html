@@ -27,7 +27,10 @@
             <a href="/">Kotori</a>
         </h1>
         <div class="user-button">
-            <button class="header-circle header-circle--right">
+            <button class="header-circle hc--search hc--right">
+                <i class="fa fa-search"></i>
+            </button>
+            <button class="header-circle hc--right hc--setting">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="user-button-details">
@@ -57,17 +60,17 @@
                 <button class="sub-circle">
                     <i class="fa fa-comments"></i>
                 </button>
-                <a href="{{path}}?s[limit]=10">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
                     <button class="setting-circle">
                         <span class="setting-text">10</span>
                     </button>
                 </a>
-                <a href="{{path}}?s[limit]=30">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
                     <button class="setting-circle">
                         <span class="setting-text">30</span>
                     </button>
                 </a>
-                <a href="{{path}}?s[limit]=50">
+                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
                     <button class="setting-circle">
                       <span class="setting-text">50</span>
                     </button>
@@ -219,6 +222,19 @@
         </form>
     </div>
     <!-- endPosts -->
+
+    <!-- startSearch -->
+    <div id="search">
+        <form id="search-contribution">
+            <div class="search-content cf">
+                <span class="guide-text">
+                    投稿検索
+                </span>
+                <input class="search-content--word" type="text" placeholder="キーワードを入力" maxlength="20">
+            </div>
+        </form>
+    </div>
+    <!-- endSearch -->
 
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
