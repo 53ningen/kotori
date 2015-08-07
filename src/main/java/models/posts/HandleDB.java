@@ -53,9 +53,9 @@ public class HandleDB {
      * @return SelectOptions
      */
     private SelectOptions createOptions(HandleRequest req) {
-        int page = req.getPage();
+        int page = req.getPage() - 1;
         int limit = req.getLimit();
-        return SelectOptions.get().offset((page - 1) * limit).limit(limit).count();
+        return SelectOptions.get().offset(page * limit).limit(limit).count();
     }
 
     /**
@@ -63,7 +63,11 @@ public class HandleDB {
      * @return 投稿件数
      */
     public long getContributionCounts() {
-        return options.getCount();
+        try {
+            return options.getCount();
+        } catch (NullPointerException e) {
+            return 0;
+        }
     }
 
 }

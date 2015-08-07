@@ -14,16 +14,23 @@ public class Pagination {
     private List<Page> prevList;
     private boolean hasNext;
     private boolean hasPrev;
+    private boolean hasContributions;
 
     public Pagination(int limit, int page, long count) {
+        this.hasContributions = count > (page - 1) * limit;
         this.limit   = limit;
-        this.prev    = page - 1;
-        this.current = page;
-        this.next    = page + 1;
-        setPrevList(page);
-        setNextList(page, limit, count);
-        setHasPrev(page - 1);
-        setHasNext(page, limit, count);
+        this.current = hasContributions ? page : 1;
+        this.prev    = current - 1;
+        this.next    = current + 1;
+        if (hasContributions) {
+            setPrevList(current);
+            setNextList(current, limit, count);
+            setHasPrev(current - 1, count);
+            setHasNext(current, next, limit, count);
+        } else {
+            this.hasNext = false;
+            this.hasPrev = false;
+        }
     }
 
     public int getLimit() {
@@ -66,7 +73,7 @@ public class Pagination {
         return hasNext;
     }
 
-    private void setHasNext(int current, int limit, long count) {
+    private void setHasNext(int current, int next, int limit, long count) {
         this.hasNext = next > 0 && (current * limit) < count;
     }
 
@@ -74,8 +81,8 @@ public class Pagination {
         return hasPrev;
     }
 
-    private void setHasPrev(int prev) {
-        this.hasPrev = prev > 0;
+    private void setHasPrev(int prev, long count) {
+        this.hasPrev = prev > 0 && count > 0;
     }
 
     protected class Page {

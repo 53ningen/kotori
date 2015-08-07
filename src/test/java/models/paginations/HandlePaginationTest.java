@@ -74,4 +74,36 @@ public class HandlePaginationTest {
         // verify
         assertThat(pagination.getNextList(), hasSize(1));
     }
+
+    @Test
+    public void 投稿数を超えたページ番号を参照した場合ページネーションを行わない() throws Exception {
+        // setup
+        int page = 6;
+        when(handleRequest.getPage()).thenReturn(page);
+
+        // exercise
+        Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
+
+        // verify
+        assertThat(pagination.getCurrent(), is(1));
+        assertThat(pagination.hasPrev(), is(false));
+        assertThat(pagination.hasNext(), is(false));
+    }
+
+    @Test
+    public void 検索結果が0件の場合ページネーションを行わない() throws Exception {
+        // setup
+        int page = 2;
+        when(handleRequest.getPage()).thenReturn(page);
+        when(handleDB.getContributionCounts()).thenReturn((long) 0);
+
+        // exercise
+        Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
+
+        // verify
+        assertThat(pagination.getCurrent(), is(1));
+        assertThat(pagination.hasPrev(), is(false));
+        assertThat(pagination.hasNext(), is(false));
+    }
+
 }
