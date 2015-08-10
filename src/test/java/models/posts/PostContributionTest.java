@@ -75,7 +75,7 @@ public class PostContributionTest {
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
         String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoge\"}";
+        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoge\", \"deleteKey\": \"pass\"}}";
         when(request.body()).thenReturn(content);
 
         // exercise

@@ -24,6 +24,10 @@ public class Contribution extends SupContribution {
     private String content;
 
     @JsonIgnore
+    @Column(name = "delete_key")
+    private String deleteKey;
+
+    @JsonIgnore
     @Column(name = "created_at")
     private Timestamp createdAt;
 
@@ -43,6 +47,10 @@ public class Contribution extends SupContribution {
         return content;
     }
 
+    public String getDeleteKey() {
+        return deleteKey;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt.toLocalDateTime();
     }
@@ -57,6 +65,10 @@ public class Contribution extends SupContribution {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setDeleteKey(String deleteKey) {
+        this.deleteKey = deleteKey;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

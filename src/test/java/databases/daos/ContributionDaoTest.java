@@ -64,6 +64,7 @@ public class ContributionDaoTest {
             contribution.setUsername("高坂穂乃果");
             contribution.setTitle("foo");
             contribution.setContent("test");
+            contribution.setDeleteKey("pass");
             contribution.setCreatedAt(LocalDateTime.of(2015, 7, 31, 12, 24, 36));
 
             // exercise

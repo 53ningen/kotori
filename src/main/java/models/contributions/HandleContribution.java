@@ -20,6 +20,7 @@ public class HandleContribution {
         contribution.setUsername(payload.getUsername());
         contribution.setTitle(payload.getTitle());
         contribution.setContent(payload.getContent());
+        contribution.setDeleteKey(Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
         contribution.setCreatedAt(LocalDateTime.now());
         return Optional.of(contribution);
     }

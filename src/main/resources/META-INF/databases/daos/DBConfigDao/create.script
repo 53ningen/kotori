@@ -3,14 +3,15 @@ create table if not exists contribution (
     username varchar(20),
     title varchar(20),
     content varchar(140),
+    delete_key varchar(255) not null,
     created_at timestamp
 );
 
-insert into contribution(username, title, content, created_at)
-       values ('小泉花陽', 'hoge', 'テスト1', '2008-01-01 12:12:12');
+insert into contribution(username, title, content, delete_key, created_at)
+       values ('小泉花陽', 'hoge', 'テスト1', 'pass', '2008-01-01 12:12:12');
 
-insert into contribution(username, title, content, created_at)
-       values ('西木野真姫', 'bar', 'テスト2', '2009-01-01 12:12:13');
+insert into contribution(username, title, content, delete_key, created_at)
+       values ('西木野真姫', 'bar', 'テスト2', 'pass', '2009-01-01 12:12:13');
 
-insert into contribution(username, title, content, created_at)
-       values ('星空凛', 'zoi', 'テスト3', '2010-01-01 12:12:14');
+insert into contribution(username, title, content, delete_key, created_at)
+       values ('星空凛', 'zoi', 'テスト3', 'pass', '2010-01-01 12:12:14');

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -25,6 +25,7 @@ public class HandleContributionTest {
         payload.setUsername("小泉花陽");
         payload.setTitle("fuga");
         payload.setContent("hoge");
+        payload.setDeleteKey("pass");
     }
 
     @Test
@@ -37,6 +38,18 @@ public class HandleContributionTest {
         assertThat(contribution.getUsername(), is("小泉花陽"));
         assertThat(contribution.getTitle(), is("fuga"));
         assertThat(contribution.getContent(), is("hoge"));
+    }
+
+    @Test
+    public void 削除キーがハッシュ化されて保存されている() throws Exception {
+        // exercise
+        Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
+        Contribution contribution = contributionOpt.get();
+
+        // verify
+        String deleteKey = contribution.getDeleteKey();
+        assertThat(deleteKey, is(Encryption.getSaltedDeleteKey("pass", "小泉花陽")));
+        assertThat(deleteKey, is(not(Encryption.getSaltedDeleteKey("pass", "星空凛"))));
     }
 
     @Test
