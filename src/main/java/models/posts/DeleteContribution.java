@@ -1,21 +1,25 @@
 package models.posts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import models.contributions.Encryption;
+import models.contributions.HandleContribution;
+import models.payloads.DeletePayload;
 import spark.Request;
 import spark.Response;
 
 public class DeleteContribution extends Status {
     private HandleDB handleDB = new HandleDB();
+    private HandleContribution handleContribution = new HandleContribution();
 
     public String requestDeleteContribution(Request request, Response response) {
 
         try {
-            DeletePayload payload = new ObjectMapper().readValue(request.body(), DeletePayload.class);
+            DeletePayload payload = new ObjectMapper().readValue(handleContribution.unescapeUnicode(request.body()), DeletePayload.class);
             if (!payload.isValid()) {
                 return setBadRequest(response);
             }
 
-            int result = handleDB.deleteContribution(payload.getId());
+            int result = handleDB.deleteContribution(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
             if (result < 1) {
                 return setBadRequest(response);
             }

@@ -28,6 +28,6 @@ public interface ContributionDao {
     int insert(Contribution cont);
 
     @Delete(sqlFile = true)
-    int deleteById(int id);
+    int deleteById(int id, String deleteKey);
 
 }

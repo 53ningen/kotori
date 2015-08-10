@@ -110,7 +110,7 @@ public class ContributionDaoTest {
     public void deleteが正しく実行される() throws Exception {
         tm.required(() -> {
             // exercise
-            int result = dao.deleteById(1);
+            int result = dao.deleteById(1, "pass");
 
             // verify
             assertThat(result, is(1));

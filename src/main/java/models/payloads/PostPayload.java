@@ -1,4 +1,4 @@
-package models.posts;
+package models.payloads;
 
 public class PostPayload {
     private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;

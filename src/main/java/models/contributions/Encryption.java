@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 
 public class Encryption {
     private static final String ALGORITHM = "PBKDF2WithHmacSHA256";
-    private static final int ITERATION_COUNT = 1000;
+    private static final int ITERATION_COUNT = 2048;
     private static final int KEY_LENGTH = 256;
 
     /**

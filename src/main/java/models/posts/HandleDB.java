@@ -29,8 +29,8 @@ public class HandleDB {
      * @param id 投稿id
      * @return 処理した投稿数
      */
-    public int deleteContribution(int id) {
-        return tm.required(() -> dao.deleteById(id));
+    public int deleteContribution(int id, String deleteKey) {
+        return tm.required(() -> dao.deleteById(id, deleteKey));
     }
 
     /**
