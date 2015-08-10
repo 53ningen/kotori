@@ -11,6 +11,12 @@ public class DeleteContribution extends Status {
     private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
 
+    /**
+     * 投稿の削除を受け付ける
+     * @param request リクエスト
+     * @param response レスポンス
+     * @return ok
+     */
     public String requestDeleteContribution(Request request, Response response) {
 
         try {

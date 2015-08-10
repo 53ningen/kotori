@@ -1,8 +1,6 @@
 package models.posts;
 
 import static java.util.stream.Collectors.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import databases.DBResource;
@@ -14,7 +12,6 @@ import org.junit.Test;
 import spark.Request;
 import spark.Response;
 
-import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
 public class PostContributionTest {
