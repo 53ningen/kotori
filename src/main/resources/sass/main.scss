@@ -72,6 +72,19 @@ a:hover, a:active {
   color: inherit;
 }
 
+input {
+  height: 24px;
+}
+input, textarea {
+  float: left;
+  outline: none;
+  border: 1px solid $text-color;
+  @include transition;
+  &:focus {
+    border: 1px solid $main-color;
+  }
+}
+
 /**
  * Header
  **/
@@ -207,6 +220,7 @@ main {
   padding: 0 1rem;
 
   .contribution {
+    position: relative;
     padding: 1rem;
     margin: 1rem 0;
     border: 1px solid $main-color;
@@ -244,6 +258,61 @@ main {
 
       .footer--new {
         color: $topic-color;
+      }
+
+      .footer--del {
+        text-align: right;
+      }
+    }
+
+    .contribution-del {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      padding: 1rem 0;
+
+      .del-wrap {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $sub-color2;
+        display: none;
+
+        .del--inner {
+          padding: 1rem 0 1rem 1rem;
+
+          .delete-button {
+            margin-left: .5rem;
+            padding: 1px .25rem;
+            height: 28px;
+            background-color: $white-color;
+            vertical-align: middle;
+            @include transition;
+            &:hover {
+              border: 1px solid $main-color;
+            }
+          }
+        }
+      }
+
+      .del-guide {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        text-align: right;
+        @include transition;
+        &:hover {
+          color: $topic-color;
+          cursor: pointer;
+        }
+        span {
+          line-height: 30px;
+          vertical-align: middle;
+        }
       }
     }
 
@@ -331,16 +400,6 @@ footer {
   form#post-contribution {
     padding: 1rem;
 
-    input, textarea {
-      float: left;
-      outline: none;
-      border: 1px solid $text-color;
-      @include transition;
-      &:focus {
-        border: 1px solid $main-color;
-      }
-    }
-
     textarea.post-content--text {
       width: calc(100% - 100px);
     }
@@ -373,16 +432,6 @@ footer {
 
   form#search-contribution {
     padding: 1rem;
-
-    input {
-      float: left;
-      outline: none;
-      border: 1px solid $text-color;
-      @include transition;
-      &:focus {
-        border: 1px solid $main-color;
-      }
-    }
 
     .search-content {
       position: relative;

@@ -116,12 +116,47 @@
 
   });
 
+  _document.on('submit', '#delete-contribution', function(event) {
+    event.preventDefault();
+    var _this = $(this);
+    var jsondata = {
+      id: _this.find('.delete-id').val().json_escape(),
+      pass: _this.find('.delete-key').val().json_escape(),
+    };
+
+    $.ajax({
+      url: '/delete',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(jsondata),
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+      _this.parents('.contribution').fadeOut(400, function(){
+        $(this).remove();
+      });
+    });
+
+  });
+
   _document.on('submit', '#search-contribution', function(event) {
     event.preventDefault();
 
     var word = $('.search-content--word').val();
     $(location).attr("href", "/search?q[keyword]="+word);
   })
+
+  _document.on('click', '.del-guide', function() {
+    var wrap = $(this).parent().find('.del-wrap').get(0);
+
+    $(wrap).slideToggle(400);
+  });
 
   var toggleHeader = function($current, $target) {
     if ($current.hasClass('active')) {
@@ -149,7 +184,7 @@
     if (data.isNew === true) {
       contribution += '<span class="footer--new">New</span>';
     }
-    contribution += ' '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
+    contribution += ' '+data.editedCreatedTime+'</div></div>';
     return contribution;
   }
 

@@ -1,5 +1,5 @@
 DELETE
 FROM
     contribution
-where
+WHERE
     id = /* id */0
