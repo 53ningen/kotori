@@ -1,6 +1,6 @@
 package models.posts;
 
-public class Payload {
+public class PostPayload {
     private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;
     private final int LIMIT_CONTENT_LENGTH = 140;
     private String username;

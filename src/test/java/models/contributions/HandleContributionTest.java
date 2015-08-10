@@ -1,7 +1,7 @@
 package models.contributions;
 
 import databases.entities.Contribution;
-import models.posts.Payload;
+import models.posts.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,12 +16,12 @@ import static org.junit.Assert.assertThat;
 
 public class HandleContributionTest {
     private HandleContribution handleContribution;
-    private Payload payload;
+    private PostPayload payload;
 
     @Before
     public void setUp() throws Exception {
         handleContribution = new HandleContribution();
-        payload = new Payload();
+        payload = new PostPayload();
         payload.setUsername("小泉花陽");
         payload.setTitle("fuga");
         payload.setContent("hoge");

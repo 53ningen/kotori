@@ -5,6 +5,7 @@ import static spark.Spark.*;
 import databases.entities.Contribution;
 import models.contributions.HandleContribution;
 import models.paginations.HandlePagination;
+import models.posts.DeleteContribution;
 import models.posts.PostContribution;
 import models.posts.HandleDB;
 import models.requests.HandleRequest;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
     private PostContribution postContribution = new PostContribution();
+    private DeleteContribution deleteContribution = new DeleteContribution();
     private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
     private HandlePagination handlePagination = new HandlePagination();
@@ -60,6 +62,7 @@ public class ApplicationRoute {
 
         post("/post", (postContribution::requestPostContribution));
 
+        post("/delete", (deleteContribution::requestDeleteContribution));
     }
 
     /**

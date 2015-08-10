@@ -1,7 +1,7 @@
 package models.contributions;
 
 import databases.entities.Contribution;
-import models.posts.Payload;
+import models.posts.PostPayload;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +15,7 @@ public class HandleContribution {
      * @param payload PostPayloadインスタンス
      * @return Contributionインスタンス
      */
-    public Optional<Contribution> createContribution(Payload payload) {
+    public Optional<Contribution> createContribution(PostPayload payload) {
         Contribution contribution = new Contribution();
         contribution.setUsername(payload.getUsername());
         contribution.setTitle(payload.getTitle());

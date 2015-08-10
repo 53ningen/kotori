@@ -23,7 +23,7 @@ public class ContributionDaoTest {
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
 
     @Test
-    public void 用意したテストデータをidを指定して取得できる() {
+    public void 用意したテストデータをidを指定して取得できる() throws Exception {
         tm.required(() -> {
             // exercise
             Optional<Contribution> contributionOpt = dao.findById(1);
@@ -39,7 +39,7 @@ public class ContributionDaoTest {
     }
 
     @Test
-    public void 用意したテストデータを全件取得できる() {
+    public void 用意したテストデータを全件取得できる() throws Exception {
         tm.required(() -> {
             // setup
             SelectOptions options = SelectOptions.get().offset(0).limit(10);
@@ -57,14 +57,16 @@ public class ContributionDaoTest {
     }
 
     @Test
-    public void INSERTが問題なく実行できる() {
+    public void INSERTが問題なく実行できる() throws Exception {
         tm.required(() -> {
-            // exercise
+            // setup
             Contribution contribution = new Contribution();
             contribution.setUsername("高坂穂乃果");
             contribution.setTitle("foo");
             contribution.setContent("test");
             contribution.setCreatedAt(LocalDateTime.of(2015, 7, 31, 12, 24, 36));
+
+            // exercise
             int result = dao.insert(contribution);
 
             // verify
@@ -73,9 +75,9 @@ public class ContributionDaoTest {
     }
 
     @Test
-    public void キーワード検索の結果が正しく取得できる() {
+    public void キーワード検索の結果が正しく取得できる() throws Exception {
         tm.required(() -> {
-            // exercise
+            // setup
             SelectOptions options = SelectOptions.get().offset(0).limit(10);
             String keyword = "%テスト%";
 
@@ -89,9 +91,9 @@ public class ContributionDaoTest {
     }
 
     @Test
-    public void limit分だけキーワード検索の結果が取得できる() {
+    public void limit分だけキーワード検索の結果が取得できる() throws Exception {
         tm.required(() -> {
-            // exercise
+            // setup
             SelectOptions options = SelectOptions.get().offset(0).limit(1);
             String keyword = "%テスト%";
 
@@ -100,6 +102,17 @@ public class ContributionDaoTest {
 
             // verify
             assertThat(contributions.size(), is(1));
+        });
+    }
+
+    @Test
+    public void deleteが正しく実行される() throws Exception {
+        tm.required(() -> {
+            // exercise
+            int result = dao.deleteById(1);
+
+            // verify
+            assertThat(result, is(1));
         });
     }
 

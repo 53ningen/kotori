@@ -12,8 +12,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PostContribution {
-    private final int HTTP_BAD_REQUEST = 400;
+public class PostContribution extends Status {
     private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
 
@@ -27,9 +26,9 @@ public class PostContribution {
 
         try {
             // postPayloadを生成する
-            Payload payload = new ObjectMapper().readValue(unescapeUnicode(request.body()), Payload.class);
+            PostPayload payload = new ObjectMapper().readValue(unescapeUnicode(request.body()), PostPayload.class);
             if (!payload.isValid()) {
-                return sendBadRequest(response);
+                return setBadRequest(response);
             }
 
             // OptionalなContributionを生成する
@@ -38,20 +37,20 @@ public class PostContribution {
             // ContributionがNotNullならばDBに挿入する
             int result = handleDB.insertContribution(contributionOpt.get());
             if (result < 1) {
-                return sendBadRequest(response);
+                return setBadRequest(response);
             }
 
             // Contributionに新着情報を付与する
             Contribution contribution = handleContribution.addInformationContribution(contributionOpt.get());
 
             // ステータスコード200 OKを設定する
-            response.status(200);
+            setOK(response);
             response.type("application/json");
 
             return convertContributionToJson(contribution);
         } catch (Exception e) {
             // ステータスコード400 BadRequestを設定する
-            return sendBadRequest(response);
+            return setBadRequest(response);
         }
     }
 
@@ -96,15 +95,5 @@ public class PostContribution {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
         return mapper.writeValueAsString(contribution);
-    }
-
-    /**
-     * 400 BadRequest を設定する
-     * @param response レスポンス
-     * @return 空文字
-     */
-    private String sendBadRequest(Response response) {
-        response.status(HTTP_BAD_REQUEST);
-        return "";
     }
 }
