@@ -4,6 +4,7 @@ import bulletinBoard.DBConfig;
 import databases.DBResource;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import models.payloads.UpdatePayload;
 import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.jdbc.SelectOptions;
@@ -103,6 +104,24 @@ public class ContributionDaoTest {
 
             // verify
             assertThat(contributions.size(), is(1));
+        });
+    }
+
+    @Test
+    public void UPDATEが問題なく実行できる() throws Exception {
+        tm.required(() -> {
+            // setup
+            UpdatePayload payload = new UpdatePayload();
+            payload.setContent("南ことり");
+
+            // exercise
+            int result = dao.updateById(payload, 1);
+            Optional<Contribution> resultContributionOpt = dao.findById(1);
+            Contribution resultContribution = resultContributionOpt.get();
+
+            // verify
+            assertThat(result, is(1));
+            assertThat(resultContribution.getContent(), is("南ことり"));
         });
     }
 
