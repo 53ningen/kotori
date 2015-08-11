@@ -48,6 +48,11 @@
                 </button>
             </div>
         </div>
+
+        <div class="notice-error">
+            <i class="fa fa-exclamation-triangle"></i>
+            <span class="error-text"></span>に失敗しました
+        </div>
     </header>
     <!-- endHeader -->
 
@@ -123,6 +128,21 @@
                     <span class="footer--new">New</span>
                     {{/isNew}}
                     {{editedCreatedTime}} ・ #{{id}}
+                </div>
+                <div class="contribution-del">
+                    <div class="del-wrap">
+                        <div class="del--inner cf">
+                            <form id="delete-contribution">
+                                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20" required>
+                                <input class="delete-id" type="hidden" name="id" value="{{id}}">
+                                <input class="delete-username" type="hidden" name="username" value="{{username}}">
+                                <input class="delete-button" type="submit" value="削除">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="del-guide">
+                        <span><i class="fa fa-trash-o"></i></span>
+                    </div>
                 </div>
             </div>
             {{/contributions}}
@@ -206,24 +226,28 @@
                 <div class="guide-text">
                     名前
                 </div>
-                <input class="post-content--username" type="text" maxlength="20">
+                <input class="post-content--username" type="text" maxlength="20" required>
             </div>
             <div class="contribution-content cf">
                 <div class="guide-text">
                     タイトル
                 </div>
-                <input class="post-content--title" type="text" maxlength="20">
+                <input class="post-content--title" type="text" maxlength="20" required>
             </div>
             <div class="contribution-content cf">
                 <div class="guide-text">
                     本文
                 </div>
-                <textarea class="post-content--text" rows="10"></textarea>
+                <textarea class="post-content--text" rows="10" required></textarea>
+            </div>
+            <div class="contribution-content cf">
+                <div class="guide-text">
+                    削除キー
+                </div>
+                <input class="post-content--deletekey" type="password" maxlength="20" required>
             </div>
             <div class="contribution-submit">
-                <button id="submit" class="sub-circle">
-                    <i class="fa fa-commenting-o"></i>
-                </button>
+                <input class="post-content--submit" type="submit">
             </div>
         </form>
     </div>

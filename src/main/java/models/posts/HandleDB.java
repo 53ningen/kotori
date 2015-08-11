@@ -25,6 +25,15 @@ public class HandleDB {
     }
 
     /**
+     * 受け取ったidの投稿をDBから削除する
+     * @param id 投稿id
+     * @return 処理した投稿数
+     */
+    public int deleteContribution(int id, String deleteKey) {
+        return tm.required(() -> dao.deleteById(id, deleteKey));
+    }
+
+    /**
      * pageの位置からlimit分だけ投稿情報をID降順で返す
      * @param req クエリリクエスト
      * @return 投稿リスト

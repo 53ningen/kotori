@@ -1,8 +1,6 @@
 package models.posts;
 
 import static java.util.stream.Collectors.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import databases.DBResource;
@@ -14,7 +12,6 @@ import org.junit.Test;
 import spark.Request;
 import spark.Response;
 
-import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
 public class PostContributionTest {
@@ -75,7 +72,7 @@ public class PostContributionTest {
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
         String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoge\"}";
+        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoge\", \"deleteKey\": \"pass\"}}";
         when(request.body()).thenReturn(content);
 
         // exercise
@@ -83,33 +80,5 @@ public class PostContributionTest {
 
         // verify
         verify(response).status(200);
-    }
-
-    @Test
-    public void unicodeエスケープされた文字列を元に戻す() throws Exception {
-        // setup
-        String escapeStr = "{\"username\":\"\\\\u897f\\\\u6728\\\\u91ce\\\\u771f\\\\u59eb\", \"content\":\"\\\\u000a\"}";
-        Method method = postContribution.getClass().getDeclaredMethod("unescapeUnicode", String.class);
-        method.setAccessible(true);
-
-        // exercise
-        String unescapeStr = (String) method.invoke(postContribution, escapeStr);
-
-        // verify
-        assertThat(unescapeStr, is("{\"username\":\"西木野真姫\", \"content\":\"\\\\n\"}"));
-    }
-
-    @Test
-    public void HTMLタグを除いた文字列を返す() throws Exception {
-        // setup
-        String str = "{\"content\":\"hoge<b>foo</b>bar\"}";
-        Method method = postContribution.getClass().getDeclaredMethod("validateBody", String.class);
-        method.setAccessible(true);
-
-        // exercise
-        String excludedStr = (String) method.invoke(postContribution, str);
-
-        // verify
-        assertThat(excludedStr, is("{\"content\":\"hogefoobar\"}"));
     }
 }

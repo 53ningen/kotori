@@ -1,30 +1,32 @@
 package models.contributions;
 
 import databases.entities.Contribution;
-import models.posts.Payload;
+import models.payloads.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class HandleContributionTest {
     private HandleContribution handleContribution;
-    private Payload payload;
+    private PostPayload payload;
 
     @Before
     public void setUp() throws Exception {
         handleContribution = new HandleContribution();
-        payload = new Payload();
+        payload = new PostPayload();
         payload.setUsername("小泉花陽");
         payload.setTitle("fuga");
         payload.setContent("hoge");
+        payload.setDeleteKey("pass");
     }
 
     @Test
@@ -37,6 +39,18 @@ public class HandleContributionTest {
         assertThat(contribution.getUsername(), is("小泉花陽"));
         assertThat(contribution.getTitle(), is("fuga"));
         assertThat(contribution.getContent(), is("hoge"));
+    }
+
+    @Test
+    public void 削除キーがハッシュ化されて保存されている() throws Exception {
+        // exercise
+        Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
+        Contribution contribution = contributionOpt.get();
+
+        // verify
+        String deleteKey = contribution.getDeleteKey();
+        assertThat(deleteKey, is(Encryption.getSaltedDeleteKey("pass", "小泉花陽")));
+        assertThat(deleteKey, is(not(Encryption.getSaltedDeleteKey("pass", "星空凛"))));
     }
 
     @Test
@@ -81,5 +95,33 @@ public class HandleContributionTest {
         assertThat(editedContributions.get(0).getIsNew(), is(true));
         assertThat(editedContributions.get(1).getIsNew(), is(false));
         assertThat(editedContributions.get(2).getIsNew(), is(false));
+    }
+
+    @Test
+    public void unicodeエスケープされた文字列を元に戻す() throws Exception {
+        // setup
+        String escapeStr = "{\"username\":\"\\\\u897f\\\\u6728\\\\u91ce\\\\u771f\\\\u59eb\", \"content\":\"\\\\u000a\"}";
+        Method method = handleContribution.getClass().getDeclaredMethod("unescapeUnicode", String.class);
+        method.setAccessible(true);
+
+        // exercise
+        String unescapeStr = (String) method.invoke(handleContribution, escapeStr);
+
+        // verify
+        assertThat(unescapeStr, is("{\"username\":\"西木野真姫\", \"content\":\"\\\\n\"}"));
+    }
+
+    @Test
+    public void HTMLタグを除いた文字列を返す() throws Exception {
+        // setup
+        String str = "{\"content\":\"hoge<b>foo</b>bar\"}";
+        Method method = handleContribution.getClass().getDeclaredMethod("validateBody", String.class);
+        method.setAccessible(true);
+
+        // exercise
+        String excludedStr = (String) method.invoke(handleContribution, str);
+
+        // verify
+        assertThat(excludedStr, is("{\"content\":\"hogefoobar\"}"));
     }
 }

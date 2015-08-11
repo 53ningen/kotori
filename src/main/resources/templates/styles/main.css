@@ -22,6 +22,31 @@ a:hover, a:active {
   color: inherit;
 }
 
+input[type="submit"] {
+  padding: 1px .25rem;
+  height: 28px;
+  background-color: #FAFAFA;
+  vertical-align: middle;
+  transition: all .3s;
+}
+input[type="submit"]:hover {
+  border: 1px solid #60B99A;
+}
+
+input {
+  height: 24px;
+}
+
+input, textarea {
+  float: left;
+  outline: none;
+  border: 1px solid #554236;
+  transition: all .3s;
+}
+input:focus, textarea:focus {
+  border: 1px solid #60B99A;
+}
+
 /**
  * Header
  **/
@@ -109,10 +134,25 @@ header .settings {
   top: -70px;
   left: 0;
   width: 100%;
-  height: calc(100% - 20px);
+  height: 50px;
   padding: 10px 0;
   opacity: 0;
   background-color: #60B99A;
+  z-index: 9999;
+  transition: all .3s;
+}
+header .notice-error {
+  visibility: hidden;
+  position: absolute;
+  top: -70px;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding: 10px 0;
+  opacity: 0;
+  color: #FAFAFA;
+  background-color: #F77825;
   z-index: 9999;
   transition: all .3s;
 }
@@ -150,6 +190,7 @@ main {
   padding: 0 1rem;
 }
 #contributions .contribution {
+  position: relative;
   padding: 1rem;
   margin: 1rem 0;
   border: 1px solid #60B99A;
@@ -181,6 +222,47 @@ main {
 }
 #contributions .contribution .contribution-footer .footer--new {
   color: #F77825;
+}
+#contributions .contribution .contribution-footer .footer--del {
+  text-align: right;
+}
+#contributions .contribution .contribution-del {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  padding: 1rem 0;
+}
+#contributions .contribution .contribution-del .del-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F1EFA5;
+  display: none;
+}
+#contributions .contribution .contribution-del .del-wrap .del--inner {
+  padding: 1rem 0 1rem 1rem;
+}
+#contributions .contribution .contribution-del .del-wrap .del--inner .delete-button {
+  margin-left: .5rem;
+}
+#contributions .contribution .contribution-del .del-guide {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  text-align: right;
+  transition: all .3s;
+}
+#contributions .contribution .contribution-del .del-guide:hover {
+  color: #F77825;
+  cursor: pointer;
+}
+#contributions .contribution .contribution-del .del-guide span {
+  line-height: 30px;
+  vertical-align: middle;
 }
 #contributions .contribution .contribution-empty {
   font-family: "Quicksand", sans-serif;
@@ -261,15 +343,6 @@ footer .sns-button {
 #posts form#post-contribution {
   padding: 1rem;
 }
-#posts form#post-contribution input, #posts form#post-contribution textarea {
-  float: left;
-  outline: none;
-  border: 1px solid #554236;
-  transition: all .3s;
-}
-#posts form#post-contribution input:focus, #posts form#post-contribution textarea:focus {
-  border: 1px solid #60B99A;
-}
 #posts form#post-contribution textarea.post-content--text {
   width: calc(100% - 100px);
 }
@@ -277,9 +350,8 @@ footer .sns-button {
   position: relative;
   padding-bottom: .5rem;
 }
-#posts form#post-contribution .contribution-submit {
-  text-align: right;
-  padding-top: .5rem;
+#posts form#post-contribution .post-content--submit {
+  margin-bottom: 1rem;
 }
 #posts form#post-contribution .guide-text {
   width: 94px;
@@ -297,15 +369,6 @@ footer .sns-button {
 }
 #search form#search-contribution {
   padding: 1rem;
-}
-#search form#search-contribution input {
-  float: left;
-  outline: none;
-  border: 1px solid #554236;
-  transition: all .3s;
-}
-#search form#search-contribution input:focus {
-  border: 1px solid #60B99A;
 }
 #search form#search-contribution .search-content {
   position: relative;

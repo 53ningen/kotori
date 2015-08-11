@@ -83,13 +83,14 @@
   /**
    * 投稿ボタンをクリックした時のイベント
    */
-  _document.on('click', '#submit', function(event) {
+  _document.on('submit', '#post-contribution', function(event) {
     event.preventDefault();
 
     var jsondata = {
       username: $('.post-content--username').val().json_escape(),
       title: $('.post-content--title').val().json_escape(),
-      content: $('.post-content--text').val().json_escape()
+      content: $('.post-content--text').val().json_escape(),
+      deleteKey: $('.post-content--deletekey').val().json_escape()
     };
 
     $.ajax({
@@ -104,14 +105,41 @@
         $('.post-content--username').val("");
         $('.post-content--title').val("");
         $('.post-content--text').val("");
+        $('.post-content--deleteKey').val("");
       });
       $('#contributions').prepend($(createContribution(data)).fadeIn(400));
     })
     .fail(function() {
       console.log("error");
+      noticeError("新規投稿");
+    });
+
+  });
+
+  _document.on('submit', '#delete-contribution', function(event) {
+    event.preventDefault();
+    var _this = $(this);
+    var jsondata = {
+      id: _this.find('.delete-id').val().json_escape(),
+      username: _this.find('.delete-username').val().json_escape(),
+      deleteKey: _this.find('.delete-key').val().json_escape(),
+    };
+
+    $.ajax({
+      url: '/delete',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(jsondata),
     })
-    .always(function() {
-      console.log("complete");
+    .done(function() {
+      console.log("success");
+      _this.parents('.contribution').fadeOut(400, function(){
+        $(this).remove();
+      });
+    })
+    .fail(function() {
+      console.log("error");
+      noticeError("投稿の削除");
     });
 
   });
@@ -122,6 +150,12 @@
     var word = $('.search-content--word').val();
     $(location).attr("href", "/search?q[keyword]="+word);
   })
+
+  _document.on('click', '.del-guide', function() {
+    var wrap = $(this).parent().find('.del-wrap').get(0);
+
+    $(wrap).slideToggle(400);
+  });
 
   var toggleHeader = function($current, $target) {
     if ($current.hasClass('active')) {
@@ -141,6 +175,22 @@
     }
   }
 
+  var noticeError = function(text) {
+    $error = $('.notice-error');
+
+    $error.find('.error-text').text(text);
+    $error.addClass('active').css({
+        top: 0,
+        opacity: 1
+      });
+    setTimeout(function() {
+      $error.css({
+        top: '-70px',
+        opacity: 0
+      }).removeClass('active');
+    }, 3000);
+  }
+
   /**
    * サーバからのjsonレスポンスをDOMに反映する
    */
@@ -149,7 +199,7 @@
     if (data.isNew === true) {
       contribution += '<span class="footer--new">New</span>';
     }
-    contribution += ' '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
+    contribution += ' '+data.editedCreatedTime+'</div></div>';
     return contribution;
   }
 
