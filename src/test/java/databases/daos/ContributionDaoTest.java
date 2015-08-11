@@ -113,9 +113,10 @@ public class ContributionDaoTest {
             // setup
             UpdatePayload payload = new UpdatePayload();
             payload.setContent("南ことり");
+            payload.setId(1);
 
             // exercise
-            int result = dao.updateById(payload, 1);
+            int result = dao.updateById(payload);
             Optional<Contribution> resultContributionOpt = dao.findById(1);
             Contribution resultContribution = resultContributionOpt.get();
 

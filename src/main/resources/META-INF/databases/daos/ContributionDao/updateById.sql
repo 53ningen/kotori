@@ -9,4 +9,4 @@ SET
   ,title = /* payload.title */'hoge'
   /*%end*/
 WHERE
-  id = /* id */0
+  id = /* payload.id */0

@@ -5,6 +5,7 @@ import models.contributions.HandleContributionTest;
 import models.paginations.HandlePaginationTest;
 import models.posts.DeleteContributionTest;
 import models.posts.PostContributionTest;
+import models.posts.UpdateContributionTest;
 import models.requests.HandleRequestTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -12,6 +13,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         PostContributionTest.class,
+        UpdateContributionTest.class,
         DeleteContributionTest.class,
         HandleContributionTest.class,
         ContributionDaoTest.class,

@@ -8,6 +8,7 @@ import models.paginations.HandlePagination;
 import models.posts.DeleteContribution;
 import models.posts.PostContribution;
 import models.posts.HandleDB;
+import models.posts.UpdateContribution;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
 import spark.ModelAndView;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
     private PostContribution postContribution = new PostContribution();
+    private UpdateContribution updateContribution = new UpdateContribution();
     private DeleteContribution deleteContribution = new DeleteContribution();
     private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
@@ -67,6 +69,8 @@ public class ApplicationRoute {
         post("/api/delete", (deleteContribution::requestDeleteContributionWithKey));
 
         post("/api/admin_delete", (deleteContribution::requestDeleteContribution));
+
+        post("/api/admin_update", (updateContribution::requestUpdateContribution));
     }
 
     /**

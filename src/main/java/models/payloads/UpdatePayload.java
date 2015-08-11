@@ -6,6 +6,10 @@ public class UpdatePayload {
     String title;
     String content;
 
+    public boolean isValid() {
+        return id > 0 && !content.isEmpty();
+    }
+
     public int getId() {
         return id;
     }

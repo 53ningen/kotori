@@ -4,6 +4,7 @@ import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import models.payloads.UpdatePayload;
 import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
@@ -23,6 +24,16 @@ public class HandleDB {
     public int insertContribution(Contribution contribution) {
         return tm.required(() -> dao.insert(contribution));
     }
+
+    /**
+     * 受け取ったidの投稿を更新する（Admin用）
+     * @param payload 更新データ
+     * @return 処理した投稿数
+     */
+    public int updateContribution(UpdatePayload payload) {
+        return tm.required(() -> dao.updateById(payload));
+    }
+
 
     /**
      * 受け取ったidの投稿をDBから削除する（Admin用）

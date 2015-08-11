@@ -26,7 +26,7 @@ public interface ContributionDao {
     int insert(Contribution cont);
 
     @Update(sqlFile = true)
-    int updateById(UpdatePayload payload, int id);
+    int updateById(UpdatePayload payload);
 
     @Delete(sqlFile = true)
     int deleteById(int id);
