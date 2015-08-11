@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="utf-8">
-    <title>Kotori</title>
+    <title>Kotori - Admin</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- bower:css -->
@@ -132,10 +132,9 @@
                 <div class="contribution-del">
                     <div class="del-wrap">
                         <div class="del--inner cf">
-                            <form id="delete-contribution">
-                                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20" required>
+                            <form id="admin-delete-contribution">
+                                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20">
                                 <input class="delete-id" type="hidden" name="id" value="{{id}}">
-                                <input class="delete-username" type="hidden" name="username" value="{{username}}">
                                 <input class="delete-button" type="submit" value="削除">
                             </form>
                         </div>
@@ -270,6 +269,7 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <!-- endbower -->
     <!-- build:js -->
+    <script src="scripts/kotori.admin.js"></script>
     <script src="scripts/kotori.ajax.js"></script>
     <script src="scripts/kotori.animation.js"></script>
     <!-- endbuild -->

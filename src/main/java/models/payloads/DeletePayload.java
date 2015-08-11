@@ -6,7 +6,11 @@ public class DeletePayload {
     private String deleteKey;
 
     public boolean isValid() {
-        return id > 0 && !deleteKey.isEmpty();
+        return id > 0 && !username.isEmpty() && !deleteKey.isEmpty();
+    }
+
+    public boolean isValidWithoutKey() {
+        return id > 0;
     }
 
     public int getId() {

@@ -32,7 +32,7 @@ public class DeleteContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        deleteContribution.requestDeleteContribution(request, response);
+        deleteContribution.requestDeleteContributionWithKey(request, response);
 
         // verify
         verify(response).status(400);
@@ -45,7 +45,7 @@ public class DeleteContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        deleteContribution.requestDeleteContribution(request, response);
+        deleteContribution.requestDeleteContributionWithKey(request, response);
 
         // verify
         verify(response).status(400);
@@ -58,7 +58,7 @@ public class DeleteContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        deleteContribution.requestDeleteContribution(request, response);
+        deleteContribution.requestDeleteContributionWithKey(request, response);
 
         // verify
         verify(response).status(200);

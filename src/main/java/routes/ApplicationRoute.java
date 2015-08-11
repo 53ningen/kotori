@@ -60,9 +60,13 @@ public class ApplicationRoute {
 
         get("/search", (this::getSearch), engine);
 
-        post("/post", (postContribution::requestPostContribution));
+        get("/admin", (this::getAdmin), engine);
 
-        post("/delete", (deleteContribution::requestDeleteContribution));
+        post("/api/post", (postContribution::requestPostContribution));
+
+        post("/api/delete", (deleteContribution::requestDeleteContributionWithKey));
+
+        post("/api/admin_delete", (deleteContribution::requestDeleteContribution));
     }
 
     /**
@@ -86,9 +90,22 @@ public class ApplicationRoute {
      */
     private ModelAndView getSearch(Request req, Response res) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDB.findContributionByTitle(handleRequest);
+        List<Contribution> contributions = handleDB.findContributionsByKeyword(handleRequest);
         setResponses(req, contributions, "q");
         return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
+    }
+
+    /**
+     * Adminページを表示する
+     * @param req リクエスト
+     * @param res レスポンス
+     * @return ModelAndView
+     */
+    private ModelAndView getAdmin(Request req, Response res) {
+        handleRequest.updateHandleRequest(req);
+        List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest);
+        setResponses(req, contributions, "");
+        return new ModelAndView(handleResponse.getResponseMap(), "admin.mustache.html");
     }
 
     /**
