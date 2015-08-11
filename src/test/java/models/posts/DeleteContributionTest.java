@@ -63,4 +63,17 @@ public class DeleteContributionTest {
         // verify
         verify(response).status(200);
     }
+
+    @Test
+    public void Adminからのパラメータが正しければ200OKを返す() throws Exception {
+        // setup
+        String content = "{\"id\": \"1\"}";
+        when(request.body()).thenReturn(content);
+
+        // exercise
+        deleteContribution.requestDeleteContribution(request, response);
+
+        // verify
+        verify(response).status(200);
+    }
 }

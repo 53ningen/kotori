@@ -107,7 +107,18 @@ public class ContributionDaoTest {
     }
 
     @Test
-    public void deleteが正しく実行される() throws Exception {
+    public void IDによるdeleteが正しく実行される() throws Exception {
+        tm.required(() -> {
+            // exercise
+            int result = dao.deleteById(1);
+
+            // verify
+            assertThat(result, is(1));
+        });
+    }
+
+    @Test
+    public void 削除キーによるdeleteが正しく実行される() throws Exception {
         tm.required(() -> {
             // exercise
             int result = dao.deleteByIdWithKey(2, "pass");
