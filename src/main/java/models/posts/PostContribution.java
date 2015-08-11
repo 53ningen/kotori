@@ -36,7 +36,7 @@ public class PostContribution extends Status {
             // ContributionがNotNullならばDBに挿入する
             int result = handleDB.insertContribution(contributionOpt.get());
             if (result < 1) {
-                return setBadRequest(response);
+                return setInternalServerError(response);
             }
 
             // Contributionに新着情報を付与する
