@@ -11,7 +11,7 @@
     <!-- endbower -->
     <!-- build:css -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/admin.css">
     <!-- endbuild -->
 </head>
 <body>
@@ -24,7 +24,7 @@
             </button>
         </div>
         <h1 class="title">
-            <a href="/">Kotori</a>
+            <a href="/admin">Kotori</a>
         </h1>
         <div class="user-button">
             <button class="header-circle hc--search hc--right">
@@ -128,6 +128,33 @@
                     <span class="footer--new">New</span>
                     {{/isNew}}
                     {{editedCreatedTime}} ・ #{{id}}
+                </div>
+                <div class="contribution-edit">
+                    <form id="update-contribution">
+                        <input class="update-id" type="hidden" name="id" value="{{id}}">
+                        <div class="contribution-user cf">
+                            <div class="user--icon">
+                                icon
+                            </div>
+                            <div class="user--name">
+                                <input class="update-content--username" type="text" maxlength="20" value="{{username}}" required>
+                            </div>
+                        </div>
+                        <div class="contribution-body">
+                            <div class="body--title">
+                                <input class="update-content--title" type="text" value="{{title}}" maxlength="20" required>
+                            </div>
+                            <div class="body--content">
+                                <textarea class="update-content--text" required>{{content}}</textarea>
+                            </div>
+                        </div>
+                        <div class="contribution-submit">
+                            <input type="submit" value="更新">
+                        </div>
+                    </form>
+                    <div class="edit-button">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </div>
                 </div>
                 <div class="contribution-del">
                     <div class="del-wrap">
