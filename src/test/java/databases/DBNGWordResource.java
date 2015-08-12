@@ -6,20 +6,19 @@ import helper.DaoImplHelper;
 import org.junit.rules.ExternalResource;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-public class DBResource extends ExternalResource {
+public class DBNGWordResource extends ExternalResource {
 
     private DBConfigDao dao = DaoImplHelper.get(DBConfigDao.class);
+    private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
 
     @Override
     protected void before() throws Throwable {
-        TransactionManager tm = DBConfig.singleton().getTransactionManager();
-        tm.required(dao::create);
+        tm.required(dao::createNGWord);
     }
 
     @Override
     protected void after() {
-        TransactionManager tm = DBConfig.singleton().getTransactionManager();
-        tm.required(dao::drop);
+        tm.required(dao::dropNGWord);
     }
 
 }

@@ -21,9 +21,9 @@ public class Status {
      * @param response レスポンス
      * @return 空文字
      */
-    protected String setBadRequest(Response response) {
+    protected String setBadRequest(Response response, String reason) {
         response.status(HTTP_BAD_REQUEST);
-        return "";
+        return reason;
     }
 
     /**

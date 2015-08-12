@@ -5,7 +5,6 @@ import models.payloads.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -93,33 +92,5 @@ public class HandleContributionTest {
         assertThat(editedContributions.get(0).getIsNew(), is(true));
         assertThat(editedContributions.get(1).getIsNew(), is(false));
         assertThat(editedContributions.get(2).getIsNew(), is(false));
-    }
-
-    @Test
-    public void unicodeエスケープされた文字列を元に戻す() throws Exception {
-        // setup
-        String escapeStr = "{\"username\":\"\\\\u897f\\\\u6728\\\\u91ce\\\\u771f\\\\u59eb\", \"content\":\"\\\\u000a\"}";
-        Method method = handleContribution.getClass().getDeclaredMethod("unescapeUnicode", String.class);
-        method.setAccessible(true);
-
-        // exercise
-        String unescapeStr = (String) method.invoke(handleContribution, escapeStr);
-
-        // verify
-        assertThat(unescapeStr, is("{\"username\":\"西木野真姫\", \"content\":\"\\\\n\"}"));
-    }
-
-    @Test
-    public void HTMLタグを除いた文字列を返す() throws Exception {
-        // setup
-        String str = "{\"content\":\"hoge<b>foo</b>bar\"}";
-        Method method = handleContribution.getClass().getDeclaredMethod("validateBody", String.class);
-        method.setAccessible(true);
-
-        // exercise
-        String excludedStr = (String) method.invoke(handleContribution, str);
-
-        // verify
-        assertThat(excludedStr, is("{\"content\":\"hogefoobar\"}"));
     }
 }

@@ -1,9 +1,12 @@
 package models.posts;
 
 import static java.util.stream.Collectors.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-import databases.DBResource;
+import databases.DBContributionResource;
+import databases.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import org.junit.Before;
@@ -16,7 +19,9 @@ import java.util.stream.Stream;
 
 public class PostContributionTest {
     @Rule
-    public final DBResource resource = new DBResource();
+    public final DBContributionResource contributionResource = new DBContributionResource();
+    @Rule
+    public final DBNGWordResource ngWordResource = new DBNGWordResource();
     private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;
     private PostContribution postContribution;
     private Request request;
@@ -35,10 +40,11 @@ public class PostContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        postContribution.requestPostContribution(request, response);
+        String errorCode = postContribution.requestPostContribution(request, response);
 
         // verify
         verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
@@ -48,10 +54,11 @@ public class PostContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        postContribution.requestPostContribution(request, response);
+        String errorCode = postContribution.requestPostContribution(request, response);
         
         // verify
         verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
@@ -62,17 +69,18 @@ public class PostContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        postContribution.requestPostContribution(request, response);
+        String errorCode = postContribution.requestPostContribution(request, response);
 
         // verify
         verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
         String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoge\", \"deleteKey\": \"pass\"}}";
+        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}}";
         when(request.body()).thenReturn(content);
 
         // exercise
@@ -81,4 +89,21 @@ public class PostContributionTest {
         // verify
         verify(response).status(200);
     }
+
+    @Test
+    public void パラメータが正しい場合でもNGワードが含まれていればBadRequestを返す() throws Exception {
+        // setup
+        String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
+        String content = "{\"username\": \"hoge\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}}";
+        when(request.body()).thenReturn(content);
+
+        // exercise
+        String errorCode = postContribution.requestPostContribution(request, response);
+
+        // verify
+        verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.NGWORD_CONTAINS));
+    }
+
+
 }

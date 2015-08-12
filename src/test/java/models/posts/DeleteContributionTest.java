@@ -1,6 +1,6 @@
 package models.posts;
 
-import databases.DBResource;
+import databases.DBContributionResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import org.junit.Before;
@@ -9,12 +9,14 @@ import org.junit.Test;
 import spark.Request;
 import spark.Response;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DeleteContributionTest {
     @Rule
-    public final DBResource resource = new DBResource();
+    public final DBContributionResource resource = new DBContributionResource();
     private DeleteContribution deleteContribution;
     private Request request;
     private Response response;
@@ -32,10 +34,11 @@ public class DeleteContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        deleteContribution.requestDeleteContributionWithKey(request, response);
+        String errorCode = deleteContribution.requestDeleteContributionWithKey(request, response);
 
         // verify
         verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
@@ -45,10 +48,11 @@ public class DeleteContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        deleteContribution.requestDeleteContributionWithKey(request, response);
+        String errorCode = deleteContribution.requestDeleteContributionWithKey(request, response);
 
         // verify
         verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test

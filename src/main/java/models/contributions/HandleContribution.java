@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class HandleContribution {
 
@@ -49,37 +47,6 @@ public class HandleContribution {
         contribution.setEditedCreatedTime(ldt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
         contribution.setIsNew(now.isAfter(ldt) && now.isBefore(ldt.plusDays(1)));
         return contribution;
-    }
-
-    /**
-     * unicodeエスケープされた文字列を元に戻す
-     * @param body unicodeが含まれる文字列
-     * @return アンエスケープした文字列
-     */
-    public String unescapeUnicode(String body) {
-        String regex = "\\\\\\\\u([a-fA-F0-9]{4})";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(body);
-
-        StringBuffer strBuf = new StringBuffer();
-        while (m.find()) {
-            if (m.group(1).matches("000a|000d"))
-                m.appendReplacement(strBuf, "\\\\\\\\n"); // 改行、ラインフィールドは改行コードとして保存する
-            else
-                m.appendReplacement(strBuf, Matcher.quoteReplacement(String.valueOf((char) Integer.parseInt(m.group(1), 16))));
-        }
-        m.appendTail(strBuf);
-
-        return validateBody(strBuf.toString());
-    }
-
-    /**
-     * タグを削除した文字列を返す
-     * @param body タグが含まれる文字列
-     * @return タグを削除した文字列
-     */
-    private String validateBody(String body) {
-        return body.replaceAll("<(\".*?\"|'.*?'|[^'\"])*?>", "");
     }
 
     /**

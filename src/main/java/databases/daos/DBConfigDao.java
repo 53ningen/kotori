@@ -8,9 +8,15 @@ import org.seasar.doma.Script;
 public interface DBConfigDao {
 
     @Script
-    void create();
+    void createContribution();
 
     @Script
-    void drop();
+    void dropContribution();
+
+    @Script
+    void createNGWord();
+
+    @Script
+    void dropNGWord();
 
 }
