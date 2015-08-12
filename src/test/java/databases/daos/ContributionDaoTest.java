@@ -1,7 +1,7 @@
 package databases.daos;
 
 import bulletinBoard.DBConfig;
-import databases.DBResource;
+import databases.DBContributionResource;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
 import models.payloads.UpdatePayload;
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 
 public class ContributionDaoTest {
     @Rule
-    public final DBResource resource = new DBResource();
+    public final DBContributionResource resource = new DBContributionResource();
     private final ContributionDao dao = DaoImplHelper.get(ContributionDao.class);
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
 

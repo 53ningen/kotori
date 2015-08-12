@@ -1,6 +1,6 @@
 package models.posts;
 
-import databases.DBResource;
+import databases.DBContributionResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 
 public class UpdateContributionTest {
     @Rule
-    public final DBResource resource = new DBResource();
+    public final DBContributionResource resource = new DBContributionResource();
     private UpdateContribution updateContribution;
     private Request request;
     private Response response;

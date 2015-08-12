@@ -3,7 +3,7 @@ package models.posts;
 import static java.util.stream.Collectors.*;
 import static org.mockito.Mockito.*;
 
-import databases.DBResource;
+import databases.DBContributionResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public class PostContributionTest {
     @Rule
-    public final DBResource resource = new DBResource();
+    public final DBContributionResource resource = new DBContributionResource();
     private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;
     private PostContribution postContribution;
     private Request request;
