@@ -8,6 +8,7 @@ import models.paginations.HandlePagination;
 import models.posts.DeleteContribution;
 import models.posts.PostContribution;
 import models.posts.HandleDB;
+import models.posts.UpdateContribution;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
 import spark.ModelAndView;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ApplicationRoute {
     private static ApplicationRoute applicationRoute = new ApplicationRoute();
     private PostContribution postContribution = new PostContribution();
+    private UpdateContribution updateContribution = new UpdateContribution();
     private DeleteContribution deleteContribution = new DeleteContribution();
     private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
@@ -60,9 +62,15 @@ public class ApplicationRoute {
 
         get("/search", (this::getSearch), engine);
 
-        post("/post", (postContribution::requestPostContribution));
+        get("/admin", (this::getAdmin), engine);
 
-        post("/delete", (deleteContribution::requestDeleteContribution));
+        post("/api/post", (postContribution::requestPostContribution));
+
+        post("/api/delete", (deleteContribution::requestDeleteContributionWithKey));
+
+        post("/api/admin_delete", (deleteContribution::requestDeleteContribution));
+
+        post("/api/admin_update", (updateContribution::requestUpdateContribution));
     }
 
     /**
@@ -86,9 +94,22 @@ public class ApplicationRoute {
      */
     private ModelAndView getSearch(Request req, Response res) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDB.findContributionByTitle(handleRequest);
+        List<Contribution> contributions = handleDB.findContributionsByKeyword(handleRequest);
         setResponses(req, contributions, "q");
         return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
+    }
+
+    /**
+     * Adminページを表示する
+     * @param req リクエスト
+     * @param res レスポンス
+     * @return ModelAndView
+     */
+    private ModelAndView getAdmin(Request req, Response res) {
+        handleRequest.updateHandleRequest(req);
+        List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest);
+        setResponses(req, contributions, "");
+        return new ModelAndView(handleResponse.getResponseMap(), "admin.mustache.html");
     }
 
     /**

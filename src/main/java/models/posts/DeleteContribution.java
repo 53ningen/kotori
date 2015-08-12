@@ -12,7 +12,7 @@ public class DeleteContribution extends Status {
     private HandleContribution handleContribution = new HandleContribution();
 
     /**
-     * 投稿の削除を受け付ける
+     * 投稿の削除を受け付ける（Admin用）
      * @param request リクエスト
      * @param response レスポンス
      * @return ok
@@ -21,20 +21,46 @@ public class DeleteContribution extends Status {
 
         try {
             DeletePayload payload = new ObjectMapper().readValue(handleContribution.unescapeUnicode(request.body()), DeletePayload.class);
-            if (!payload.isValid()) {
+            if (!payload.isValidWithoutKey()) {
                 return setBadRequest(response);
             }
 
-            int result = handleDB.deleteContribution(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
+            int result = handleDB.deleteContribution(payload.getId());
             if (result < 1) {
-                return setBadRequest(response);
+                return setInternalServerError(response);
             }
 
             setOK(response);
 
             return "OK";
         } catch (Exception e) {
-            e.printStackTrace();
+            return setBadRequest(response);
+        }
+    }
+
+    /**
+     * 投稿の削除を受け付ける
+     * @param request リクエスト
+     * @param response レスポンス
+     * @return ok
+     */
+    public String requestDeleteContributionWithKey(Request request, Response response) {
+
+        try {
+            DeletePayload payload = new ObjectMapper().readValue(handleContribution.unescapeUnicode(request.body()), DeletePayload.class);
+            if (!payload.isValid()) {
+                return setBadRequest(response);
+            }
+
+            int result = handleDB.deleteContributionWithKey(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
+            if (result < 1) {
+                return setInternalServerError(response);
+            }
+
+            setOK(response);
+
+            return "OK";
+        } catch (Exception e) {
             return setBadRequest(response);
         }
     }

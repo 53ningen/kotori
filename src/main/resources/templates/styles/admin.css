@@ -522,3 +522,40 @@ button > .setting-text {
 .cf {
   *zoom: 1;
 }
+
+#contributions .contribution .contribution-body .body--title {
+  height: 28px;
+}
+#contributions .contribution .contribution-edit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  padding: 1rem;
+  transition: all .3s;
+}
+#contributions .contribution .contribution-edit #update-contribution {
+  opacity: 0;
+  transition: all .3s;
+}
+#contributions .contribution .contribution-edit #update-contribution .update-content--text {
+  margin-top: .5rem;
+  width: 85%;
+}
+#contributions .contribution .contribution-edit #update-contribution .contribution-submit {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+#contributions .contribution .contribution-edit .edit-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  margin-right: -2px;
+  transition: all .3s;
+}
+#contributions .contribution .contribution-edit .edit-button:hover {
+  color: #F77825;
+  cursor: pointer;
+}

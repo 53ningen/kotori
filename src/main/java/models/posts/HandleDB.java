@@ -4,6 +4,7 @@ import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import models.payloads.UpdatePayload;
 import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
@@ -25,12 +26,31 @@ public class HandleDB {
     }
 
     /**
-     * 受け取ったidの投稿をDBから削除する
+     * 受け取ったidの投稿を更新する（Admin用）
+     * @param payload 更新データ
+     * @return 処理した投稿数
+     */
+    public int updateContribution(UpdatePayload payload) {
+        return tm.required(() -> dao.updateById(payload));
+    }
+
+
+    /**
+     * 受け取ったidの投稿をDBから削除する（Admin用）
      * @param id 投稿id
      * @return 処理した投稿数
      */
-    public int deleteContribution(int id, String deleteKey) {
-        return tm.required(() -> dao.deleteById(id, deleteKey));
+    public int deleteContribution(int id) {
+        return tm.required(() -> dao.deleteById(id));
+    }
+
+    /**
+     * 受け取ったidの投稿を削除キーを使用してDBから削除する
+     * @param id 投稿id
+     * @return 処理した投稿数
+     */
+    public int deleteContributionWithKey(int id, String deleteKey) {
+        return tm.required(() -> dao.deleteByIdWithKey(id, deleteKey));
     }
 
     /**
@@ -49,7 +69,7 @@ public class HandleDB {
      * @param req クエリリクエスト
      * @return 投稿リスト
      */
-    public List<Contribution> findContributionByTitle(HandleRequest req) {
+    public List<Contribution> findContributionsByKeyword(HandleRequest req) {
         options = createOptions(req);
         return tm.required(() -> dao.findByKeyword(options, req.getQuery()));
     }

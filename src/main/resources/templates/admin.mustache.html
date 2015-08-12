@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="utf-8">
-    <title>Kotori</title>
+    <title>Kotori - Admin</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- bower:css -->
@@ -11,7 +11,7 @@
     <!-- endbower -->
     <!-- build:css -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/admin.css">
     <!-- endbuild -->
 </head>
 <body>
@@ -24,7 +24,7 @@
             </button>
         </div>
         <h1 class="title">
-            <a href="/">Kotori</a>
+            <a href="/admin">Kotori</a>
         </h1>
         <div class="user-button">
             <button class="header-circle hc--search hc--right">
@@ -129,13 +129,39 @@
                     {{/isNew}}
                     {{editedCreatedTime}} ・ #{{id}}
                 </div>
+                <div class="contribution-edit">
+                    <form id="update-contribution">
+                        <input class="update-id" type="hidden" name="id" value="{{id}}">
+                        <div class="contribution-user cf">
+                            <div class="user--icon">
+                                icon
+                            </div>
+                            <div class="user--name">
+                                <input class="update-content--username" type="text" maxlength="20" value="{{username}}" required>
+                            </div>
+                        </div>
+                        <div class="contribution-body">
+                            <div class="body--title">
+                                <input class="update-content--title" type="text" value="{{title}}" maxlength="20" required>
+                            </div>
+                            <div class="body--content">
+                                <textarea class="update-content--text" required>{{content}}</textarea>
+                            </div>
+                        </div>
+                        <div class="contribution-submit">
+                            <input type="submit" value="更新">
+                        </div>
+                    </form>
+                    <div class="edit-button">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </div>
+                </div>
                 <div class="contribution-del">
                     <div class="del-wrap">
                         <div class="del--inner cf">
-                            <form id="delete-contribution">
-                                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20" required>
+                            <form id="admin-delete-contribution">
+                                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20">
                                 <input class="delete-id" type="hidden" name="id" value="{{id}}">
-                                <input class="delete-username" type="hidden" name="username" value="{{username}}">
                                 <input class="delete-button" type="submit" value="削除">
                             </form>
                         </div>
@@ -270,6 +296,7 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <!-- endbower -->
     <!-- build:js -->
+    <script src="scripts/kotori.admin.js"></script>
     <script src="scripts/kotori.ajax.js"></script>
     <script src="scripts/kotori.animation.js"></script>
     <!-- endbuild -->
