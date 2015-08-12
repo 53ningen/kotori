@@ -1,25 +1,23 @@
 package models.payloads;
 
 import databases.entities.NGWord;
-import models.posts.HandleDB;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HandlePayload {
-    private static HandleDB handleDB = new HandleDB();
 
     /**
      * 投稿内容にNGワードが含まれていないか判定する
      * @param postPayload 投稿内容
      * @return boolean
      */
-    public static boolean isValidContent(PostPayload postPayload) {
-        List<NGWord> ngWords = handleDB.findAllNGWords();
-        return !(containsNGWord(ngWords, postPayload.getUsername()) ||
-                containsNGWord(ngWords, postPayload.getTitle()) ||
-                containsNGWord(ngWords, postPayload.getContent()));
+    public static boolean isValidContent(List<NGWord> ngWords, PostPayload postPayload) {
+        return ngWords.isEmpty() ||
+                !(containsNGWord(ngWords, postPayload.getUsername()) ||
+                        containsNGWord(ngWords, postPayload.getTitle()) ||
+                        containsNGWord(ngWords, postPayload.getContent()));
     }
 
     /**

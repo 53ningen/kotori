@@ -21,7 +21,7 @@ public class UpdateContribution extends Status {
             // UpdatePayloadを生成する
             UpdatePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), UpdatePayload.class);
             if (!payload.isValid()) {
-                return setBadRequest(response);
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
             // Payloadのパラメータが正しければDBを更新する
@@ -35,8 +35,7 @@ public class UpdateContribution extends Status {
 
             return "OK";
         } catch (Exception e) {
-            // ステータスコード400 BadRequestを設定する
-            return setBadRequest(response);
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }
 }

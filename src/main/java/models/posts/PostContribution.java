@@ -27,8 +27,10 @@ public class PostContribution extends Status {
         try {
             // postPayloadを生成する
             PostPayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), PostPayload.class);
-            if (!payload.isValid() || !HandlePayload.isValidContent(payload)) {
-                return setBadRequest(response);
+            if (!payload.isValid()) {
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+            } else if (!HandlePayload.isValidContent(handleDB.findAllNGWords(), payload)) {
+                return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }
 
             // OptionalなContributionを生成する
@@ -49,8 +51,7 @@ public class PostContribution extends Status {
 
             return convertContributionToJson(contribution);
         } catch (Exception e) {
-            // ステータスコード400 BadRequestを設定する
-            return setBadRequest(response);
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }
 

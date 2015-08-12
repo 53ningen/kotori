@@ -21,7 +21,7 @@ public class DeleteContribution extends Status {
         try {
             DeletePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), DeletePayload.class);
             if (!payload.isValidWithoutKey()) {
-                return setBadRequest(response);
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
             int result = handleDB.deleteContribution(payload.getId());
@@ -33,7 +33,7 @@ public class DeleteContribution extends Status {
 
             return "OK";
         } catch (Exception e) {
-            return setBadRequest(response);
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }
 
@@ -48,7 +48,7 @@ public class DeleteContribution extends Status {
         try {
             DeletePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), DeletePayload.class);
             if (!payload.isValid()) {
-                return setBadRequest(response);
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
             int result = handleDB.deleteContributionWithKey(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
@@ -60,7 +60,7 @@ public class DeleteContribution extends Status {
 
             return "OK";
         } catch (Exception e) {
-            return setBadRequest(response);
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }
 }
