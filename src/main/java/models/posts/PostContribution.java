@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.Contribution;
 import models.contributions.HandleContribution;
+import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
 import spark.Request;
 import spark.Response;
@@ -25,8 +26,8 @@ public class PostContribution extends Status {
 
         try {
             // postPayloadを生成する
-            PostPayload payload = new ObjectMapper().readValue(handleContribution.unescapeUnicode(request.body()), PostPayload.class);
-            if (!payload.isValid()) {
+            PostPayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), PostPayload.class);
+            if (!payload.isValid() || !HandlePayload.isValidContent(payload)) {
                 return setBadRequest(response);
             }
 

@@ -1,14 +1,13 @@
 package models.posts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.contributions.HandleContribution;
+import models.payloads.HandlePayload;
 import models.payloads.UpdatePayload;
 import spark.Request;
 import spark.Response;
 
 public class UpdateContribution extends Status {
     private HandleDB handleDB = new HandleDB();
-    private HandleContribution handleContribution = new HandleContribution();
 
     /**
      * postによる投稿を受け付ける
@@ -20,7 +19,7 @@ public class UpdateContribution extends Status {
 
         try {
             // UpdatePayloadを生成する
-            UpdatePayload payload = new ObjectMapper().readValue(handleContribution.unescapeUnicode(request.body()), UpdatePayload.class);
+            UpdatePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), UpdatePayload.class);
             if (!payload.isValid()) {
                 return setBadRequest(response);
             }

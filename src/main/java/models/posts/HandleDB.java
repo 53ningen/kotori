@@ -2,7 +2,9 @@ package models.posts;
 
 import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
+import databases.daos.NGWordDao;
 import databases.entities.Contribution;
+import databases.entities.NGWord;
 import helper.DaoImplHelper;
 import models.payloads.UpdatePayload;
 import models.requests.HandleRequest;
@@ -12,7 +14,8 @@ import org.seasar.doma.jdbc.tx.TransactionManager;
 import java.util.*;
 
 public class HandleDB {
-    private final ContributionDao dao = DaoImplHelper.get(ContributionDao.class);
+    private final ContributionDao contributionDao = DaoImplHelper.get(ContributionDao.class);
+    private final NGWordDao ngWordDao = DaoImplHelper.get(NGWordDao.class);
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
     private SelectOptions options;
 
@@ -22,7 +25,7 @@ public class HandleDB {
      * @return 処理した投稿数
      */
     public int insertContribution(Contribution contribution) {
-        return tm.required(() -> dao.insert(contribution));
+        return tm.required(() -> contributionDao.insert(contribution));
     }
 
     /**
@@ -31,7 +34,7 @@ public class HandleDB {
      * @return 処理した投稿数
      */
     public int updateContribution(UpdatePayload payload) {
-        return tm.required(() -> dao.updateById(payload));
+        return tm.required(() -> contributionDao.updateById(payload));
     }
 
 
@@ -41,7 +44,7 @@ public class HandleDB {
      * @return 処理した投稿数
      */
     public int deleteContribution(int id) {
-        return tm.required(() -> dao.deleteById(id));
+        return tm.required(() -> contributionDao.deleteById(id));
     }
 
     /**
@@ -50,7 +53,7 @@ public class HandleDB {
      * @return 処理した投稿数
      */
     public int deleteContributionWithKey(int id, String deleteKey) {
-        return tm.required(() -> dao.deleteByIdWithKey(id, deleteKey));
+        return tm.required(() -> contributionDao.deleteByIdWithKey(id, deleteKey));
     }
 
     /**
@@ -61,7 +64,7 @@ public class HandleDB {
     public List<Contribution> findContributionsWithLimit(HandleRequest req)
     {
         options = createOptions(req);
-        return tm.required(() -> dao.findWithLimit(options));
+        return tm.required(() -> contributionDao.findWithLimit(options));
     }
 
     /**
@@ -71,7 +74,15 @@ public class HandleDB {
      */
     public List<Contribution> findContributionsByKeyword(HandleRequest req) {
         options = createOptions(req);
-        return tm.required(() -> dao.findByKeyword(options, req.getQuery()));
+        return tm.required(() -> contributionDao.findByKeyword(options, req.getQuery()));
+    }
+
+    /**
+     * NGワードのリストを返す
+     * @return NGワードリスト
+     */
+    public List<NGWord> findAllNGWords() {
+        return tm.required(ngWordDao::findAll);
     }
 
     // TODO: SelectOptionsは別クラスに分離しておきたい
