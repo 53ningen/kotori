@@ -30,9 +30,13 @@
       });
       $('#contributions').prepend($(createContribution(data)).fadeIn(400));
     })
-    .fail(function() {
+    .fail(function(data) {
       console.log("error");
-      noticeError("新規投稿");
+      var errorMsg = data.responseText;
+      if (errorMsg === "") {
+        errorMsg = "新規投稿に失敗しました"
+      }
+      noticeError(errorMsg);
     });
 
   });
@@ -63,7 +67,7 @@
     })
     .fail(function() {
       console.log("error");
-      noticeError("投稿の削除");
+      noticeError("投稿の削除に失敗しました");
       _this.find('.delete-key').val("");
     });
 

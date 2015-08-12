@@ -8,27 +8,18 @@
    */
   _document.on('click', '.write-button', function() {
     toggleHeader($posts, $search);
-    /*
-    var $details = $('.write-button-details');
-
-    if ($details.hasClass('active')) {
-      $details.animate({
-        top: 0,
-        opacity: 0 }, 400, function() {
-          $details.removeClass('active');
-        });
-    } else {
-      $details.addClass('active').animate({
-        top: '40px',
-        opacity: 1 }, 400);
-    }
-    */
   });
 
+  /**
+   * 検索ボタンをクリックした時のイベント
+   */
   _document.on('click', '.hc--search', function() {
     toggleHeader($search, $posts);
   });
 
+  /**
+   * 設定ボタンをクリックした時のイベント
+   */
   _document.on('click', '.hc--setting', function() {
     var $details = $('.user-button-details');
 
@@ -44,7 +35,6 @@
       });
     }
   });
-
   _document.on('click', '.main-circle', function() {
     var $details = $('.user-button-details');
     var $settings = $('.settings');
@@ -63,6 +53,9 @@
     }
   });
 
+  /**
+   * 閉じるボタンをクリックした時のイベント
+   */
   _document.on('click', '.close-button', function() {
     var $settings = $('.settings');
     $settings.removeClass('active').css({
@@ -71,6 +64,9 @@
     });
   })
 
+  /**
+   * マウスホバー時のテキスト表示
+   */
   _document.on('mouseenter', '.main-circle', function() {
     var $buttonMenu = $(this).find('.button-menu');
     $buttonMenu.css({opacity: 1});
@@ -81,76 +77,8 @@
   });
 
   /**
-   * 投稿ボタンをクリックした時のイベント
+   * 削除ボタンをクリックした時のイベント
    */
-  _document.on('submit', '#post-contribution', function(event) {
-    event.preventDefault();
-
-    var jsondata = {
-      username: $('.post-content--username').val().json_escape(),
-      title: $('.post-content--title').val().json_escape(),
-      content: $('.post-content--text').val().json_escape(),
-      deleteKey: $('.post-content--deletekey').val().json_escape()
-    };
-
-    $.ajax({
-      url: '/post',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(jsondata),
-    })
-    .done(function(data) {
-      console.log("success");
-      $posts.slideToggle(400, function() {
-        $('.post-content--username').val("");
-        $('.post-content--title').val("");
-        $('.post-content--text').val("");
-        $('.post-content--deleteKey').val("");
-      });
-      $('#contributions').prepend($(createContribution(data)).fadeIn(400));
-    })
-    .fail(function() {
-      console.log("error");
-      noticeError("新規投稿");
-    });
-
-  });
-
-  _document.on('submit', '#delete-contribution', function(event) {
-    event.preventDefault();
-    var _this = $(this);
-    var jsondata = {
-      id: _this.find('.delete-id').val().json_escape(),
-      username: _this.find('.delete-username').val().json_escape(),
-      deleteKey: _this.find('.delete-key').val().json_escape(),
-    };
-
-    $.ajax({
-      url: '/delete',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(jsondata),
-    })
-    .done(function() {
-      console.log("success");
-      _this.parents('.contribution').fadeOut(400, function(){
-        $(this).remove();
-      });
-    })
-    .fail(function() {
-      console.log("error");
-      noticeError("投稿の削除");
-    });
-
-  });
-
-  _document.on('submit', '#search-contribution', function(event) {
-    event.preventDefault();
-
-    var word = $('.search-content--word').val();
-    $(location).attr("href", "/search?q[keyword]="+word);
-  })
-
   _document.on('click', '.del-guide', function() {
     var wrap = $(this).parent().find('.del-wrap').get(0);
 
@@ -174,46 +102,5 @@
       $cur.removeClass('active').slideUp(400);
     }
   }
-
-  var noticeError = function(text) {
-    $error = $('.notice-error');
-
-    $error.find('.error-text').text(text);
-    $error.addClass('active').css({
-        top: 0,
-        opacity: 1
-      });
-    setTimeout(function() {
-      $error.css({
-        top: '-70px',
-        opacity: 0
-      }).removeClass('active');
-    }, 3000);
-  }
-
-  /**
-   * サーバからのjsonレスポンスをDOMに反映する
-   */
-  var createContribution = function(data) {
-    var contribution = '<div class="contribution"><div class="contribution-user cf"><div class="user--icon">icon</div><div class="user--name">'+data.username+'</div></div><div class="contribution-body"><div class="body--title">'+data.title+'</div><div class="body--content">'+data.content+'</div></div><div class="contribution-footer">';
-    if (data.isNew === true) {
-      contribution += '<span class="footer--new">New</span>';
-    }
-    contribution += ' '+data.editedCreatedTime+'</div></div>';
-    return contribution;
-  }
-
-  /**
-   * 文字列をエスケープする
-   */
-  String.prototype.json_escape = function() {
-    return ("" + this)
-      .replace(/\\/g, "\\\\")
-      .replace(/\"/g, "\\\"")
-      .replace(/\//g, "\\\/")
-      .replace(/\W/g, function (c) {
-      return "\\u" + ("000" + c.charCodeAt(0).toString(16)).slice(-4);
-    });
-  };
 
 }(jQuery));
