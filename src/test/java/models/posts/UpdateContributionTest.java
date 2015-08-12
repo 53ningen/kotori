@@ -9,6 +9,8 @@ import org.junit.Test;
 import spark.Request;
 import spark.Response;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,10 +34,11 @@ public class UpdateContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        updateContribution.requestUpdateContribution(request, response);
+        String errorCode = updateContribution.requestUpdateContribution(request, response);
 
         // verify
         verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
@@ -45,10 +48,11 @@ public class UpdateContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        updateContribution.requestUpdateContribution(request, response);
+        String errorCode = updateContribution.requestUpdateContribution(request, response);
 
         // verify
         verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
