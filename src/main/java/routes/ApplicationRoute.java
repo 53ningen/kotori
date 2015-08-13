@@ -3,6 +3,7 @@ package routes;
 import static spark.Spark.*;
 
 import databases.entities.Contribution;
+import databases.entities.NGWord;
 import models.contributions.HandleContribution;
 import models.paginations.HandlePagination;
 import models.posts.DeleteContribution;
@@ -16,6 +17,7 @@ import spark.Request;
 import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -30,7 +32,6 @@ public class ApplicationRoute {
     private HandleContribution handleContribution = new HandleContribution();
     private HandlePagination handlePagination = new HandlePagination();
     private HandleRequest handleRequest = new HandleRequest();
-    private HandleResponse handleResponse = new HandleResponse();
 
     private ApplicationRoute() {
         initServerConf();
@@ -64,6 +65,8 @@ public class ApplicationRoute {
 
         get("/admin", (this::getAdmin), engine);
 
+        get("/admin/ng", (this::getAdminNG), engine);
+
         post("/api/post", (postContribution::requestPostContribution));
 
         post("/api/delete", (deleteContribution::requestDeleteContributionWithKey));
@@ -82,8 +85,7 @@ public class ApplicationRoute {
     private ModelAndView getRoot(Request req, Response res) {
         handleRequest.updateHandleRequest(req);
         List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest);
-        setResponses(req, contributions, "");
-        return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
+        return new ModelAndView(getResponseMap(req, contributions, ""), "index.mustache.html");
     }
 
     /**
@@ -95,8 +97,7 @@ public class ApplicationRoute {
     private ModelAndView getSearch(Request req, Response res) {
         handleRequest.updateHandleRequest(req);
         List<Contribution> contributions = handleDB.findContributionsByKeyword(handleRequest);
-        setResponses(req, contributions, "q");
-        return new ModelAndView(handleResponse.getResponseMap(), "index.mustache.html");
+        return new ModelAndView(getResponseMap(req, contributions, "q"), "index.mustache.html");
     }
 
     /**
@@ -108,8 +109,20 @@ public class ApplicationRoute {
     private ModelAndView getAdmin(Request req, Response res) {
         handleRequest.updateHandleRequest(req);
         List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest);
-        setResponses(req, contributions, "");
-        return new ModelAndView(handleResponse.getResponseMap(), "admin.mustache.html");
+        return new ModelAndView(getResponseMap(req, contributions, ""), "admin.mustache.html");
+    }
+
+
+    /**
+     * NGワード管理ページを表示する
+     * @param req リクエスト
+     * @param res レスポンス
+     * @return ModelAndView
+     */
+    private ModelAndView getAdminNG(Request req, Response res) {
+        handleRequest.updateHandleRequest(req);
+        List<NGWord> ngWords = handleDB.findAllNGWords();
+        return new ModelAndView(getResponseMap(req, ngWords), "admin.ng.mustache.html");
     }
 
     /**
@@ -117,13 +130,28 @@ public class ApplicationRoute {
      * @param request リクエスト
      * @param contributions 投稿情報
      * @param query urlで指定されたクエリ文字列
+     * @return HashMap
      */
-    private void setResponses(Request request, List<Contribution> contributions, String query) {
-        handleResponse.setResponseMap(
+    private HashMap<String, Object> getResponseMap(Request request, List<Contribution> contributions, String query) {
+        return new HandleResponse(
                 request,
                 handleContribution.addInformationContributions(contributions),
                 handlePagination.createPagination(handleDB, handleRequest),
                 query
-        );
+        ).getResponseMap();
+    }
+
+    /**
+     * テンプレートエンジンに渡すレスポンスを生成する
+     * @param request リクエスト
+     * @param list Viewに渡すリスト
+     * @param <T> リストの型
+     * @return HashMap
+     */
+    private <T> HashMap<String, Object> getResponseMap(Request request, List<T> list) {
+        return new HandleResponse(
+                request,
+                list
+        ).getResponseMap();
     }
 }
