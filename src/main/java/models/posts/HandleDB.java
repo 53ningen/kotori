@@ -37,7 +37,6 @@ public class HandleDB {
         return tm.required(() -> contributionDao.updateById(payload));
     }
 
-
     /**
      * 受け取ったidの投稿をDBから削除する（Admin用）
      * @param id 投稿id
@@ -83,6 +82,24 @@ public class HandleDB {
      */
     public List<NGWord> findAllNGWords() {
         return tm.required(ngWordDao::findAll);
+    }
+
+    /**
+     * 受け取ったNGワードをDBに格納する
+     * @param ngWord NGWordインスタンス
+     * @return 処理した投稿数
+     */
+    public int insertNGWord(NGWord ngWord) {
+        return tm.required(() -> ngWordDao.insert(ngWord));
+    }
+
+    /**
+     * 受け取ったidのNGワードをDBから削除する（Admin用）
+     * @param id NGワードid
+     * @return 処理した投稿数
+     */
+    public int deleteNGWord(int id) {
+        return tm.required(() -> ngWordDao.deleteById(id));
     }
 
     // TODO: SelectOptionsは別クラスに分離しておきたい

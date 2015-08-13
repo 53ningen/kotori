@@ -1,8 +1,10 @@
-package models.posts;
+package models.posts.inserts;
 
-import databases.DBContributionResource;
+import databases.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
+import models.posts.ErrorCode;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,16 +16,16 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class DeleteContributionTest {
+public class InsertNGWordTest {
     @Rule
-    public final DBContributionResource resource = new DBContributionResource();
-    private DeleteContribution deleteContribution;
+    public final DBNGWordResource ngWordResource = new DBNGWordResource();
+    private InsertNGWord insertNGWord = new InsertNGWord();
     private Request request;
     private Response response;
 
     @Before
     public void setUp() throws Exception {
-        deleteContribution = new DeleteContribution();
+        insertNGWord = new InsertNGWord();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
@@ -34,22 +36,22 @@ public class DeleteContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        String errorCode = deleteContribution.requestDeleteContributionWithKey(request, response);
+        String errorCode = insertNGWord.requestInsert(request, response);
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
     public void パラメータが足りない場合BadRequestを返す() throws Exception {
         // setup
-        String content = "{\"id\": \"1\", \"username\": \"小泉花陽\", \"deleteKey\":}";
+        String content = "{\"word\":}";
         when(request.body()).thenReturn(content);
 
         // exercise
-        String errorCode = deleteContribution.requestDeleteContributionWithKey(request, response);
-
+        String errorCode = insertNGWord.requestInsert(request, response);
+        
         // verify
         verify(response).status(400);
         assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
@@ -58,24 +60,11 @@ public class DeleteContributionTest {
     @Test
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
-        String content = "{\"id\": \"1\", \"username\": \"小泉花陽\", \"deleteKey\": \"pass\"}";
+        String content = "{\"word\": \"hoge\"}";
         when(request.body()).thenReturn(content);
 
         // exercise
-        deleteContribution.requestDeleteContributionWithKey(request, response);
-
-        // verify
-        verify(response).status(200);
-    }
-
-    @Test
-    public void Adminからのパラメータが正しければ200OKを返す() throws Exception {
-        // setup
-        String content = "{\"id\": \"1\"}";
-        when(request.body()).thenReturn(content);
-
-        // exercise
-        deleteContribution.requestDeleteContribution(request, response);
+        insertNGWord.requestInsert(request, response);
 
         // verify
         verify(response).status(200);

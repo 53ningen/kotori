@@ -1,13 +1,16 @@
-package models.posts;
+package models.posts.deletes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.contributions.Encryption;
 import models.payloads.DeletePayload;
 import models.payloads.HandlePayload;
+import models.posts.ErrorCode;
+import models.posts.HandleDB;
+import models.posts.Status;
 import spark.Request;
 import spark.Response;
 
-public class DeleteContribution extends Status {
+public class DeleteContribution extends Status implements DeleteInterface {
     private HandleDB handleDB = new HandleDB();
 
     /**
@@ -16,7 +19,7 @@ public class DeleteContribution extends Status {
      * @param response レスポンス
      * @return ok
      */
-    public String requestDeleteContribution(Request request, Response response) {
+    public String requestDeleteWithoutKey(Request request, Response response) {
 
         try {
             DeletePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), DeletePayload.class);
@@ -43,7 +46,8 @@ public class DeleteContribution extends Status {
      * @param response レスポンス
      * @return ok
      */
-    public String requestDeleteContributionWithKey(Request request, Response response) {
+    @Override
+    public String requestDelete(Request request, Response response) {
 
         try {
             DeletePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), DeletePayload.class);

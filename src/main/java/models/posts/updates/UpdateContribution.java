@@ -1,12 +1,15 @@
-package models.posts;
+package models.posts.updates;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.HandlePayload;
 import models.payloads.UpdatePayload;
+import models.posts.ErrorCode;
+import models.posts.HandleDB;
+import models.posts.Status;
 import spark.Request;
 import spark.Response;
 
-public class UpdateContribution extends Status {
+public class UpdateContribution extends Status implements UpdateInterface {
     private HandleDB handleDB = new HandleDB();
 
     /**
@@ -15,7 +18,8 @@ public class UpdateContribution extends Status {
      * @param response レスポンス
      * @return 投稿処理数
      */
-    public String requestUpdateContribution(Request request, Response response) {
+    @Override
+    public String requestUpdate(Request request, Response response) {
 
         try {
             // UpdatePayloadを生成する

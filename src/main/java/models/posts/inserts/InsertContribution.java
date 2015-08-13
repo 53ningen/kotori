@@ -1,18 +1,19 @@
-package models.posts;
+package models.posts.inserts;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.Contribution;
 import models.contributions.HandleContribution;
 import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
+import models.posts.ErrorCode;
+import models.posts.HandleDB;
+import models.posts.Status;
 import spark.Request;
 import spark.Response;
 
 import java.util.Optional;
 
-public class PostContribution extends Status {
+public class InsertContribution extends Status implements InsertInterface {
     private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
 
@@ -22,7 +23,8 @@ public class PostContribution extends Status {
      * @param response レスポンス
      * @return 投稿処理数
      */
-    public String requestPostContribution(Request request, Response response) {
+    @Override
+    public String requestInsert(Request request, Response response) {
 
         try {
             // postPayloadを生成する
@@ -46,24 +48,11 @@ public class PostContribution extends Status {
             Contribution contribution = handleContribution.addInformationContribution(contributionOpt.get());
 
             // ステータスコード200 OKを設定する
-            setOK(response);
-            response.type("application/json");
+            setOK(response, RESPONSE_TYPE_JSON);
 
-            return convertContributionToJson(contribution);
+            return convertObjectToJson(contribution);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
-    }
-
-    /**
-     * 投稿情報をjson文字列に変換する
-     * @param contribution 投稿情報
-     * @return json文字列
-     * @throws JsonProcessingException
-     */
-    private String convertContributionToJson(Contribution contribution) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-        return mapper.writeValueAsString(contribution);
     }
 }

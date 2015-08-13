@@ -15,11 +15,20 @@ public class HandleResponse {
         return responseMap;
     }
 
-    public void setResponseMap(Request request, List<Contribution> contributions, Pagination pagination, String query) {
+    public HandleResponse(Request request, List<Contribution> contributions, Pagination pagination, String query) {
         setContributions(contributions);
         setPagination(pagination);
         setPathInfo(request);
         setQueryMap(request, query);
+    }
+
+    public <T> HandleResponse(Request request, List<T> list) {
+        setList(list);
+        setPathInfo(request);
+    }
+
+    private <T> void setList(List<T> list) {
+        responseMap.put("nglist", list);
     }
 
     private void setContributions(List<Contribution> contributions) {

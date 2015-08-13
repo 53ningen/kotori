@@ -18,9 +18,23 @@
 
     <!-- startHeader -->
     <header>
+        <div class="write-button">
+            <a href="/admin">
+                <button class="header-circle">
+                    <i class="fa fa-comments"></i>
+                </button>
+            </a>
+        </div>
         <h1 class="title">
-            <a href="/admin/ng">Kotori - NGWord</a>
+            <a href="/admin_ng">NGWord</a>
         </h1>
+        <div class="user-button">
+            <a href="/">
+                <button class="header-circle">
+                    <i class="fa fa-sign-out"></i>
+                </button>
+            </a>
+        </div>
         <div class="notice-error">
             <i class="fa fa-exclamation-triangle"></i>
             <span class="error-text"></span>
@@ -31,13 +45,13 @@
 
     <!-- startMain -->
     <main>
+        <section id="form-ngword">
+            <form id="ngword">
+                <input type="text" class="ngword-word">
+                <input type="submit" value="追加">
+            </form>
+        </section>
         <section id="nglists">
-            <div class="form-ngword">
-                <form id="ngword">
-                    <input type="text" class="ngword-word">
-                    <input type="submit" value="追加">
-                </form>
-            </div>
             {{#nglist}}
             <div class="nglist">
                 <div class="nglist-word">
@@ -45,7 +59,7 @@
                     <span class="nglist-word">{{word}}</span>
                 </div>
                 <div class="nglist-del">
-                    <span><i class="fa fa-trash-o"></i></span>
+                    <span class="nglist-del-icon"><i class="fa fa-trash-o"></i></span>
                 </div>
             </div>
             {{/nglist}}
@@ -57,6 +71,7 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <!-- endbower -->
     <!-- build:js -->
+    <script src="scripts/kotori.admin.ng.js"></script>
     <!-- endbuild -->
 </body>
 </html>

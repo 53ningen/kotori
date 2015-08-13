@@ -30,8 +30,8 @@ public class NGWordDaoTest {
             // verify
             assertNotNull(ngWords);
             assertThat(ngWords.size(), greaterThan(1));
-            assertThat(ngWord.getId(), is(1));
-            assertThat(ngWord.getWord(), is("hoge"));
+            assertThat(ngWord.getId(), is(2));
+            assertThat(ngWord.getWord(), is("fuga"));
         });
     }
 
