@@ -305,14 +305,16 @@ header .notice-error {
   transition: all .3s;
 }
 
-#nglists {
-  padding: 1rem;
-}
-#nglists .form-ngword {
+#form-ngword {
+  padding: 1rem 1rem 0;
   height: 28px;
 }
-#nglists .form-ngword #ngword > .ngword-word {
+#form-ngword #ngword > .ngword-word {
   margin-right: 1rem;
+}
+
+#nglists {
+  padding: 1rem;
 }
 #nglists .nglist-word {
   width: 95%;

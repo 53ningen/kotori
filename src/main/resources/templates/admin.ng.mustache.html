@@ -26,7 +26,7 @@
             </a>
         </div>
         <h1 class="title">
-            <a href="/admin/ng">NGWord</a>
+            <a href="/admin_ng">NGWord</a>
         </h1>
         <div class="user-button">
             <a href="/">
@@ -45,13 +45,13 @@
 
     <!-- startMain -->
     <main>
+        <section id="form-ngword">
+            <form id="ngword">
+                <input type="text" class="ngword-word">
+                <input type="submit" value="追加">
+            </form>
+        </section>
         <section id="nglists">
-            <div class="form-ngword">
-                <form id="ngword">
-                    <input type="text" class="ngword-word">
-                    <input type="submit" value="追加">
-                </form>
-            </div>
             {{#nglist}}
             <div class="nglist">
                 <div class="nglist-word">

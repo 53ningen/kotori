@@ -1,16 +1,17 @@
 @import "sass_components/component.commons";
 @import "sass_components/component.header";
 
+#form-ngword {
+  padding: 1rem 1rem 0;
+  height: 28px;
+
+  #ngword > .ngword-word {
+    margin-right: 1rem;
+  }
+}
+
 #nglists {
   padding: 1rem;
-
-  .form-ngword {
-    height: 28px;
-
-    #ngword > .ngword-word {
-      margin-right: 1rem;
-    }
-  }
 
   .nglist-word {
     width: 95%;

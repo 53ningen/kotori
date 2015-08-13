@@ -8,8 +8,9 @@
     event.preventDefault();
 
     var _this = $(this);
+    var $word = _this.find('.ngword-word');
     var jsondata = {
-      word: _this.find('.ngword-word').val().json_escape()
+      word: $word.val().json_escape()
     };
 
     $.ajax({
@@ -20,6 +21,8 @@
     })
     .done(function(data) {
       console.log("success");
+      $word.val("");
+      $('#nglists').prepend($(createNGWord(data)).fadeIn(400));
     })
     .fail(function(data) {
       console.log("error");
@@ -59,6 +62,14 @@
     });
 
   });
+
+  /**
+   * サーバからのjsonレスポンスをDOMに反映する
+   */
+  var createNGWord = function(data) {
+    var ngword = '<div class="nglist"><div class="nglist-word"><span class="nglist-word">'+data.word+'</span></div><div class="nglist-del"><span class="nglist-del-icon"><i class="fa fa-trash-o"></i></span></div></div>';
+    return ngword;
+  }
 
   /**
    * エラー表示
