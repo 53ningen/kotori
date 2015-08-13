@@ -1,0 +1,27 @@
+@import "sass_components/component.commons";
+@import "sass_components/component.header";
+
+#nglists {
+  padding: 1rem;
+
+  .form-ngword {
+    height: 28px;
+
+    #ngword > .ngword-word {
+      margin-right: 1rem;
+    }
+  }
+
+  .nglist {
+    position: relative;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid $main-color;
+
+    .nglist-del {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+    }
+  }
+}

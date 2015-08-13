@@ -27,6 +27,7 @@ Thumbs.db
 
 # Sass
 .sass-cache
+**/styles/sass_components
 
 # Build
 out
