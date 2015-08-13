@@ -11,6 +11,33 @@ public class DeleteContribution extends Status {
     private HandleDB handleDB = new HandleDB();
 
     /**
+     * NGワードの削除を受け付ける（Admin用）
+     * @param request リクエスト
+     * @param response レスポンス
+     * @return ok
+     */
+    public String requestDeleteNGWord(Request request, Response response) {
+
+        try {
+            DeletePayload payload = new ObjectMapper().readValue(request.body(), DeletePayload.class);
+            if (!payload.isValidWithoutKey()) {
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+            }
+
+            int result = handleDB.deleteNGWord(payload.getId());
+            if (result < 1) {
+                return setInternalServerError(response);
+            }
+
+            setOK(response);
+
+            return "ok";
+        } catch (Exception e) {
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+        }
+    }
+
+    /**
      * 投稿の削除を受け付ける（Admin用）
      * @param request リクエスト
      * @param response レスポンス

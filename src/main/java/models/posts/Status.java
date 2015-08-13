@@ -17,6 +17,16 @@ public class Status {
     }
 
     /**
+     * ResponseTypeを指定して200 OKを設定する
+     * @param response レスポンス
+     * @param type レスポンスタイプ
+     */
+    protected void setOK(Response response, String type) {
+        response.status(HTTP_OK);
+        response.type(type);
+    }
+
+    /**
      * 400 BadRequest を設定する
      * @param response レスポンス
      * @return 空文字

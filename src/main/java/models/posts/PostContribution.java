@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.Contribution;
+import databases.entities.NGWord;
 import models.contributions.HandleContribution;
 import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
@@ -15,6 +16,34 @@ import java.util.Optional;
 public class PostContribution extends Status {
     private HandleDB handleDB = new HandleDB();
     private HandleContribution handleContribution = new HandleContribution();
+    private final String RESPONSE_TYPE_JSON = "application/json";
+
+    /**
+     * postによるNGワード追加を受け付ける
+     * @param request リクエスト
+     * @param response レスポンス
+     * @return 投稿処理数
+     */
+    public String requestPostNGWord(Request request, Response response) {
+
+        try {
+            NGWord ngWord = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), NGWord.class);
+            if (!ngWord.isValid()) {
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+            }
+
+            int result = handleDB.insertNGWord(ngWord);
+            if (result < 1) {
+                return setInternalServerError(response);
+            }
+
+            setOK(response, RESPONSE_TYPE_JSON);
+
+            return convertObjectToJson(ngWord);
+        } catch (Exception e) {
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+        }
+    }
 
     /**
      * postによる投稿を受け付ける
@@ -46,10 +75,9 @@ public class PostContribution extends Status {
             Contribution contribution = handleContribution.addInformationContribution(contributionOpt.get());
 
             // ステータスコード200 OKを設定する
-            setOK(response);
-            response.type("application/json");
+            setOK(response, RESPONSE_TYPE_JSON);
 
-            return convertContributionToJson(contribution);
+            return convertObjectToJson(contribution);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
@@ -57,13 +85,13 @@ public class PostContribution extends Status {
 
     /**
      * 投稿情報をjson文字列に変換する
-     * @param contribution 投稿情報
+     * @param object 投稿情報
      * @return json文字列
      * @throws JsonProcessingException
      */
-    private String convertContributionToJson(Contribution contribution) throws JsonProcessingException {
+    private <T> String convertObjectToJson(T object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-        return mapper.writeValueAsString(contribution);
+        return mapper.writeValueAsString(object);
     }
 }

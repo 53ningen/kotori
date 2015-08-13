@@ -13,6 +13,10 @@ public class NGWord {
     @Column(name = "word")
     private String word;
 
+    public boolean isValid() {
+        return !word.isEmpty();
+    }
+
     public int getId() {
         return id;
     }

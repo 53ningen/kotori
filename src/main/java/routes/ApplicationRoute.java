@@ -65,7 +65,7 @@ public class ApplicationRoute {
 
         get("/admin", (this::getAdmin), engine);
 
-        get("/admin/ng", (this::getAdminNG), engine);
+        get("/admin_ng", (this::getAdminNG), engine);
 
         post("/api/post", (postContribution::requestPostContribution));
 
@@ -74,6 +74,10 @@ public class ApplicationRoute {
         post("/api/admin_delete", (deleteContribution::requestDeleteContribution));
 
         post("/api/admin_update", (updateContribution::requestUpdateContribution));
+
+        post("/api/admin_delete_ngword", (deleteContribution::requestDeleteNGWord));
+
+        post("/api/admin_insert_ngword", (postContribution::requestPostNGWord));
     }
 
     /**
