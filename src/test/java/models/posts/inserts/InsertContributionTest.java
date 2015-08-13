@@ -1,4 +1,4 @@
-package models.posts;
+package models.posts.inserts;
 
 import static java.util.stream.Collectors.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -9,6 +9,9 @@ import databases.DBContributionResource;
 import databases.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
+import models.posts.ErrorCode;
+import models.posts.inserts.InsertContribution;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,19 +20,19 @@ import spark.Response;
 
 import java.util.stream.Stream;
 
-public class PostContributionTest {
+public class InsertContributionTest {
     @Rule
     public final DBContributionResource contributionResource = new DBContributionResource();
     @Rule
     public final DBNGWordResource ngWordResource = new DBNGWordResource();
     private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;
-    private PostContribution postContribution;
+    private InsertContribution insertContribution;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() throws Exception {
-        postContribution = new PostContribution();
+        insertContribution = new InsertContribution();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
@@ -40,11 +43,11 @@ public class PostContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        String errorCode = postContribution.requestPostContribution(request, response);
+        String errorCode = insertContribution.requestInsert(request, response);
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID));
     }
 
     @Test
@@ -54,7 +57,7 @@ public class PostContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        String errorCode = postContribution.requestPostContribution(request, response);
+        String errorCode = insertContribution.requestInsert(request, response);
         
         // verify
         verify(response).status(400);
@@ -69,7 +72,7 @@ public class PostContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        String errorCode = postContribution.requestPostContribution(request, response);
+        String errorCode = insertContribution.requestInsert(request, response);
 
         // verify
         verify(response).status(400);
@@ -84,7 +87,7 @@ public class PostContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        postContribution.requestPostContribution(request, response);
+        insertContribution.requestInsert(request, response);
 
         // verify
         verify(response).status(200);
@@ -98,7 +101,7 @@ public class PostContributionTest {
         when(request.body()).thenReturn(content);
 
         // exercise
-        String errorCode = postContribution.requestPostContribution(request, response);
+        String errorCode = insertContribution.requestInsert(request, response);
 
         // verify
         verify(response).status(400);
