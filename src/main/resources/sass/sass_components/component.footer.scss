@@ -1,0 +1,26 @@
+/**
+ * Footer
+ **/
+$footer-height: 50px;
+footer {
+  height: $footer-height;
+  padding: 10px 0;
+  background-color: $main-color;
+
+  .sns-button {
+    left: 1rem;
+    @include button-position;
+  }
+}
+
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $sub-color2;
+  opacity: 0;
+  z-index: 1;
+  @include transition;
+}
