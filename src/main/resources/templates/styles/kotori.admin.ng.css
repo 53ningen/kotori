@@ -55,7 +55,7 @@ main {
  * Components
  **/
 div.active {
-  visibility: visible;
+  visibility: visible !important;
 }
 
 button.header-circle {
@@ -314,14 +314,26 @@ header .notice-error {
 #nglists .form-ngword #ngword > .ngword-word {
   margin-right: 1rem;
 }
+#nglists .nglist-word {
+  width: 95%;
+  word-wrap: break-word;
+}
 #nglists .nglist {
   position: relative;
   padding: 1rem;
   margin: 1rem 0;
   border: 1px solid #60B99A;
+  z-index: 10;
 }
 #nglists .nglist .nglist-del {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
+}
+#nglists .nglist .nglist-del .nglist-del-icon {
+  transition: all .3s;
+}
+#nglists .nglist .nglist-del .nglist-del-icon:hover {
+  color: #F77825;
+  cursor: pointer;
 }

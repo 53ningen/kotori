@@ -59,7 +59,7 @@
     })
     .fail(function() {
       console.log("error");
-      noticeError("投稿の更新");
+      noticeError("投稿の更新に失敗しました");
     });
 
   });
@@ -88,7 +88,7 @@
     })
     .fail(function() {
       console.log("error");
-      noticeError("投稿の削除");
+      noticeError("投稿の削除に失敗しました");
     });
 
   });

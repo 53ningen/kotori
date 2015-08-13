@@ -55,7 +55,7 @@ main {
  * Components
  **/
 div.active {
-  visibility: visible;
+  visibility: visible !important;
 }
 
 button.header-circle {

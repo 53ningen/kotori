@@ -12,16 +12,29 @@
     }
   }
 
+  .nglist-word {
+    width: 95%;
+    word-wrap: break-word;
+  }
+
   .nglist {
     position: relative;
     padding: 1rem;
     margin: 1rem 0;
     border: 1px solid $main-color;
+    z-index: 10;
 
     .nglist-del {
       position: absolute;
       bottom: 1rem;
       right: 1rem;
+      .nglist-del-icon {
+        @include transition;
+        &:hover {
+          color: $topic-color;
+          cursor: pointer;
+        }
+      }
     }
   }
 }
