@@ -6,6 +6,7 @@ import models.contributions.HandleContributionTest;
 import models.paginations.HandlePaginationTest;
 import models.payloads.HandlePayloadTest;
 import models.posts.deletes.DeleteContributionTest;
+import models.posts.deletes.DeleteNGWordTest;
 import models.posts.inserts.InsertContributionTest;
 import models.posts.updates.UpdateContributionTest;
 import models.requests.HandleRequestTest;
@@ -18,6 +19,7 @@ import org.junit.runners.Suite;
         UpdateContributionTest.class,
         DeleteContributionTest.class,
         HandleContributionTest.class,
+        DeleteNGWordTest.class,
         HandlePayloadTest.class,
         ContributionDaoTest.class,
         NGWordDaoTest.class,
