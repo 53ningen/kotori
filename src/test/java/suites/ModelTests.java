@@ -1,7 +1,5 @@
 package suites;
 
-import databases.daos.ContributionDaoTest;
-import databases.daos.NGWordDaoTest;
 import models.contributions.HandleContributionTest;
 import models.paginations.HandlePaginationTest;
 import models.payloads.HandlePayloadTest;
@@ -21,8 +19,6 @@ import org.junit.runners.Suite;
         HandleContributionTest.class,
         DeleteNGWordTest.class,
         HandlePayloadTest.class,
-        ContributionDaoTest.class,
-        NGWordDaoTest.class,
         HandleRequestTest.class,
         HandlePaginationTest.class
 })
