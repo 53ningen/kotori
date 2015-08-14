@@ -1,4 +1,4 @@
-package models.posts;
+package models.posts.utils;
 
 public class ErrorCode {
     public static final String PARAMETER_INVALID = "パラメータが不正のため投稿できませんでした";

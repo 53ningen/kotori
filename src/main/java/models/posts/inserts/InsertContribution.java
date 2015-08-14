@@ -5,16 +5,18 @@ import databases.entities.Contribution;
 import models.contributions.HandleContribution;
 import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
-import models.posts.ErrorCode;
-import models.posts.HandleDB;
-import models.posts.Status;
+import models.posts.utils.ErrorCode;
+import models.posts.handles.HandleDBForContribution;
+import models.posts.utils.Status;
+import models.posts.handles.HandleDBForNGWord;
 import spark.Request;
 import spark.Response;
 
 import java.util.Optional;
 
 public class InsertContribution extends Status implements InsertInterface {
-    private HandleDB handleDB = new HandleDB();
+    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
+    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
     private HandleContribution handleContribution = new HandleContribution();
 
     /**
@@ -31,7 +33,7 @@ public class InsertContribution extends Status implements InsertInterface {
             PostPayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), PostPayload.class);
             if (!payload.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
-            } else if (!HandlePayload.isValidContent(handleDB.findAllNGWords(), payload)) {
+            } else if (!HandlePayload.isValidContent(handleDBForNGWord.findAll(), payload)) {
                 return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }
 
@@ -39,7 +41,7 @@ public class InsertContribution extends Status implements InsertInterface {
             Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
 
             // ContributionがNotNullならばDBに挿入する
-            int result = handleDB.insertContribution(contributionOpt.get());
+            int result = handleDBForContribution.insert(contributionOpt.get());
             if (result < 1) {
                 return setInternalServerError(response);
             }

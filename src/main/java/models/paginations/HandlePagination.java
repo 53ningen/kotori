@@ -1,20 +1,20 @@
 package models.paginations;
 
-import models.posts.HandleDB;
+import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 
 public class HandlePagination {
 
     /**
      * ページネーションのインスタンスを作成する
-     * @param handleDB HandleDBインスタンス
+     * @param DBSelectOptions SelectOptionsFactoryインスタンス
      * @param handleRequest HandleRequestインスタンス
      * @return Paginationインスタンス
      */
-    public Pagination createPagination(HandleDB handleDB, HandleRequest handleRequest) {
+    public Pagination createPagination(DBSelectOptions DBSelectOptions, HandleRequest handleRequest) {
         int limit = handleRequest.getLimit();
         int page  = handleRequest.getPage();
-        long count = handleDB.getContributionCounts();
+        long count = DBSelectOptions.getContributionCounts();
 
         return new Pagination(limit, page, count);
     }

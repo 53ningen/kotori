@@ -3,15 +3,21 @@ package routes;
 import static spark.Spark.*;
 
 import databases.entities.Contribution;
+import databases.entities.NGUser;
 import databases.entities.NGWord;
 import models.contributions.HandleContribution;
 import models.paginations.HandlePagination;
 import models.posts.deletes.DeleteContribution;
+import models.posts.deletes.DeleteNGUser;
+import models.posts.handles.HandleDBForNGUser;
+import models.posts.handles.HandleDBForNGWord;
 import models.posts.inserts.InsertContribution;
-import models.posts.HandleDB;
+import models.posts.handles.HandleDBForContribution;
+import models.posts.inserts.InsertNGUser;
 import models.posts.inserts.InsertNGWord;
 import models.posts.updates.UpdateContribution;
 import models.posts.deletes.DeleteNGWord;
+import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
 import spark.ModelAndView;
@@ -31,8 +37,12 @@ public class ApplicationRoute {
     private UpdateContribution updateContribution = new UpdateContribution();
     private DeleteContribution deleteContribution = new DeleteContribution();
     private InsertNGWord insertNGWord = new InsertNGWord();
+    private InsertNGUser insertNGUser = new InsertNGUser();
     private DeleteNGWord deleteNGWord = new DeleteNGWord();
-    private HandleDB handleDB = new HandleDB();
+    private DeleteNGUser deleteNGUser = new DeleteNGUser();
+    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
+    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
+    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
     private HandleContribution handleContribution = new HandleContribution();
     private HandlePagination handlePagination = new HandlePagination();
     private HandleRequest handleRequest = new HandleRequest();
@@ -63,13 +73,15 @@ public class ApplicationRoute {
     private void initRoutes() {
         MustacheTemplateEngine engine = new MustacheTemplateEngine();
 
-        get("/", (this::getRoot), engine);
+        get("/", ((req, res) -> getPage(req, "index.mustache.html")), engine);
+
+        get("/admin", ((req, res) -> getPage(req, "admin.mustache.html")), engine);
 
         get("/search", (this::getSearch), engine);
 
-        get("/admin", (this::getAdmin), engine);
+        get("/admin_ngword", (this::getAdminNGWord), engine);
 
-        get("/admin_ng", (this::getAdminNG), engine);
+        get("/admin_nguser", (this::getAdminNGUser), engine);
 
         post("/api/post", (insertContribution::requestInsert));
 
@@ -82,18 +94,24 @@ public class ApplicationRoute {
         post("/api/admin_delete_ngword", (deleteNGWord::requestDelete));
 
         post("/api/admin_insert_ngword", (insertNGWord::requestInsert));
+
+        post("/api/admin_delete_nguser", (deleteNGUser::requestDelete));
+
+        post("/api/admin_insert_nguser", (insertNGUser::requestInsert));
     }
 
+
+
     /**
-     * indexページを表示する
+     * 指定ページを表示する
      * @param req リクエスト
-     * @param res レスポンス
+     * @param viewFile HTMLファイル名
      * @return ModelAndView
      */
-    private ModelAndView getRoot(Request req, Response res) {
+    private ModelAndView getPage(Request req, String viewFile) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest);
-        return new ModelAndView(getResponseMap(req, contributions, ""), "index.mustache.html");
+        List<Contribution> contributions = handleDBForContribution.findWithLimit(handleRequest);
+        return new ModelAndView(getResponseMap(req, contributions, ""), viewFile);
     }
 
     /**
@@ -104,22 +122,9 @@ public class ApplicationRoute {
      */
     private ModelAndView getSearch(Request req, Response res) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDB.findContributionsByKeyword(handleRequest);
+        List<Contribution> contributions = handleDBForContribution.findByKeyword(handleRequest);
         return new ModelAndView(getResponseMap(req, contributions, "q"), "index.mustache.html");
     }
-
-    /**
-     * Adminページを表示する
-     * @param req リクエスト
-     * @param res レスポンス
-     * @return ModelAndView
-     */
-    private ModelAndView getAdmin(Request req, Response res) {
-        handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDB.findContributionsWithLimit(handleRequest);
-        return new ModelAndView(getResponseMap(req, contributions, ""), "admin.mustache.html");
-    }
-
 
     /**
      * NGワード管理ページを表示する
@@ -127,10 +132,22 @@ public class ApplicationRoute {
      * @param res レスポンス
      * @return ModelAndView
      */
-    private ModelAndView getAdminNG(Request req, Response res) {
+    private ModelAndView getAdminNGWord(Request req, Response res) {
         handleRequest.updateHandleRequest(req);
-        List<NGWord> ngWords = handleDB.findAllNGWords();
-        return new ModelAndView(getResponseMap(req, ngWords), "admin.ng.mustache.html");
+        List<NGWord> ngWords = handleDBForNGWord.findAll();
+        return new ModelAndView(getResponseMap(req, ngWords), "admin.ngword.mustache.html");
+    }
+
+    /**
+     * NGユーザ管理ページを表示する
+     * @param req リクエスト
+     * @param res レスポンス
+     * @return ModelAndView
+     */
+    private ModelAndView getAdminNGUser(Request req, Response res) {
+        handleRequest.updateHandleRequest(req);
+        List<NGUser> ngUsers = handleDBForNGUser.findAll();
+        return new ModelAndView(getResponseMap(req, ngUsers), "admin.nguser.mustache.html");
     }
 
     /**
@@ -144,7 +161,7 @@ public class ApplicationRoute {
         return new HandleResponse(
                 request,
                 handleContribution.addInformationContributions(contributions),
-                handlePagination.createPagination(handleDB, handleRequest),
+                handlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest),
                 query
         ).getResponseMap();
     }

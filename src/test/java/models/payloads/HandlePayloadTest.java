@@ -2,7 +2,8 @@ package models.payloads;
 
 import databases.DBNGWordResource;
 import databases.entities.NGWord;
-import models.posts.HandleDB;
+import models.posts.handles.HandleDBForContribution;
+import models.posts.handles.HandleDBForNGWord;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -17,7 +18,8 @@ import static org.junit.Assert.assertTrue;
 public class HandlePayloadTest {
     @Rule
     public final DBNGWordResource ngWordResource = new DBNGWordResource();
-    private HandleDB handleDB = new HandleDB();
+    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
+    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
 
     @Test
     public void PayloadがNGワードを含んでいなければtrueを返す() throws Exception {
@@ -26,7 +28,7 @@ public class HandlePayloadTest {
         payload.setUsername("西木野真姫");
         payload.setTitle("foo");
         payload.setContent("テスト");
-        List<NGWord> ngWords = handleDB.findAllNGWords();
+        List<NGWord> ngWords = handleDBForNGWord.findAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);
@@ -42,7 +44,7 @@ public class HandlePayloadTest {
         payload.setUsername("西木野真姫");
         payload.setTitle("テスト");
         payload.setContent("hoge");
-        List<NGWord> ngWords = handleDB.findAllNGWords();
+        List<NGWord> ngWords = handleDBForNGWord.findAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);
