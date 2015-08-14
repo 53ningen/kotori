@@ -5,6 +5,7 @@ import databases.entities.Contribution;
 import models.contributions.HandleContribution;
 import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
+import models.posts.handles.HandleDBForNGUser;
 import models.posts.utils.ErrorCode;
 import models.posts.handles.HandleDBForContribution;
 import models.posts.utils.Status;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class InsertContribution extends Status implements InsertInterface {
     private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
     private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
+    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
     private HandleContribution handleContribution = new HandleContribution();
 
     /**
@@ -33,6 +35,8 @@ public class InsertContribution extends Status implements InsertInterface {
             PostPayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), PostPayload.class);
             if (!payload.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+            } else if (!HandlePayload.isValidUsername(handleDBForNGUser.findAll(), payload)) {
+                return setBadRequest(response, ErrorCode.NGUSER);
             } else if (!HandlePayload.isValidContent(handleDBForNGWord.findAll(), payload)) {
                 return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }

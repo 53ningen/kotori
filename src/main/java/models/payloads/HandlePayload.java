@@ -1,5 +1,7 @@
 package models.payloads;
 
+import databases.entities.NGInterface;
+import databases.entities.NGUser;
 import databases.entities.NGWord;
 
 import java.util.List;
@@ -9,15 +11,27 @@ import java.util.regex.Pattern;
 public class HandlePayload {
 
     /**
+     * 投稿ユーザがNGリストに含まれていないか判定する
+     * @param postPayload 投稿内容
+     * @return boolean
+     */
+    public static boolean isValidUsername(List<NGUser> ngUsers, PostPayload postPayload) {
+        if (ngUsers.isEmpty()) return true;
+        else if (containsNGWord(ngUsers, postPayload.getUsername())) return false;
+        return true;
+    }
+
+    /**
      * 投稿内容にNGワードが含まれていないか判定する
      * @param postPayload 投稿内容
      * @return boolean
      */
     public static boolean isValidContent(List<NGWord> ngWords, PostPayload postPayload) {
-        return ngWords.isEmpty() ||
-                !(containsNGWord(ngWords, postPayload.getUsername()) ||
-                        containsNGWord(ngWords, postPayload.getTitle()) ||
-                        containsNGWord(ngWords, postPayload.getContent()));
+        if (ngWords.isEmpty()) return true;
+        else if (containsNGWord(ngWords, postPayload.getUsername()) ||
+                 containsNGWord(ngWords, postPayload.getTitle()) ||
+                 containsNGWord(ngWords, postPayload.getContent())) return false;
+        return true;
     }
 
     /**
@@ -48,7 +62,7 @@ public class HandlePayload {
      * @param word 文字列
      * @return boolean
      */
-    private static boolean containsNGWord(List<NGWord> wordList, String word) {
+    private static <T extends NGInterface> boolean containsNGWord(List<T> wordList, String word) {
         return wordList.stream().anyMatch(ngWord -> word.contains(ngWord.getWord()));
     }
 

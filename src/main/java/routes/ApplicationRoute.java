@@ -3,6 +3,7 @@ package routes;
 import static spark.Spark.*;
 
 import databases.entities.Contribution;
+import databases.entities.NGInterface;
 import databases.entities.NGUser;
 import databases.entities.NGWord;
 import models.contributions.HandleContribution;
@@ -170,10 +171,10 @@ public class ApplicationRoute {
      * テンプレートエンジンに渡すレスポンスを生成する
      * @param request リクエスト
      * @param list Viewに渡すリスト
-     * @param <T> リストの型
+     * @param <T> NGInterfaceを実装する型クラス
      * @return HashMap
      */
-    private <T> HashMap<String, Object> getResponseMap(Request request, List<T> list) {
+    private <T extends NGInterface> HashMap<String, Object> getResponseMap(Request request, List<T> list) {
         return new HandleResponse(
                 request,
                 list

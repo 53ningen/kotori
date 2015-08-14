@@ -34,7 +34,7 @@ public class NGUserDaoTest {
             assertNotNull(ngUsers);
             assertThat(ngUsers.size(), greaterThan(1));
             assertThat(ngUser.getId(), is(2));
-            assertThat(ngUser.getUsername(), is("piyopiyo"));
+            assertThat(ngUser.getWord(), is("piyopiyo"));
         });
     }
 
@@ -43,7 +43,7 @@ public class NGUserDaoTest {
         tm.required(() -> {
             // setup
             NGUser ngUser = new NGUser();
-            ngUser.setUsername("foo");
+            ngUser.setWord("foo");
 
             // exercise
             int result = dao.insert(ngUser);

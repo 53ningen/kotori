@@ -4,28 +4,32 @@ import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
 @Entity(naming = NamingType.LOWER_CASE)
-public class NGUser {
+public class NGUser implements NGInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "username")
-    private String username;
+    private String word;
 
+    @Override
     public boolean isValid() {
-        return !username.isEmpty();
+        return !word.isEmpty();
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public String getWord() {
+        return word;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public void setWord(String username) {
+        this.word = username;
     }
 }
