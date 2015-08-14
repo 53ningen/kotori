@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import models.contributions.Encryption;
 import models.payloads.DeletePayload;
 import models.payloads.HandlePayload;
-import models.posts.ErrorCode;
-import models.posts.HandleDB;
-import models.posts.Status;
+import models.posts.utils.ErrorCode;
+import models.posts.handles.HandleDBForContribution;
+import models.posts.utils.Status;
 import spark.Request;
 import spark.Response;
 
 public class DeleteContribution extends Status implements DeleteInterface {
-    private HandleDB handleDB = new HandleDB();
+    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
 
     /**
      * 投稿の削除を受け付ける（Admin用）
@@ -27,7 +27,7 @@ public class DeleteContribution extends Status implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDB.deleteContribution(payload.getId());
+            int result = handleDBForContribution.delete(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }
@@ -55,7 +55,7 @@ public class DeleteContribution extends Status implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDB.deleteContributionWithKey(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
+            int result = handleDBForContribution.deleteWithKey(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
             if (result < 1) {
                 return setInternalServerError(response);
             }

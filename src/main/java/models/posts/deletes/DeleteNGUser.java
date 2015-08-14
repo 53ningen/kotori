@@ -4,15 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.DeletePayload;
 import models.posts.utils.ErrorCode;
 import models.posts.utils.Status;
-import models.posts.handles.HandleDBForNGWord;
+import models.posts.handles.HandleDBForNGUser;
 import spark.Request;
 import spark.Response;
 
-public class DeleteNGWord extends Status implements DeleteInterface {
-    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
+public class DeleteNGUser extends Status implements DeleteInterface {
+    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
 
     /**
-     * NGワードの削除を受け付ける（Admin用）
+     * NGユーザの削除を受け付ける（Admin用）
      * @param request リクエスト
      * @param response レスポンス
      * @return ok
@@ -26,7 +26,7 @@ public class DeleteNGWord extends Status implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGWord.deleteById(payload.getId());
+            int result = handleDBForNGUser.deleteById(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }

@@ -1,19 +1,19 @@
 package models.posts.inserts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import databases.entities.NGWord;
+import databases.entities.NGUser;
 import models.payloads.HandlePayload;
 import models.posts.utils.ErrorCode;
 import models.posts.utils.Status;
-import models.posts.handles.HandleDBForNGWord;
+import models.posts.handles.HandleDBForNGUser;
 import spark.Request;
 import spark.Response;
 
-public class InsertNGWord extends Status implements InsertInterface {
-    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
+public class InsertNGUser extends Status implements InsertInterface {
+    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
 
     /**
-     * postによるNGワード追加を受け付ける
+     * postによるNGユーザ追加を受け付ける
      * @param request リクエスト
      * @param response レスポンス
      * @return 投稿処理数
@@ -22,19 +22,19 @@ public class InsertNGWord extends Status implements InsertInterface {
     public String requestInsert(Request request, Response response) {
 
         try {
-            NGWord ngWord = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), NGWord.class);
-            if (!ngWord.isValid()) {
+            NGUser ngUser = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), NGUser.class);
+            if (!ngUser.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGWord.insert(ngWord);
+            int result = handleDBForNGUser.insert(ngUser);
             if (result < 1) {
                 return setInternalServerError(response);
             }
 
             setOK(response, RESPONSE_TYPE_JSON);
 
-            return convertObjectToJson(ngWord);
+            return convertObjectToJson(ngUser);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }

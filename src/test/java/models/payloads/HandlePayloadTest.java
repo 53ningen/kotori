@@ -1,8 +1,11 @@
 package models.payloads;
 
+import databases.DBNGUserResource;
 import databases.DBNGWordResource;
+import databases.entities.NGUser;
 import databases.entities.NGWord;
-import models.posts.HandleDB;
+import models.posts.handles.HandleDBForNGUser;
+import models.posts.handles.HandleDBForNGWord;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -17,7 +20,42 @@ import static org.junit.Assert.assertTrue;
 public class HandlePayloadTest {
     @Rule
     public final DBNGWordResource ngWordResource = new DBNGWordResource();
-    private HandleDB handleDB = new HandleDB();
+    @Rule
+    public final DBNGUserResource ngUserResource = new DBNGUserResource();
+    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
+    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
+
+    @Test
+    public void PayloadがNGユーザでなければtrueを返す() throws Exception {
+        // setup
+        PostPayload payload = new PostPayload();
+        payload.setUsername("西木野真姫");
+        payload.setTitle("foo");
+        payload.setContent("テスト");
+        List<NGUser> ngUsers= handleDBForNGUser.findAll();
+
+        // exercise
+        Boolean stu = HandlePayload.isValidUsername(ngUsers, payload);
+
+        // verify
+        assertTrue(stu);
+    }
+
+    @Test
+    public void PayloadがNGユーザであればfalseを返す() throws Exception {
+        // setup
+        PostPayload payload = new PostPayload();
+        payload.setUsername("piyopiyo");
+        payload.setTitle("テスト");
+        payload.setContent("hoge");
+        List<NGUser> ngUsers= handleDBForNGUser.findAll();
+
+        // exercise
+        Boolean stu = HandlePayload.isValidUsername(ngUsers, payload);
+
+        // verify
+        assertFalse(stu);
+    }
 
     @Test
     public void PayloadがNGワードを含んでいなければtrueを返す() throws Exception {
@@ -26,7 +64,7 @@ public class HandlePayloadTest {
         payload.setUsername("西木野真姫");
         payload.setTitle("foo");
         payload.setContent("テスト");
-        List<NGWord> ngWords = handleDB.findAllNGWords();
+        List<NGWord> ngWords = handleDBForNGWord.findAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);
@@ -42,7 +80,7 @@ public class HandlePayloadTest {
         payload.setUsername("西木野真姫");
         payload.setTitle("テスト");
         payload.setContent("hoge");
-        List<NGWord> ngWords = handleDB.findAllNGWords();
+        List<NGWord> ngWords = handleDBForNGWord.findAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);

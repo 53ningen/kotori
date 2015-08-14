@@ -1,6 +1,7 @@
 package models.responses;
 
 import databases.entities.Contribution;
+import databases.entities.NGInterface;
 import models.paginations.Pagination;
 import spark.Request;
 
@@ -22,12 +23,12 @@ public class HandleResponse {
         setQueryMap(request, query);
     }
 
-    public <T> HandleResponse(Request request, List<T> list) {
+    public <T extends NGInterface> HandleResponse(Request request, List<T> list) {
         setList(list);
         setPathInfo(request);
     }
 
-    private <T> void setList(List<T> list) {
+    private <T extends NGInterface> void setList(List<T> list) {
         responseMap.put("nglist", list);
     }
 

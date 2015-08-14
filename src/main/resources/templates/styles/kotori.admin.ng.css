@@ -215,6 +215,9 @@ header .write-button {
   top: 50%;
   margin-top: -20px;
 }
+header .write-button button {
+  margin-right: 5px;
+}
 header .user-button,
 header .close-button {
   right: 1rem;

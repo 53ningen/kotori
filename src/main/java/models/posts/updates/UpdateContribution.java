@@ -3,14 +3,14 @@ package models.posts.updates;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.HandlePayload;
 import models.payloads.UpdatePayload;
-import models.posts.ErrorCode;
-import models.posts.HandleDB;
-import models.posts.Status;
+import models.posts.utils.ErrorCode;
+import models.posts.handles.HandleDBForContribution;
+import models.posts.utils.Status;
 import spark.Request;
 import spark.Response;
 
 public class UpdateContribution extends Status implements UpdateInterface {
-    private HandleDB handleDB = new HandleDB();
+    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
 
     /**
      * postによる投稿を受け付ける
@@ -29,7 +29,7 @@ public class UpdateContribution extends Status implements UpdateInterface {
             }
 
             // Payloadのパラメータが正しければDBを更新する
-            int result = handleDB.updateContribution(payload);
+            int result = handleDBForContribution.update(payload);
             if (result < 1) {
                 return setInternalServerError(response);
             }

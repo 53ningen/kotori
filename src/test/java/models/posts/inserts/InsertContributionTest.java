@@ -6,11 +6,11 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 import databases.DBContributionResource;
+import databases.DBNGUserResource;
 import databases.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
-import models.posts.ErrorCode;
-import models.posts.inserts.InsertContribution;
+import models.posts.utils.ErrorCode;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,6 +25,8 @@ public class InsertContributionTest {
     public final DBContributionResource contributionResource = new DBContributionResource();
     @Rule
     public final DBNGWordResource ngWordResource = new DBNGWordResource();
+    @Rule
+    public final DBNGUserResource ngUserResource = new DBNGUserResource();
     private final int LIMIT_NAME_AND_TITLE_LENGTH = 20;
     private InsertContribution insertContribution;
     private Request request;
@@ -108,5 +110,18 @@ public class InsertContributionTest {
         assertThat(errorCode, is(ErrorCode.NGWORD_CONTAINS));
     }
 
+    @Test
+    public void パラメータが正しい場合でもNGユーザであればBadRequestを返す() throws Exception {
+        // setup
+        String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
+        String content = "{\"username\": \"piyopiyo\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}}";
+        when(request.body()).thenReturn(content);
 
+        // exercise
+        String errorCode = insertContribution.requestInsert(request, response);
+
+        // verify
+        verify(response).status(400);
+        assertThat(errorCode, is(ErrorCode.NGUSER));
+    }
 }

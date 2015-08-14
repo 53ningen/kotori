@@ -4,13 +4,13 @@ import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
 @Entity(naming = NamingType.LOWER_CASE)
-public class NGWord implements NGInterface {
+public class NGUser implements NGInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "word")
+    @Column(name = "username")
     private String word;
 
     @Override
@@ -29,7 +29,7 @@ public class NGWord implements NGInterface {
     }
 
     @Override
-    public void setWord(String word) {
-        this.word = word;
+    public void setWord(String username) {
+        this.word = username;
     }
 }

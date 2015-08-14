@@ -3,7 +3,7 @@ package models.posts.inserts;
 import databases.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
-import models.posts.ErrorCode;
+import models.posts.utils.ErrorCode;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;

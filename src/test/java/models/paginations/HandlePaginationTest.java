@@ -1,6 +1,6 @@
 package models.paginations;
 
-import models.posts.HandleDB;
+import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,15 +13,15 @@ public class HandlePaginationTest {
     private final int SHOW_PAGE_NUM = 2;
     private HandlePagination handlePagination;
     private HandleRequest handleRequest;
-    private HandleDB handleDB;
+    private DBSelectOptions dbSelectOptions;
 
     @Before
     public void setUp() throws Exception {
         handlePagination = new HandlePagination();
         handleRequest = mock(HandleRequest.class);
-        handleDB = mock(HandleDB.class);
+        dbSelectOptions = mock(DBSelectOptions.class);
         when(handleRequest.getLimit()).thenReturn(10);
-        when(handleDB.getContributionCounts()).thenReturn((long) 50);
+        when(dbSelectOptions.getContributionCounts()).thenReturn((long) 50);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
+        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.getCurrent(), is(page));
@@ -55,7 +55,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
+        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.hasPrev(), is(false));
@@ -69,7 +69,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
+        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.getNextList(), hasSize(1));
@@ -82,7 +82,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
+        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.getCurrent(), is(1));
@@ -95,10 +95,10 @@ public class HandlePaginationTest {
         // setup
         int page = 2;
         when(handleRequest.getPage()).thenReturn(page);
-        when(handleDB.getContributionCounts()).thenReturn((long) 0);
+        when(dbSelectOptions.getContributionCounts()).thenReturn((long) 0);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(handleDB, handleRequest);
+        Pagination pagination = handlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest);
 
         // verify
         assertThat(pagination.getCurrent(), is(1));

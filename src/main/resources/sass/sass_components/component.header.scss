@@ -18,6 +18,10 @@ header {
   .write-button {
     left: 1rem;
     @include button-position;
+
+    button {
+      margin-right: 5px;
+    }
   }
 
   .user-button,

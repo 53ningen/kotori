@@ -1,4 +1,4 @@
-package models.posts;
+package models.posts.utils;
 
 import spark.Response;
 

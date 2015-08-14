@@ -19,4 +19,10 @@ public interface DBConfigDao {
     @Script
     void dropNGWord();
 
+    @Script
+    void createNGUser();
+
+    @Script
+    void dropNGUser();
+
 }

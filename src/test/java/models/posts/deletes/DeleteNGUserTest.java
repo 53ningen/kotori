@@ -1,6 +1,6 @@
-package models.posts.updates;
+package models.posts.deletes;
 
-import databases.DBContributionResource;
+import databases.DBNGUserResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import models.posts.utils.ErrorCode;
@@ -16,16 +16,16 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class UpdateContributionTest {
+public class DeleteNGUserTest {
     @Rule
-    public final DBContributionResource resource = new DBContributionResource();
-    private UpdateContribution updateContribution;
+    public final DBNGUserResource resource = new DBNGUserResource();
+    private DeleteNGUser deleteNGUser;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() throws Exception {
-        updateContribution = new UpdateContribution();
+        deleteNGUser = new DeleteNGUser();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
@@ -36,7 +36,7 @@ public class UpdateContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        String errorCode = updateContribution.requestUpdate(request, response);
+        String errorCode = deleteNGUser.requestDelete(request, response);
 
         // verify
         verify(response).status(400);
@@ -46,11 +46,11 @@ public class UpdateContributionTest {
     @Test
     public void パラメータが足りない場合BadRequestを返す() throws Exception {
         // setup
-        String content = "{\"id\": \"1\", \"content\":}";
+        String content = "{\"id\":}";
         when(request.body()).thenReturn(content);
 
         // exercise
-        String errorCode = updateContribution.requestUpdate(request, response);
+        String errorCode = deleteNGUser.requestDelete(request, response);
 
         // verify
         verify(response).status(400);
@@ -60,11 +60,11 @@ public class UpdateContributionTest {
     @Test
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
-        String content = "{\"id\": \"1\", \"content\": \"小泉花陽\"}";
+        String content = "{\"id\": \"1\"}";
         when(request.body()).thenReturn(content);
 
         // exercise
-        updateContribution.requestUpdate(request, response);
+        deleteNGUser.requestDelete(request, response);
 
         // verify
         verify(response).status(200);
