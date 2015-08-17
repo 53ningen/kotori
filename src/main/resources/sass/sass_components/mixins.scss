@@ -1,0 +1,8 @@
+// mixins
+@mixin transition {
+  transition: all .3s;
+}
+
+@mixin radius($radius) {
+  border-radius: $radius;
+}
