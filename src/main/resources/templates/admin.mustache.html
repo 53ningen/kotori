@@ -1,314 +1,261 @@
 <!doctype html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Kotori - Admin</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
-    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
-    <!-- endbower -->
-    <!-- build:css -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
-    <link rel="stylesheet" href="styles/kotori.admin.css">
-    <!-- endbuild -->
+  <meta charset="utf-8">
+  <title>Kotori - Admin</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+  <!-- endbower -->
+  <!-- build:css -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
+  <link rel="stylesheet" href="styles/kotori.admin.css">
+  <!-- endbuild -->
 </head>
 <body>
-
-    <!-- startHeader -->
-    <header>
-        <div class="write-button">
-            <button class="header-circle">
-                <i class="fa fa-pencil"></i>
-            </button>
-            <a href="/admin_ngword">
-                <button class="header-circle">
-                    <i class="fa fa-commenting"></i>
-                </button>
-            </a>
-            <a href="/admin_nguser">
-                <button class="header-circle">
-                    <i class="fa fa-user-times"></i>
-                </button>
-            </a>
-        </div>
-        <h1 class="title">
-            <a href="{{path}}">Admin</a>
-        </h1>
-        <div class="user-button">
-            <button class="header-circle hc--search hc--right">
-                <i class="fa fa-search"></i>
-            </button>
-            <button class="header-circle hc--right hc--setting">
-                <i class="fa fa-bars"></i>
-            </button>
-            <div class="user-button-details">
-                <button class="main-circle">
-                    <i class="fa fa-comments"></i>
-                    <div class="button-menu">hoge</div>
-                </button>
-            </div>
-        </div>
-
-        <div class="settings">
-            <div class="close-button">
-                <button class="setting-circle">
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
-        </div>
-
-        <div class="notice-error">
-            <i class="fa fa-exclamation-triangle"></i>
-            <span class="error-text"></span>
-        </div>
-    </header>
-    <!-- endHeader -->
-
-    <!-- startMain -->
-    <main>
-
-        <!-- startSection#mainsettings -->
-        <section id="mainsettings">
-            <div class="setting-limit">
-                <button class="sub-circle">
-                    <i class="fa fa-comments"></i>
-                </button>
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
-                    <button class="setting-circle">
-                        <span class="setting-text">10</span>
-                    </button>
-                </a>
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
-                    <button class="setting-circle">
-                        <span class="setting-text">30</span>
-                    </button>
-                </a>
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
-                    <button class="setting-circle">
-                      <span class="setting-text">50</span>
-                    </button>
-                </a>
-            </div>
-
-            {{#pagination}}
-            <div class="setting-page">
-                {{#hasPrev}}
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
-                    <button class="setting-circle">
-                        <i class="fa fa-angle-left"></i>
-                    </button>
-                </a>
-                {{/hasPrev}}
-                {{#hasNext}}
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
-                    <button class="setting-circle">
-                        <i class="fa fa-angle-right"></i>
-                    </button>
-                </a>
-                {{/hasNext}}
-            </div>
-            {{/pagination}}
-        </section>
-        <!-- endSection#mainsettings -->
-
-        <!-- startSection#Contributions -->
-        <section id="contributions">
-            {{#contributions}}
-            <div class="contribution">
-                <div class="contribution-user cf">
-                    <div class="user--icon">
-                        icon
-                    </div>
-                    <div class="user--name">
-                        {{username}}
-                    </div>
-                </div>
-                <div class="contribution-body">
-                    <div class="body--title">
-                        {{title}}
-                    </div>
-                    <div class="body--content">
-                        {{{content}}}
-                    </div>
-                </div>
-                <div class="contribution-footer">
-                    {{#isNew}}
-                    <span class="footer--new">New</span>
-                    {{/isNew}}
-                    {{editedCreatedTime}} ・ #{{id}}
-                </div>
-                <div class="contribution-edit">
-                    <form id="update-contribution">
-                        <input class="update-id" type="hidden" name="id" value="{{id}}">
-                        <div class="contribution-user cf">
-                            <div class="user--icon">
-                                icon
-                            </div>
-                            <div class="user--name">
-                                <input class="update-content--username" type="text" maxlength="20" value="{{username}}" required>
-                            </div>
-                        </div>
-                        <div class="contribution-body">
-                            <div class="body--title">
-                                <input class="update-content--title" type="text" value="{{title}}" maxlength="20" required>
-                            </div>
-                            <div class="body--content">
-                                <textarea class="update-content--text" required>{{content}}</textarea>
-                            </div>
-                        </div>
-                        <div class="contribution-submit">
-                            <input type="submit" value="更新">
-                        </div>
-                    </form>
-                    <div class="edit-button">
-                        <i class="fa fa-pencil-square-o"></i>
-                    </div>
-                </div>
-                <div class="contribution-del">
-                    <div class="del-wrap">
-                        <div class="del--inner cf">
-                            <form id="admin-delete-contribution">
-                                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20">
-                                <input class="delete-id" type="hidden" name="id" value="{{id}}">
-                                <input class="delete-button" type="submit" value="削除">
-                            </form>
-                        </div>
-                    </div>
-                    <div class="del-guide">
-                        <span><i class="fa fa-trash-o"></i></span>
-                    </div>
-                </div>
-            </div>
-            {{/contributions}}
-            {{^contributions}}
-            <div class="contribution">
-                <div class="contribution-empty">Oops!</div>
-                該当する投稿は見つかりませんでした。
-            </div>
-            {{/contributions}}
-        </section>
-        <!-- endSection#Contributions -->
-
-        <!-- startSection#pagination -->
-        {{#pagination}}
-        <section id="pagination">
-            {{#hasPrev}}
-            <div class="page-prev">
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
-                    <button class="setting-circle">
-                        <i class="fa fa-angle-left"></i>
-                    </button>
-                </a>
-            </div>
-            {{/hasPrev}}
-
-            <div class="page-current">
-                {{#prevList}}
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
-                    <button class="setting-circle small-circle">
-                        <span class="setting-text">{{page}}</span>
-                    </button>
-                </a>
-                {{/prevList}}
-
-                <button class="sub-circle">
-                    <span class="setting-text">{{current}}</span>
-                </button>
-
-                {{#nextList}}
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
-                    <button class="setting-circle small-circle">
-                        <span class="setting-text">{{page}}</span>
-                    </button>
-                </a>
-                {{/nextList}}
-            </div>
-
-            {{#hasNext}}
-            <div class="page-next">
-                <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
-                    <button class="setting-circle">
-                        <i class="fa fa-angle-right"></i>
-                    </button>
-                </a>
-            </div>
-            {{/hasNext}}
-        </section>
-        {{/pagination}}
-        <!-- endSection#pagination -->
-
-    </main>
-    <!-- endMain -->
-
-    <!-- startFooter -->
-    <footer>
-        <div class="sns-button">
-            <button class="footer-circle">
-                <i class="fa fa-twitter"></i>
-            </button>
-            <button class="footer-circle">
-                <i class="fa fa-github"></i>
-            </button>
-        </div>
-    </footer>
-    <!-- endFooter -->
-
-    <!-- startPosts -->
-    <div id="posts">
-        <form id="post-contribution">
-            <div class="contribution-content cf">
-                <div class="guide-text">
-                    名前
-                </div>
-                <input class="post-content--username" type="text" maxlength="20" required>
-            </div>
-            <div class="contribution-content cf">
-                <div class="guide-text">
-                    タイトル
-                </div>
-                <input class="post-content--title" type="text" maxlength="20" required>
-            </div>
-            <div class="contribution-content cf">
-                <div class="guide-text">
-                    本文
-                </div>
-                <textarea class="post-content--text" rows="10" required></textarea>
-            </div>
-            <div class="contribution-content cf">
-                <div class="guide-text">
-                    削除キー
-                </div>
-                <input class="post-content--deletekey" type="password" maxlength="20" required>
-            </div>
-            <div class="contribution-submit">
-                <input class="post-content--submit" type="submit">
-            </div>
-        </form>
+  <!-- startHeader -->
+  <header>
+    <nav class="nav-header--left">
+      <a href="/admin_ngword">
+        <button class="btn btn--header">
+          <i class="fa fa-commenting"></i>
+        </button>
+      </a>
+      <a href="/admin_nguser">
+        <button class="btn btn--header btn--margin">
+          <i class="fa fa-user-times"></i>
+        </button>
+      </a>
+    </nav>
+    <h1 class="heading">
+      <a href="{{path}}">Admin</a>
+    </h1>
+    <nav class="nav-header--right">
+      <button class="btn btn--header">
+        <i class="fa fa-search"></i>
+      </button>
+      <a href="/">
+        <button class="btn btn--header btn--margin">
+          <i class="fa fa-sign-out"></i>
+        </button>
+      </a>
+    </nav>
+    <div class="notice notice--error">
+      <i class="fa fa-exclamation-triangle"></i>
+      <span class="notice__text"></span>
     </div>
-    <!-- endPosts -->
+  </header>
+  <!-- endHeader -->
 
-    <!-- startSearch -->
-    <div id="search">
-        <form id="search-contribution">
-            <div class="search-content cf">
-                <span class="guide-text">
-                    投稿検索
-                </span>
-                <input class="search-content--word" type="text" placeholder="キーワードを入力" maxlength="20">
+  <!-- startMain -->
+  <main>
+    <!-- startSection#guide -->
+    <section id="guide">
+      <div class="guide__limit">
+        <button class="btn btn--sub btn--notlink">
+          <i class="fa fa-comments"></i>
+        </button>
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
+          <button class="btn btn--guide btn--margin">
+            <span class="btn__text">10</span>
+          </button>
+        </a>
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
+          <button class="btn btn--guide btn--margin">
+            <span class="btn__text">30</span>
+          </button>
+        </a>
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
+          <button class="btn btn--guide btn--margin">
+            <span class="btn__text">50</span>
+          </button>
+        </a>
+      </div>
+      {{#pagination}}
+      <div class="guide__pagination">
+        {{#hasPrev}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
+          <button class="btn btn--guide">
+            <i class="fa fa-angle-left"></i>
+          </button>
+        </a>
+        {{/hasPrev}}
+        {{#hasNext}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
+          <button class="btn btn--guide btn--margin">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </a>
+        {{/hasNext}}
+      </div>
+      {{/pagination}}
+    </section>
+    <!-- endSection#guide -->
+
+    <!-- startSectio#contributions -->
+    <section id="contributions">
+      {{#contributions}}
+      <div class="contribution">
+        <div class="contribution__user cf">
+          <div class="contribution__user--icon">
+            icon
+          </div>
+          <div class="contribution__user--name">
+            {{username}}
+          </div>
+        </div>
+        <div class="contribution__body">
+          <div class="contribution__body--title">
+            {{title}}
+          </div>
+          <div class="contribution__body--content">
+            {{{content}}}
+          </div>
+        </div>
+        <div class="contribution__footer">
+          {{#isNew}}
+          <span class="contribution__footer--new">
+            New
+          </span>
+          {{/isNew}}
+          {{editedCreatedTime}} ・ #{{id}}
+        </div>
+        <div class="contribution__delete">
+          <div class="delete-wrapper">
+            <div class="delete-wrapper__inner">
+              <form id="delete-contribution">
+                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20" required>
+                <input class="delete-id" type="hidden" name="id" value="{{id}}">
+                <input class="delete-username" type="hidden" name="username" value="{{username}}">
+                <input class="delete-btn btn--margin" type="submit" value="削除">
+              </form>
             </div>
-        </form>
-    </div>
-    <!-- endSearch -->
+          </div>
+          <div class="delete-guide">
+            <i class="fa fa-trash-o"></i>
+          </div>
+        </div>
+        <div class="contribution__edit">
+          <form id="update-contribution">
+            <input class="update-id" type="hidden" name="id" value="{{id}}">
+            <div class="contribution__user cf">
+              <div class="contribution__user--icon">
+                icon
+              </div>
+              <div class="contribution__user--name">
+                <input class="update-username" type="text" maxlength="20" value="{{username}}" required>
+              </div>
+            </div>
+            <div class="contribution__body">
+              <div class="contribution__body--title">
+                <input class="update-title" type="text" value="{{title}}" maxlength="20" required>
+              </div>
+              <div class="contribution__body--content">
+                <textarea class="update-text" required>{{content}}</textarea>
+              </div>
+            </div>
+            <div class="contribution__submit">
+              <input type="submit" value="更新">
+            </div>
+          </form>
+          <div class="edit-guide">
+            <i class="fa fa-pencil-square-o"></i>
+          </div>
+        </div>
+      </div>
+      {{/contributions}}
+      {{^contributions}}
+      <div class="contribution">
+        <h2 class="empty">
+          Oops!
+        </h2>
+        該当する投稿は見つかりませんでした。
+      </div>
+      {{/contributions}}
+    </section>
+    <!-- endSectio#contributions -->
 
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- endbower -->
-    <!-- build:js -->
-    <script src="scripts/kotori.admin.js"></script>
-    <script src="scripts/kotori.ajax.js"></script>
-    <script src="scripts/kotori.animation.js"></script>
-    <!-- endbuild -->
+    <!-- startSectio#pagination -->
+    {{#pagination}}
+    <section id="pagination">
+      {{#hasPrev}}
+      <div class="pagination__prev">
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
+          <button class="btn btn--guide">
+            <i class="fa fa-angle-left"></i>
+          </button>
+        </a>
+      </div>
+      {{/hasPrev}}
+      <div class="pagination__current">
+        {{#prevList}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
+          <button class="btn btn--guide btn--small btn--margin">
+            <span class="btn__text">{{page}}</span>
+          </button>
+        </a>
+        {{/prevList}}
+        <button class="btn btn--sub btn--margin">
+          <span class="btn__text">{{current}}</span>
+        </button>
+        {{#nextList}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
+          <button class="btn btn--guide btn--small btn--margin">
+            <span class="btn__text">{{page}}</span>
+          </button>
+        </a>
+        {{/nextList}}
+      </div>
+      {{#hasNext}}
+      <div class="pagination__next">
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
+          <button class="btn btn--guide">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </a>
+      </div>
+      {{/hasNext}}
+    </section>
+    {{/pagination}}
+    <!-- endSectio#pagination -->
+
+  </main>
+  <!-- endMain-->
+
+  <!-- startFooter -->
+  <footer>
+    <nav class="nav-footer--sns">
+      <button class="btn btn--footer">
+        <i class="fa fa-twitter"></i>
+      </button>
+      <button class="btn btn--footer btn--margin">
+        <i class="fa fa-github"></i>
+      </button>
+    </nav>
+  </footer>
+  <!-- endFooter -->
+
+  <!-- startSearch -->
+  <div id="search">
+    <form id="search-contribution">
+      <div class="search-wrapper cf">
+        <div class="search-wrapper__text">
+          投稿検索
+        </div>
+        <input class="search-keyword" type="text" placeholder="キーワードを入力" maxlength="20">
+      </div>
+    </form>
+  </div>
+  <!-- endSearch -->
+
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- endbower -->
+  <!-- build:js -->
+  <script src="scripts/kotori.ajax.js"></script>
+  <script src="scripts/kotori.animation.js"></script>
+  <!-- endbuild -->
 </body>
 </html>
