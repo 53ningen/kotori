@@ -12,6 +12,10 @@ header, main, footer {
   position: relative;
 }
 
+main {
+  margin-top: $header-height + 20;
+}
+
 a {
   @include transition;
 }

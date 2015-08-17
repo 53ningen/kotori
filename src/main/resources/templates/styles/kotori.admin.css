@@ -9,6 +9,10 @@ header, main, footer {
   position: relative;
 }
 
+main {
+  margin-top: 70px;
+}
+
 a {
   transition: all .3s;
 }
@@ -120,12 +124,8 @@ header {
 }
 
 /**
- * Main Settings
+ * Main Components
  **/
-main {
-  margin-top: 70px;
-}
-
 #guide {
   position: relative;
   height: 40px;

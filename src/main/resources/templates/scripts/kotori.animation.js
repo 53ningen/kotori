@@ -1,12 +1,12 @@
 ;(function($) {
   var _document = $(document);
-  var $posts = $('#posts');
+  var $posts = $('#post');
   var $search = $('#search');
 
   /**
    * 新規投稿ボタンをクリックした時のイベント
    */
-  _document.on('click', '.write-button', function() {
+  _document.on('click', '.btn--write', function() {
     toggleHeader($posts, $search);
   });
 
