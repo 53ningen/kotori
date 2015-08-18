@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <title>Kotori</title>
@@ -26,7 +26,7 @@
       <a href="/">Kotori</a>
     </h1>
     <nav class="nav-header--right">
-      <button class="btn btn--header">
+      <button class="btn btn--header btn--search">
         <i class="fa fa-search"></i>
       </button>
     </nav>
@@ -114,7 +114,7 @@
           <div class="delete-wrapper">
             <div class="delete-wrapper__inner">
               <form id="delete-contribution">
-                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20" required>
+                <input class="delete-key" type="password" placeholder="削除キー" name="deleteKey" maxlength="20" required>
                 <input class="delete-id" type="hidden" name="id" value="{{id}}">
                 <input class="delete-username" type="hidden" name="username" value="{{username}}">
                 <input class="delete-btn btn--margin" type="submit" value="削除">
@@ -205,25 +205,25 @@
         <div class="post-wrapper__text">
           名前
         </div>
-        <input class="post-username" type="text" maxlength="20" required>
+        <input class="post-username" type="text" name="username" maxlength="20" required>
       </div>
       <div class="post-wrapper cf">
         <div class="post-wrapper__text">
           タイトル
         </div>
-        <input class="post-title" type="text" maxlength="20" required>
+        <input class="post-title" type="text" name="title" maxlength="20" required>
       </div>
       <div class="post-wrapper cf">
         <div class="post-wrapper__text">
           本文
         </div>
-        <textarea class="post-wrapper__tarea post-text" rows="10" required></textarea>
+        <textarea class="post-wrapper__tarea post-content" name="content" rows="10" required></textarea>
       </div>
       <div class="post-wrapper cf">
         <div class="post-wrapper__text">
           削除キー
         </div>
-        <input class="post-deletekey" type="password" maxlength="20" required>
+        <input class="post-deletekey" type="password" name="deleteKey" maxlength="20" required>
       </div>
       <div class="post-wrapper">
         <div class="post-wrapper__submit">
@@ -253,6 +253,7 @@
   <!-- build:js -->
   <script src="scripts/kotori.ajax.js"></script>
   <script src="scripts/kotori.animation.js"></script>
+  <script src="scripts/kotori.main.js"></script>
   <!-- endbuild -->
 </body>
 </html>

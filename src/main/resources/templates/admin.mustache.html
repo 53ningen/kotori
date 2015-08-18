@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <title>Kotori - Admin</title>
@@ -126,9 +126,8 @@
           <div class="delete-wrapper">
             <div class="delete-wrapper__inner">
               <form id="delete-contribution">
-                <input class="delete-key" type="password" placeholder="削除キー" maxlength="20" required>
+                <input class="delete-key" type="password" placeholder="Adminモード" name="deleteKey" maxlength="20" readonly>
                 <input class="delete-id" type="hidden" name="id" value="{{id}}">
-                <input class="delete-username" type="hidden" name="username" value="{{username}}">
                 <input class="delete-btn btn--margin" type="submit" value="削除">
               </form>
             </div>
@@ -145,15 +144,15 @@
                 icon
               </div>
               <div class="contribution__user--name">
-                <input class="update-username" type="text" maxlength="20" value="{{username}}" required>
+                <input class="update-username" type="text" maxlength="20" name="username" value="{{username}}" required>
               </div>
             </div>
             <div class="contribution__body">
               <div class="contribution__body--title">
-                <input class="update-title" type="text" value="{{title}}" maxlength="20" required>
+                <input class="update-title" type="text" value="{{title}}" name="title" maxlength="20" required>
               </div>
               <div class="contribution__body--content">
-                <textarea class="update-text" required>{{content}}</textarea>
+                <textarea class="update-text" name="content" required>{{content}}</textarea>
               </div>
             </div>
             <div class="contribution__submit">
@@ -256,6 +255,7 @@
   <!-- build:js -->
   <script src="scripts/kotori.ajax.js"></script>
   <script src="scripts/kotori.animation.js"></script>
+  <script src="scripts/kotori.admin.js"></script>
   <!-- endbuild -->
 </body>
 </html>

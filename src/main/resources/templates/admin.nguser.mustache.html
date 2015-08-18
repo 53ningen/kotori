@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <title>Kotori - Admin</title>
@@ -51,7 +51,7 @@
     <!-- startSection#form-ng -->
     <section id="form-ng">
       <form id="post-ng">
-        <input class="ng-word" type="text">
+        <input class="ng-word" type="text" name="word">
         <input class="btn--margin" type="submit" value="追加">
       </form>
     </section>
@@ -70,6 +70,9 @@
           </span>
         </div>
         <div class="ng__delete">
+          <form id="delete-ng">
+            <input class="delete-id" type="hidden" name="id" value="{{id}}">
+          </form>
           <i class="fa fa-trash-o"></i>
         </div>
       </div>
@@ -83,7 +86,8 @@
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <!-- endbower -->
   <!-- build:js -->
-  <script src="scripts/kotori.admin.nguser.js"></script>
+  <script src="scripts/kotori.ajax.js"></script>
+  <script src="scripts/kotori.admin.ng.js"></script>
   <!-- endbuild -->
 </body>
 </html>
