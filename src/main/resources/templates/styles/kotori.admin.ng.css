@@ -68,6 +68,10 @@ input:focus, textarea:focus {
   *zoom: 1;
 }
 
+.active {
+  visibility: visible !important;
+}
+
 /**
  * Header Settings
  */
