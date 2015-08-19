@@ -34,7 +34,7 @@ public class InsertContributionTest {
 
     @Before
     public void setUp() throws Exception {
-        insertContribution = new InsertContribution();
+        insertContribution = InsertContribution.getInsertContribution();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }

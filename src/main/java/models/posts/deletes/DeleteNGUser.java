@@ -9,7 +9,16 @@ import spark.Request;
 import spark.Response;
 
 public class DeleteNGUser extends Status implements DeleteInterface {
-    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
+    private static final DeleteNGUser deleteNGUser = new DeleteNGUser();
+    private HandleDBForNGUser handleDBForNGUser;
+
+    private DeleteNGUser() {
+        handleDBForNGUser = new HandleDBForNGUser();
+    }
+
+    public static DeleteNGUser getDeleteNGUser() {
+        return deleteNGUser;
+    }
 
     /**
      * NGユーザの削除を受け付ける（Admin用）
@@ -26,7 +35,7 @@ public class DeleteNGUser extends Status implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGUser.deleteById(payload.getId());
+            int result = handleDBForNGUser.delete(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }

@@ -34,7 +34,7 @@ public class HandleDBForNGWord {
      * @param id NGワードid
      * @return 処理した投稿数
      */
-    public int deleteById(int id) {
+    public int delete(int id) {
         return tm.required(() -> ngWordDao.deleteById(id));
     }
 }

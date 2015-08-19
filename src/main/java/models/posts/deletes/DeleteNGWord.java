@@ -9,7 +9,16 @@ import spark.Request;
 import spark.Response;
 
 public class DeleteNGWord extends Status implements DeleteInterface {
-    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
+    private static final DeleteNGWord deleteNGWord = new DeleteNGWord();
+    private HandleDBForNGWord handleDBForNGWord;
+
+    private DeleteNGWord() {
+        handleDBForNGWord = new HandleDBForNGWord();
+    }
+
+    public static DeleteNGWord getDeleteNGWord() {
+        return deleteNGWord;
+    }
 
     /**
      * NGワードの削除を受け付ける（Admin用）
@@ -26,7 +35,7 @@ public class DeleteNGWord extends Status implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGWord.deleteById(payload.getId());
+            int result = handleDBForNGWord.delete(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }

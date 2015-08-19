@@ -11,7 +11,16 @@ import spark.Request;
 import spark.Response;
 
 public class DeleteContribution extends Status implements DeleteInterface {
-    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
+    private static final DeleteContribution deleteContribution = new DeleteContribution();
+    private HandleDBForContribution handleDBForContribution;
+
+    private DeleteContribution() {
+        handleDBForContribution = new HandleDBForContribution();
+    }
+
+    public static DeleteContribution getDeleteContribution() {
+        return deleteContribution;
+    }
 
     /**
      * 投稿の削除を受け付ける（Admin用）
@@ -19,6 +28,7 @@ public class DeleteContribution extends Status implements DeleteInterface {
      * @param response レスポンス
      * @return ok
      */
+    @Override
     public String requestDeleteWithoutKey(Request request, Response response) {
 
         try {

@@ -25,7 +25,7 @@ public class DeleteNGWordTest {
 
     @Before
     public void setUp() throws Exception {
-        deleteNGWord = new DeleteNGWord();
+        deleteNGWord = DeleteNGWord.getDeleteNGWord();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }

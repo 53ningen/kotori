@@ -34,7 +34,7 @@ public class HandleDBForNGUser {
      * @param id NGユーザid
      * @return 処理した投稿数
      */
-    public int deleteById(int id) {
+    public int delete(int id) {
         return tm.required(() -> ngUserDao.deleteById(id));
     }
 }

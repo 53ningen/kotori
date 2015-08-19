@@ -10,7 +10,16 @@ import spark.Request;
 import spark.Response;
 
 public class InsertNGWord extends Status implements InsertInterface {
-    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
+    private static final InsertNGWord insertNGWord = new InsertNGWord();
+    private HandleDBForNGWord handleDBForNGWord;
+
+    private InsertNGWord() {
+        handleDBForNGWord = new HandleDBForNGWord();
+    }
+
+    public static InsertNGWord getInsertNGWord() {
+        return insertNGWord;
+    }
 
     /**
      * postによるNGワード追加を受け付ける

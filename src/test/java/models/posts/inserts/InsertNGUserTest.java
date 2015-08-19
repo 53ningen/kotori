@@ -25,7 +25,7 @@ public class InsertNGUserTest {
 
     @Before
     public void setUp() throws Exception {
-        insertNGUser = new InsertNGUser();
+        insertNGUser = InsertNGUser.getInsertNGUser();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }

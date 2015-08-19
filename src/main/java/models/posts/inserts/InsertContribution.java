@@ -16,10 +16,22 @@ import spark.Response;
 import java.util.Optional;
 
 public class InsertContribution extends Status implements InsertInterface {
-    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
-    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
-    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
-    private HandleContribution handleContribution = new HandleContribution();
+    private static final InsertContribution insertContribution = new InsertContribution();
+    private HandleDBForContribution handleDBForContribution;
+    private HandleDBForNGWord handleDBForNGWord;
+    private HandleDBForNGUser handleDBForNGUser;
+    private HandleContribution handleContribution;
+
+    private InsertContribution() {
+        handleDBForContribution = new HandleDBForContribution();
+        handleDBForNGWord = new HandleDBForNGWord();
+        handleDBForNGUser = new HandleDBForNGUser();
+        handleContribution = new HandleContribution();
+    }
+
+    public static InsertContribution getInsertContribution() {
+        return insertContribution;
+    }
 
     /**
      * postによる投稿を受け付ける

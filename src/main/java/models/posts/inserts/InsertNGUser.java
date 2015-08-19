@@ -10,7 +10,16 @@ import spark.Request;
 import spark.Response;
 
 public class InsertNGUser extends Status implements InsertInterface {
-    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
+    private static final InsertNGUser insertNGUser = new InsertNGUser();
+    private HandleDBForNGUser handleDBForNGUser;
+
+    private InsertNGUser() {
+        handleDBForNGUser = new HandleDBForNGUser();
+    }
+
+    public static InsertNGUser getInsertNGUser() {
+        return insertNGUser;
+    }
 
     /**
      * postによるNGユーザ追加を受け付ける

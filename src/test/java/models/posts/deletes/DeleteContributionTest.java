@@ -25,7 +25,7 @@ public class DeleteContributionTest {
 
     @Before
     public void setUp() throws Exception {
-        deleteContribution = new DeleteContribution();
+        deleteContribution = DeleteContribution.getDeleteContribution();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }

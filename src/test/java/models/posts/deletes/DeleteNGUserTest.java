@@ -25,7 +25,7 @@ public class DeleteNGUserTest {
 
     @Before
     public void setUp() throws Exception {
-        deleteNGUser = new DeleteNGUser();
+        deleteNGUser = DeleteNGUser.getDeleteNGUser();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }

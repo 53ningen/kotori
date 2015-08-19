@@ -25,7 +25,7 @@ public class UpdateContributionTest {
 
     @Before
     public void setUp() throws Exception {
-        updateContribution = new UpdateContribution();
+        updateContribution = UpdateContribution.getUpdateContribution();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
