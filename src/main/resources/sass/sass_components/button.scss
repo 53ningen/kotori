@@ -1,0 +1,66 @@
+@import "assets";
+@import "mixins";
+
+/**
+ * Button Assets
+ */
+%btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  line-height: $nml-text;
+  color: $text-color;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  @include transition;
+  @include radius(50%);
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
+}
+
+.btn--header {
+  @extend %btn;
+  background-color: $white-color;
+  &:hover {
+    background-color: $sub-color;
+  }
+}
+
+.btn--guide, .btn--footer {
+  @extend %btn;
+  background-color: $white-color;
+  &:hover {
+    background-color: $sub-color2;
+  }
+}
+
+.btn--sub {
+  @extend %btn;
+  background-color: $sub-color2;
+  &:hover {
+    background-color: $sub-color;
+  }
+}
+
+.btn--small {
+  width: 30px;
+  height: 30px;
+  vertical-align: bottom;
+}
+
+.btn--margin {
+  margin-left: 5px;
+}
+
+.btn--notlink:hover {
+  cursor: default;
+}
+
+.btn__text {
+  font-size: $nml-text;
+}

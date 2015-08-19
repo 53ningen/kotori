@@ -1,41 +1,4 @@
-@import "sass_components/component.commons";
-@import "sass_components/component.header";
-
-#form-ngword {
-  padding: 1rem 1rem 0;
-  height: 28px;
-
-  #ngword > .ngword-word {
-    margin-right: 1rem;
-  }
-}
-
-#nglists {
-  padding: 1rem;
-
-  .nglist-word {
-    width: 95%;
-    word-wrap: break-word;
-  }
-
-  .nglist {
-    position: relative;
-    padding: 1rem;
-    margin: 1rem 0;
-    border: 1px solid $main-color;
-    z-index: 10;
-
-    .nglist-del {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      .nglist-del-icon {
-        @include transition;
-        &:hover {
-          color: $topic-color;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-}
+@import "sass_components/commons";
+@import "sass_components/header";
+@import "sass_components/button";
+@import "sass_components/ng";

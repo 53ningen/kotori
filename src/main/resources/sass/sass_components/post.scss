@@ -1,0 +1,36 @@
+@import "assets";
+@import "mixins";
+
+/**
+ * Post Component
+ */
+#post {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: $sub-color2;
+  display: none;
+  z-index: 1000;
+}
+
+#post-contribution {
+    padding: 1rem;
+}
+
+.post-wrapper {
+  padding-bottom: .5rem;
+
+  .post-wrapper__text {
+    float: left;
+    width: 94px;
+  }
+
+  .post-wrapper__tarea {
+    width: calc(100% - 100px);
+  }
+
+  .post-wrapper__submit {
+    height: 28px;
+  }
+}

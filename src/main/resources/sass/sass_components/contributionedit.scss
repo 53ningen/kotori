@@ -1,0 +1,45 @@
+@import "assets";
+@import "mixins";
+
+/**
+ * ContributionEdit Component
+ */
+.contribution {
+  .contribution__edit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    padding: 1rem;
+    @include transition;
+
+    #update-contribution {
+      opacity: 0;
+      @include transition;
+
+      .update-text {
+        margin-top: .5rem;
+        width: 85%;
+      }
+    }
+
+    .edit-guide {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      margin-right: -2px;
+      @include transition;
+      &:hover {
+        color: $topic-color;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .contribution__submit {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
