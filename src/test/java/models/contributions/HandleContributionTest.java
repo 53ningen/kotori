@@ -11,6 +11,8 @@ import java.util.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 public class HandleContributionTest {
     private HandleContribution handleContribution;
@@ -27,39 +29,13 @@ public class HandleContributionTest {
     }
 
     @Test
-    public void 受け取ったPayloadがContributionインスタンスとして正しく生成される() throws Exception {
-        // exercise
-        Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
-        Contribution contribution = contributionOpt.get();
-
-        // verify
-        assertThat(contribution.getUsername(), is("小泉花陽"));
-        assertThat(contribution.getTitle(), is("fuga"));
-        assertThat(contribution.getContent(), is("hoge"));
-    }
-
-    @Test
-    public void 削除キーがハッシュ化されて保存されている() throws Exception {
-        // exercise
-        Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
-        Contribution contribution = contributionOpt.get();
-
-        // verify
-        String deleteKey = contribution.getDeleteKey();
-        assertThat(deleteKey, is(Encryption.getSaltedDeleteKey("pass", "小泉花陽")));
-        assertThat(deleteKey, is(not(Encryption.getSaltedDeleteKey("pass", "星空凛"))));
-    }
-
-    @Test
     public void 整形された日時が付与されたContributionを返す() throws Exception {
         // setup
-        Contribution contribution = new Contribution();
-        contribution.setCreatedAt(LocalDateTime.of(2015, 8, 3, 12, 24, 36));
-        List<Contribution> contributions = new ArrayList<>();
-        contributions.add(contribution);
+        Contribution contribution = spy(new Contribution(payload));
+        when(contribution.getCreatedAt()).thenReturn(LocalDateTime.of(2015, 8, 3, 12, 24, 36));
 
         // exercise
-        Contribution editedContribution = handleContribution.addInformationContributions(contributions).get(0);
+        Contribution editedContribution = handleContribution.addInformationContribution(contribution);
 
         // verify
         assertNotNull(editedContribution);
@@ -70,18 +46,18 @@ public class HandleContributionTest {
     public void 新着投稿であるかどうかをBooleanとして返す() throws Exception {
         // setup
         LocalDateTime now = LocalDateTime.now();
-        Contribution contribution = new Contribution();
+        Contribution contribution = spy(new Contribution(payload));
         List<Contribution> contributions = new ArrayList<>();
 
-        contribution.setCreatedAt(now.minusDays(1).plusMinutes(1)); // 現在より23時間59分前の投稿
+        when(contribution.getCreatedAt()).thenReturn(now.minusDays(1).plusMinutes(1)); // 現在より23時間59分前の投稿
         contributions.add(contribution);
 
-        contribution = new Contribution();
-        contribution.setCreatedAt(now.minusDays(1)); // 現在より1日前の投稿(24時間前の投稿)
+        contribution = spy(new Contribution(payload));
+        when(contribution.getCreatedAt()).thenReturn(now.minusDays(1)); // 現在より1日前の投稿(24時間前の投稿)
         contributions.add(contribution);
 
-        contribution = new Contribution();
-        contribution.setCreatedAt(now.plusDays(1)); // 現在より1日後の投稿(本来は投稿されない)
+        contribution = spy(new Contribution(payload));
+        when(contribution.getCreatedAt()).thenReturn(now.plusDays(1)); // 現在より1日後の投稿(本来は投稿されない)
         contributions.add(contribution);
 
         // exercise

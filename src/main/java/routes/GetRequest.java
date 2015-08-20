@@ -4,7 +4,6 @@ import databases.entities.Contribution;
 import databases.entities.NGInterface;
 import databases.entities.NGUser;
 import databases.entities.NGWord;
-import models.contributions.HandleContribution;
 import models.paginations.HandlePagination;
 import models.posts.handles.HandleDBForContribution;
 import models.posts.handles.HandleDBForNGUser;
@@ -14,7 +13,6 @@ import models.requests.HandleRequest;
 import models.responses.HandleResponse;
 import spark.ModelAndView;
 import spark.Request;
-import spark.Response;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +21,6 @@ public class GetRequest {
     private final HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
     private final HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
     private final HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
-    private final HandleContribution handleContribution = new HandleContribution();
     private final HandlePagination handlePagination = new HandlePagination();
     private final HandleRequest handleRequest = new HandleRequest();
 
@@ -42,10 +39,9 @@ public class GetRequest {
     /**
      * 検索結果ページを表示する
      * @param req リクエスト
-     * @param res レスポンス
      * @return ModelAndView
      */
-    protected ModelAndView getSearch(Request req, Response res) {
+    protected ModelAndView getSearch(Request req) {
         handleRequest.updateHandleRequest(req);
         List<Contribution> contributions = handleDBForContribution.findByKeyword(handleRequest);
         return new ModelAndView(getResponseMap(req, contributions, "q"), "index.mustache.html");
@@ -54,10 +50,9 @@ public class GetRequest {
     /**
      * NGワード管理ページを表示する
      * @param req リクエスト
-     * @param res レスポンス
      * @return ModelAndView
      */
-    protected ModelAndView getAdminNGWord(Request req, Response res) {
+    protected ModelAndView getAdminNGWord(Request req) {
         handleRequest.updateHandleRequest(req);
         List<NGWord> ngWords = handleDBForNGWord.findAll();
         return new ModelAndView(getResponseMap(req, ngWords), "admin.ngword.mustache.html");
@@ -66,10 +61,9 @@ public class GetRequest {
     /**
      * NGユーザ管理ページを表示する
      * @param req リクエスト
-     * @param res レスポンス
      * @return ModelAndView
      */
-    protected ModelAndView getAdminNGUser(Request req, Response res) {
+    protected ModelAndView getAdminNGUser(Request req) {
         handleRequest.updateHandleRequest(req);
         List<NGUser> ngUsers = handleDBForNGUser.findAll();
         return new ModelAndView(getResponseMap(req, ngUsers), "admin.nguser.mustache.html");
@@ -85,7 +79,7 @@ public class GetRequest {
     private HashMap<String, Object> getResponseMap(Request request, List<Contribution> contributions, String query) {
         return new HandleResponse(
                 request,
-                handleContribution.addInformationContributions(contributions),
+                contributions,
                 handlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest),
                 query
         ).getResponseMap();

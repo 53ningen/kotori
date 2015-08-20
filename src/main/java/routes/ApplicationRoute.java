@@ -46,11 +46,11 @@ public class ApplicationRoute {
 
         get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
 
-        get("/search", (getRequest::getSearch), engine);
+        get("/search", ((req, res) -> getRequest.getSearch(req)), engine);
 
-        get("/admin_ngword", (getRequest::getAdminNGWord), engine);
+        get("/admin_ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);
 
-        get("/admin_nguser", (getRequest::getAdminNGUser), engine);
+        get("/admin_nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
     }
 
     private void initRoutesPost() {
@@ -65,6 +65,8 @@ public class ApplicationRoute {
         post("/api/admin_delete_ngword", ((req, res) -> postRequest.delete(req, res, DeleteNGWord.getDeleteNGWord())));
 
         post("/api/admin_delete_nguser", ((req, res) -> postRequest.delete(req, res, DeleteNGUser.getDeleteNGUser())));
+
+        post("/api/admin_insert_ngword", ((req, res) -> postRequest.insert(req, res, InsertNGWord.getInsertNGWord())));
 
         post("/api/admin_insert_nguser", ((req, res) -> postRequest.insert(req, res, InsertNGUser.getInsertNGUser())));
     }

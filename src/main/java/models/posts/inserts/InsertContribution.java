@@ -53,22 +53,22 @@ public class InsertContribution extends Status implements InsertInterface {
                 return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }
 
-            // OptionalなContributionを生成する
-            Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
+            // Contributionを生成する
+            Contribution contribution = new Contribution(payload);
 
             // ContributionがNotNullならばDBに挿入する
-            int result = handleDBForContribution.insert(contributionOpt.get());
+            int result = handleDBForContribution.insert(contribution);
             if (result < 1) {
                 return setInternalServerError(response);
             }
 
             // Contributionに新着情報を付与する
-            Contribution contribution = handleContribution.addInformationContribution(contributionOpt.get());
+            Contribution editedContribution = handleContribution.addInformationContribution(contribution);
 
             // ステータスコード200 OKを設定する
             setOK(response, RESPONSE_TYPE_JSON);
 
-            return convertObjectToJson(contribution);
+            return convertObjectToJson(editedContribution);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }

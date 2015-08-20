@@ -1,29 +1,12 @@
 package models.contributions;
 
 import databases.entities.Contribution;
-import models.payloads.PostPayload;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 public class HandleContribution {
-
-    /**
-     * 受け取ったPayloadを基にContributionを生成する
-     * @param payload PostPayloadインスタンス
-     * @return Contributionインスタンス
-     */
-    public Optional<Contribution> createContribution(PostPayload payload) {
-        Contribution contribution = new Contribution();
-        contribution.setUsername(payload.getUsername());
-        contribution.setTitle(payload.getTitle());
-        contribution.setContent(payload.getContent());
-        contribution.setDeleteKey(Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
-        contribution.setCreatedAt(LocalDateTime.now());
-        return Optional.of(contribution);
-    }
 
     /**
      * 全ての投稿に整形した日付と新着投稿かどうかの情報を付与する

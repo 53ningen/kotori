@@ -17,7 +17,7 @@ public interface ContributionDao {
     List<Contribution> findWithLimit(SelectOptions options);
 
     @Select
-    Optional<Contribution> findById(int id);
+    Contribution findById(int id);
 
     @Select
     List<Contribution> findByKeyword(SelectOptions options, String keyword);

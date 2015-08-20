@@ -1,6 +1,8 @@
 package databases.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import models.contributions.Encryption;
+import models.payloads.PostPayload;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
@@ -31,6 +33,16 @@ public class Contribution extends SupContribution {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
+    public Contribution() {}
+
+    public Contribution(PostPayload payload) {
+        setUsername(payload.getUsername());
+        setTitle(payload.getTitle());
+        setContent(payload.getContent());
+        setDeleteKey(Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
+        setCreatedAt(LocalDateTime.now());
+    }
+
     public int getId() {
         return id;
     }
@@ -55,11 +67,11 @@ public class Contribution extends SupContribution {
         return createdAt.toLocalDateTime();
     }
 
-    public void setUsername(String username) {
+    private void setUsername(String username) {
         this.username = username;
     }
 
-    public void setTitle(String title) {
+    private void setTitle(String title) {
         this.title = title;
     }
 
@@ -67,11 +79,11 @@ public class Contribution extends SupContribution {
         this.content = content;
     }
 
-    public void setDeleteKey(String deleteKey) {
+    private void setDeleteKey(String deleteKey) {
         this.deleteKey = deleteKey;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    private void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = Timestamp.valueOf(createdAt);
     }
 }
