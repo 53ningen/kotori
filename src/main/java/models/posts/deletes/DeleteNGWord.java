@@ -2,6 +2,7 @@ package models.posts.deletes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.DeletePayload;
+import models.posts.handles.HandleDB;
 import models.posts.handles.HandleDBForNGWord;
 import models.posts.utils.ErrorCode;
 import spark.Request;
@@ -9,11 +10,6 @@ import spark.Response;
 
 public class DeleteNGWord implements DeleteInterface {
     private static final DeleteNGWord deleteNGWord = new DeleteNGWord();
-    private HandleDBForNGWord handleDBForNGWord;
-
-    private DeleteNGWord() {
-        handleDBForNGWord = new HandleDBForNGWord();
-    }
 
     public static DeleteNGWord getDeleteNGWord() {
         return deleteNGWord;
@@ -34,7 +30,7 @@ public class DeleteNGWord implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGWord.delete(payload.getId());
+            int result = HandleDB.ngWord().delete(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }

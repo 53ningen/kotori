@@ -3,6 +3,7 @@ package models.posts.inserts;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.NGUser;
 import models.payloads.HandlePayload;
+import models.posts.handles.HandleDB;
 import models.posts.handles.HandleDBForNGUser;
 import models.posts.utils.ErrorCode;
 import spark.Request;
@@ -10,11 +11,6 @@ import spark.Response;
 
 public class InsertNGUser implements InsertInterface {
     private static final InsertNGUser insertNGUser = new InsertNGUser();
-    private HandleDBForNGUser handleDBForNGUser;
-
-    private InsertNGUser() {
-        handleDBForNGUser = new HandleDBForNGUser();
-    }
 
     public static InsertNGUser getInsertNGUser() {
         return insertNGUser;
@@ -35,7 +31,7 @@ public class InsertNGUser implements InsertInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGUser.insert(ngUser);
+            int result = HandleDB.ngUser().insert(ngUser);
             if (result < 1) {
                 return setInternalServerError(response);
             }

@@ -5,9 +5,7 @@ import databases.entities.NGInterface;
 import databases.entities.NGUser;
 import databases.entities.NGWord;
 import models.paginations.HandlePagination;
-import models.posts.handles.HandleDBForContribution;
-import models.posts.handles.HandleDBForNGUser;
-import models.posts.handles.HandleDBForNGWord;
+import models.posts.handles.HandleDB;
 import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
@@ -18,9 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GetRequest {
-    private final HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
-    private final HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
-    private final HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
     private final HandlePagination handlePagination = new HandlePagination();
     private final HandleRequest handleRequest = new HandleRequest();
 
@@ -32,7 +27,7 @@ public class GetRequest {
      */
     protected ModelAndView getPage(Request req, String viewFile) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDBForContribution.findWithLimit(handleRequest);
+        List<Contribution> contributions = HandleDB.contribution().findWithLimit(handleRequest);
         return new ModelAndView(getResponseMap(req, contributions, ""), viewFile);
     }
 
@@ -43,7 +38,7 @@ public class GetRequest {
      */
     protected ModelAndView getSearch(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDBForContribution.findByKeyword(handleRequest);
+        List<Contribution> contributions = HandleDB.contribution().findByKeyword(handleRequest);
         return new ModelAndView(getResponseMap(req, contributions, "q"), "index.mustache.html");
     }
 
@@ -54,7 +49,7 @@ public class GetRequest {
      */
     protected ModelAndView getAdminNGWord(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<NGWord> ngWords = handleDBForNGWord.findAll();
+        List<NGWord> ngWords = HandleDB.ngWord().findAll();
         return new ModelAndView(getResponseMap(req, ngWords), "admin.ngword.mustache.html");
     }
 
@@ -65,7 +60,7 @@ public class GetRequest {
      */
     protected ModelAndView getAdminNGUser(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<NGUser> ngUsers = handleDBForNGUser.findAll();
+        List<NGUser> ngUsers = HandleDB.ngUser().findAll();
         return new ModelAndView(getResponseMap(req, ngUsers), "admin.nguser.mustache.html");
     }
 

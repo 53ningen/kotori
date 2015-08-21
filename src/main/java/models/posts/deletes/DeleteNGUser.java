@@ -2,6 +2,7 @@ package models.posts.deletes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.DeletePayload;
+import models.posts.handles.HandleDB;
 import models.posts.handles.HandleDBForNGUser;
 import models.posts.utils.ErrorCode;
 import spark.Request;
@@ -9,11 +10,6 @@ import spark.Response;
 
 public class DeleteNGUser implements DeleteInterface {
     private static final DeleteNGUser deleteNGUser = new DeleteNGUser();
-    private HandleDBForNGUser handleDBForNGUser;
-
-    private DeleteNGUser() {
-        handleDBForNGUser = new HandleDBForNGUser();
-    }
 
     public static DeleteNGUser getDeleteNGUser() {
         return deleteNGUser;
@@ -34,7 +30,7 @@ public class DeleteNGUser implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGUser.delete(payload.getId());
+            int result = HandleDB.ngUser().delete(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }
