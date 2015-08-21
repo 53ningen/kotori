@@ -49,7 +49,7 @@ public class InsertContributionTest {
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class InsertContributionTest {
         
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class InsertContributionTest {
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test
@@ -107,7 +107,7 @@ public class InsertContributionTest {
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.NGWORD_CONTAINS));
+        assertThat(errorCode, is(ErrorCode.NGWORD_CONTAINS.getErrorMsg()));
     }
 
     @Test
@@ -122,6 +122,6 @@ public class InsertContributionTest {
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.NGUSER));
+        assertThat(errorCode, is(ErrorCode.NGUSER.getErrorMsg()));
     }
 }

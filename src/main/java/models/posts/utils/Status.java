@@ -31,9 +31,9 @@ public class Status {
      * @param response レスポンス
      * @return 空文字
      */
-    protected String setBadRequest(Response response, String reason) {
+    protected String setBadRequest(Response response, ErrorCode errorCode) {
         response.status(HTTP_BAD_REQUEST);
-        return reason;
+        return errorCode.getErrorMsg();
     }
 
     /**
