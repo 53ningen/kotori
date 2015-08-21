@@ -1,0 +1,437 @@
+/**
+ * Common Settings
+ */
+html, body {
+  color: #554236;
+}
+
+header, main, footer {
+  position: relative;
+}
+
+main {
+  margin-top: 70px;
+}
+
+a {
+  transition: all .3s;
+}
+
+a:link, a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  color: inherit;
+}
+
+input[type="submit"] {
+  padding: 1px .25rem;
+  height: 28px;
+  background-color: #FAFAFA;
+  vertical-align: middle;
+  transition: all .3s;
+}
+input[type="submit"]:hover {
+  border: 1px solid #60B99A;
+}
+
+input {
+  height: 24px;
+}
+
+input, textarea {
+  float: left;
+  outline: none;
+  border: 1px solid #554236;
+  transition: all .3s;
+}
+input:focus, textarea:focus {
+  border: 1px solid #60B99A;
+}
+
+/**
+ * ClearFix
+ */
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
+.cf {
+  *zoom: 1;
+}
+
+.active {
+  visibility: visible !important;
+}
+
+/**
+ * Header Settings
+ */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  height: 50px;
+  text-align: center;
+  background-color: #F1EFA5;
+  z-index: 9000;
+}
+
+.nav-header--left, .nav-header--right {
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+}
+
+.nav-header--left {
+  left: 1rem;
+}
+
+.nav-header--right {
+  right: 1rem;
+}
+
+.heading {
+  margin: 0;
+  padding: 0;
+  line-height: 50px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.notice--error {
+  visibility: hidden;
+  position: absolute;
+  top: -70px;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding: 10px 0;
+  opacity: 0;
+  z-index: 9999;
+  transition: all .3s;
+}
+
+.notice--error {
+  color: #FAFAFA;
+  background-color: #F77825;
+}
+
+/**
+ * Main Components
+ **/
+#guide {
+  position: relative;
+  height: 40px;
+  padding: 1rem 1rem 0;
+}
+#guide .guide__limit, #guide .guide__pagination {
+  position: absolute;
+  bottom: 0;
+}
+#guide .guide__limit {
+  left: 1rem;
+}
+#guide .guide__pagination {
+  right: 1rem;
+}
+
+#contributions {
+  padding: 0 1rem;
+}
+
+.contribution {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #60B99A;
+}
+.contribution .contribution__body, .contribution .contribution__footer {
+  margin-top: 1rem;
+}
+.contribution .empty {
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #F77825;
+  margin: 0 0 .5rem;
+}
+.contribution .contribution__user .contribution__user--icon, .contribution .contribution__user .contribution__user--name {
+  float: left;
+}
+.contribution .contribution__user .contribution__user--icon {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: #FAFAFA;
+  background-color: #D3CE3D;
+  border-radius: 3px;
+}
+.contribution .contribution__user .contribution__user--name {
+  padding-left: .5rem;
+}
+.contribution .contribution__body .contribution__body--title {
+  height: 28px;
+}
+.contribution .contribution__body .contribution__body--content {
+  font-size: 0.9rem;
+  word-wrap: break-word;
+}
+.contribution .contribution__footer {
+  font-size: 0.8rem;
+}
+.contribution .contribution__footer .contribution__footer--new {
+  color: #F77825;
+}
+.contribution .contribution__delete {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  padding: 1rem 0;
+  z-index: 100;
+}
+
+.delete-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F1EFA5;
+  display: none;
+}
+.delete-wrapper .delete-wrapper__inner {
+  padding: 1rem 0 1rem 1rem;
+}
+
+.delete-guide {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  text-align: right;
+  transition: all .3s;
+}
+.delete-guide:hover {
+  color: #F77825;
+  cursor: pointer;
+}
+.delete-guide .delete-guide__icon {
+  line-height: 30px;
+  vertical-align: middle;
+}
+
+#pagination {
+  position: relative;
+  height: 40px;
+  padding: 0 1rem 1rem;
+}
+#pagination .pagination__prev {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  z-index: 10;
+}
+#pagination .pagination__current {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+#pagination .pagination__next {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  z-index: 10;
+}
+
+/**
+ * Footer Settings
+ */
+footer {
+  height: 50px;
+  padding: 10px 0;
+  background-color: #60B99A;
+}
+footer .nav-footer--sns {
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+  left: 1rem;
+}
+
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F1EFA5;
+  opacity: 0;
+  z-index: 1;
+  transition: all .3s;
+}
+
+/**
+ * Post Component
+ */
+#post {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: #F1EFA5;
+  display: none;
+  z-index: 1000;
+}
+
+#post-contribution {
+  padding: 1rem;
+}
+
+.post-wrapper {
+  padding-bottom: .5rem;
+}
+.post-wrapper .post-wrapper__text {
+  float: left;
+  width: 94px;
+}
+.post-wrapper .post-wrapper__tarea {
+  width: calc(100% - 100px);
+}
+.post-wrapper .post-wrapper__submit {
+  height: 28px;
+}
+
+/**
+ * Search Component
+ */
+#search {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: #F1EFA5;
+  display: none;
+  z-index: 1000;
+}
+
+.search-wrapper {
+  padding: 1rem;
+}
+.search-wrapper .search-wrapper__text {
+  float: left;
+  width: 94px;
+}
+
+/**
+ * Button Assets
+ */
+.btn--header, .btn--guide, .btn--footer, .btn--sub {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  line-height: 1rem;
+  color: #554236;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  transition: all .3s;
+  border-radius: 50%;
+}
+.btn--header:hover, .btn--guide:hover, .btn--footer:hover, .btn--sub:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.btn--header {
+  background-color: #FAFAFA;
+}
+.btn--header:hover {
+  background-color: #D3CE3D;
+}
+
+.btn--guide, .btn--footer {
+  background-color: #FAFAFA;
+}
+.btn--guide:hover, .btn--footer:hover {
+  background-color: #F1EFA5;
+}
+
+.btn--sub {
+  background-color: #F1EFA5;
+}
+.btn--sub:hover {
+  background-color: #D3CE3D;
+}
+
+.btn--small {
+  width: 30px;
+  height: 30px;
+  vertical-align: bottom;
+}
+
+.btn--margin {
+  margin-left: 5px;
+}
+
+.btn--notlink:hover {
+  cursor: default;
+}
+
+.btn__text {
+  font-size: 1rem;
+}
+
+/**
+ * ContributionEdit Component
+ */
+.contribution .contribution__edit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  padding: 1rem;
+  transition: all .3s;
+}
+.contribution .contribution__edit #update-contribution {
+  opacity: 0;
+  transition: all .3s;
+}
+.contribution .contribution__edit #update-contribution .update-text {
+  margin-top: .5rem;
+  width: 85%;
+}
+.contribution .contribution__edit .edit-guide {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  margin-right: -2px;
+  transition: all .3s;
+}
+.contribution .contribution__edit .edit-guide:hover {
+  color: #F77825;
+  cursor: pointer;
+}
+.contribution .contribution__submit {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}

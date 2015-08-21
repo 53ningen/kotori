@@ -1,10 +1,259 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+  <meta charset="utf-8">
+  <title>Kotori</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+  <!-- endbower -->
+  <!-- build:css -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
+  <link rel="stylesheet" href="styles/kotori.main.css">
+  <!-- endbuild -->
 </head>
 <body>
-    <h1>{{msg}}</h1>
+  <!-- startHeader -->
+  <header>
+    <nav class="nav-header--left">
+      <button class="btn btn--header btn--write">
+        <i class="fa fa-pencil"></i>
+      </button>
+    </nav>
+    <h1 class="heading">
+      <a href="/">Kotori</a>
+    </h1>
+    <nav class="nav-header--right">
+      <button class="btn btn--header btn--search">
+        <i class="fa fa-search"></i>
+      </button>
+    </nav>
+    <div class="notice notice--error">
+      <i class="fa fa-exclamation-triangle"></i>
+      <span class="notice__text"></span>
+    </div>
+  </header>
+  <!-- endHeader -->
+
+  <!-- startMain -->
+  <main>
+    <!-- startSection#guide -->
+    <section id="guide">
+      <div class="guide__limit">
+        <button class="btn btn--sub btn--notlink">
+          <i class="fa fa-comments"></i>
+        </button>
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
+          <button class="btn btn--guide btn--margin">
+            <span class="btn__text">10</span>
+          </button>
+        </a>
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
+          <button class="btn btn--guide btn--margin">
+            <span class="btn__text">30</span>
+          </button>
+        </a>
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
+          <button class="btn btn--guide btn--margin">
+            <span class="btn__text">50</span>
+          </button>
+        </a>
+      </div>
+      {{#pagination}}
+      <div class="guide__pagination">
+        {{#hasPrev}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
+          <button class="btn btn--guide">
+            <i class="fa fa-angle-left"></i>
+          </button>
+        </a>
+        {{/hasPrev}}
+        {{#hasNext}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
+          <button class="btn btn--guide btn--margin">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </a>
+        {{/hasNext}}
+      </div>
+      {{/pagination}}
+    </section>
+    <!-- endSection#guide -->
+
+    <!-- startSectio#contributions -->
+    <section id="contributions">
+      {{#contributions}}
+      <div class="contribution">
+        <div class="contribution__user cf">
+          <div class="contribution__user--icon">
+            icon
+          </div>
+          <div class="contribution__user--name">
+            {{username}}
+          </div>
+        </div>
+        <div class="contribution__body">
+          <div class="contribution__body--title">
+            {{title}}
+          </div>
+          <div class="contribution__body--content">
+            {{{content}}}
+          </div>
+        </div>
+        <div class="contribution__footer">
+          {{#isNew}}
+          <span class="contribution__footer--new">
+            New
+          </span>
+          {{/isNew}}
+          {{editedCreatedTime}} ・ #{{id}}
+        </div>
+        <div class="contribution__delete">
+          <div class="delete-wrapper">
+            <div class="delete-wrapper__inner">
+              <form id="delete-contribution">
+                <input class="delete-key" type="password" placeholder="削除キー" name="deleteKey" maxlength="20" required>
+                <input class="delete-id" type="hidden" name="id" value="{{id}}">
+                <input class="delete-username" type="hidden" name="username" value="{{username}}">
+                <input class="delete-btn btn--margin" type="submit" value="削除">
+              </form>
+            </div>
+          </div>
+          <div class="delete-guide">
+            <i class="fa fa-trash-o"></i>
+          </div>
+        </div>
+      </div>
+      {{/contributions}}
+      {{^contributions}}
+      <div class="contribution">
+        <h2 class="empty">
+          Oops!
+        </h2>
+        該当する投稿は見つかりませんでした。
+      </div>
+      {{/contributions}}
+    </section>
+    <!-- endSectio#contributions -->
+
+    <!-- startSectio#pagination -->
+    {{#pagination}}
+    <section id="pagination">
+      {{#hasPrev}}
+      <div class="pagination__prev">
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
+          <button class="btn btn--guide">
+            <i class="fa fa-angle-left"></i>
+          </button>
+        </a>
+      </div>
+      {{/hasPrev}}
+      <div class="pagination__current">
+        {{#prevList}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
+          <button class="btn btn--guide btn--small btn--margin">
+            <span class="btn__text">{{page}}</span>
+          </button>
+        </a>
+        {{/prevList}}
+        <button class="btn btn--sub btn--margin">
+          <span class="btn__text">{{current}}</span>
+        </button>
+        {{#nextList}}
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
+          <button class="btn btn--guide btn--small btn--margin">
+            <span class="btn__text">{{page}}</span>
+          </button>
+        </a>
+        {{/nextList}}
+      </div>
+      {{#hasNext}}
+      <div class="pagination__next">
+        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
+          <button class="btn btn--guide">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </a>
+      </div>
+      {{/hasNext}}
+    </section>
+    {{/pagination}}
+    <!-- endSectio#pagination -->
+
+  </main>
+  <!-- endMain-->
+
+  <!-- startFooter -->
+  <footer>
+    <nav class="nav-footer--sns">
+      <button class="btn btn--footer">
+        <i class="fa fa-twitter"></i>
+      </button>
+      <button class="btn btn--footer btn--margin">
+        <i class="fa fa-github"></i>
+      </button>
+    </nav>
+  </footer>
+  <!-- endFooter -->
+
+  <!-- startPost -->
+  <div id="post">
+    <form id="post-contribution">
+      <div class="post-wrapper cf">
+        <div class="post-wrapper__text">
+          名前
+        </div>
+        <input class="post-username" type="text" name="username" maxlength="20" required>
+      </div>
+      <div class="post-wrapper cf">
+        <div class="post-wrapper__text">
+          タイトル
+        </div>
+        <input class="post-title" type="text" name="title" maxlength="20" required>
+      </div>
+      <div class="post-wrapper cf">
+        <div class="post-wrapper__text">
+          本文
+        </div>
+        <textarea class="post-wrapper__tarea post-content" name="content" rows="10" required></textarea>
+      </div>
+      <div class="post-wrapper cf">
+        <div class="post-wrapper__text">
+          削除キー
+        </div>
+        <input class="post-deletekey" type="password" name="deleteKey" maxlength="20" required>
+      </div>
+      <div class="post-wrapper">
+        <div class="post-wrapper__submit">
+          <input class="post-submit" type="submit" value="投稿">
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- endPost -->
+
+  <!-- startSearch -->
+  <div id="search">
+    <form id="search-contribution">
+      <div class="search-wrapper cf">
+        <div class="search-wrapper__text">
+          投稿検索
+        </div>
+        <input class="search-keyword" type="text" placeholder="キーワードを入力" maxlength="20">
+      </div>
+    </form>
+  </div>
+  <!-- endSearch -->
+
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- endbower -->
+  <!-- build:js -->
+  <script src="scripts/kotori.ajax.js"></script>
+  <script src="scripts/kotori.animation.js"></script>
+  <script src="scripts/kotori.main.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

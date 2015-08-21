@@ -3,6 +3,8 @@
 *.jar
 *.war
 *.ear
+*.properties
+*.uml
 
 # Idea
 .idea
@@ -17,6 +19,16 @@ Thumbs.db
 # Gradle
 .gradle
 !gradle-wrapper.jar
+
+# Grunt
+**/node_modules
+
+# Bower
+**/bower_components
+
+# Sass
+.sass-cache
+**/styles/sass_components
 
 # Build
 out

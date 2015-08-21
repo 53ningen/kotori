@@ -1,21 +1,24 @@
 package routes;
 
 import static spark.Spark.*;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
+
+import models.posts.deletes.*;
+import models.posts.inserts.*;
+import models.posts.updates.UpdateContribution;
 import spark.template.mustache.MustacheTemplateEngine;
-import java.util.HashMap;
 
 /**
  * ルーティングを行うクラス
  */
-public class ApplicationRoute implements ApplicationRouteInterface {
-    private static ApplicationRoute applicationRoute = new ApplicationRoute();
-    private HashMap<String, Object> model;
+public class ApplicationRoute {
+    private static final ApplicationRoute applicationRoute = new ApplicationRoute();
+    private final PostRequest postRequest = new PostRequest();
+    private final GetRequest getRequest = new GetRequest();
 
     private ApplicationRoute() {
-        this.model = new HashMap<>();
+        initServerConf();
+        initRoutesGet();
+        initRoutesPost();
     }
 
     /**
@@ -28,48 +31,43 @@ public class ApplicationRoute implements ApplicationRouteInterface {
     /**
      * サーバの設定を行う
      */
-    public void initServerConf() {
+    private void initServerConf() {
         port(9000); // ポート番号を設定
-        initRoutes();
+        staticFileLocation("/templates"); // 静的ファイルのパスを設定
     }
 
     /**
      * ルーティングの設定を行う
      */
-    private void initRoutes() {
+    private void initRoutesGet() {
         MustacheTemplateEngine engine = new MustacheTemplateEngine();
 
-        get("/", ((request, response) -> {
-            return getRoot(request, response);
-        }), engine);
+        get("/", ((req, res) -> getRequest.getPage(req, "index.mustache.html")), engine);
 
-        get("/stop", ((request, response) -> {
-            return getStop(request, response);
-        }), engine);
+        get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
+
+        get("/search", ((req, res) -> getRequest.getSearch(req)), engine);
+
+        get("/admin_ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);
+
+        get("/admin_nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
     }
 
-    /**
-     * indexページを表示する
-     * @param req リクエスト
-     * @param res レスポンス
-     * @return indexのModelAndView
-     */
-    @Override
-    public ModelAndView getRoot(Request req, Response res) {
-        model.put("msg", "hello");
-        return new ModelAndView(model, "index.mustache.html");
-    }
+    private void initRoutesPost() {
+        post("/api/post", ((req, res) -> postRequest.insert(req, res, InsertContribution.getInsertContribution())));
 
+        post("/api/delete", ((req, res) -> postRequest.delete(req, res, DeleteContribution.getDeleteContribution())));
 
-    /**
-     * サーバを停止する
-     * @param req リクエスト
-     * @param res レスポンス
-     * @return null
-     */
-    @Override
-    public ModelAndView getStop(Request req, Response res) {
-        stop();
-        return null;
+        post("/api/admin_delete", ((req, res) -> postRequest.deleteWithoutKey(req, res, DeleteContribution.getDeleteContribution())));
+
+        post("/api/admin_update", ((req, res) -> postRequest.update(req, res, UpdateContribution.getUpdateContribution())));
+
+        post("/api/admin_delete_ngword", ((req, res) -> postRequest.delete(req, res, DeleteNGWord.getDeleteNGWord())));
+
+        post("/api/admin_delete_nguser", ((req, res) -> postRequest.delete(req, res, DeleteNGUser.getDeleteNGUser())));
+
+        post("/api/admin_insert_ngword", ((req, res) -> postRequest.insert(req, res, InsertNGWord.getInsertNGWord())));
+
+        post("/api/admin_insert_nguser", ((req, res) -> postRequest.insert(req, res, InsertNGUser.getInsertNGUser())));
     }
 }

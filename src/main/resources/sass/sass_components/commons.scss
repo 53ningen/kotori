@@ -1,0 +1,76 @@
+@import "assets";
+@import "mixins";
+
+/**
+ * Common Settings
+ */
+html, body {
+  color: $text-color;
+}
+
+header, main, footer {
+  position: relative;
+}
+
+main {
+  margin-top: $header-height + 20;
+}
+
+a {
+  @include transition;
+}
+
+a:link, a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  color: inherit;
+}
+
+input[type="submit"] {
+  padding: 1px .25rem;
+  height: 28px;
+  background-color: $white-color;
+  vertical-align: middle;
+  @include transition;
+  &:hover {
+    border: 1px solid $main-color;
+  }
+}
+
+input {
+  height: 24px;
+}
+
+input, textarea {
+  float: left;
+  outline: none;
+  border: 1px solid $text-color;
+  @include transition;
+  &:focus {
+    border: 1px solid $main-color;
+  }
+}
+
+/**
+ * ClearFix
+ */
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
+.cf {
+  *zoom: 1;
+}
+
+.active {
+  visibility: visible !important;
+}

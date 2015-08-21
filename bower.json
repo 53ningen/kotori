@@ -1,0 +1,9 @@
+{
+  "name": "bulletin-board",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "normalize.css": "~3.0.3",
+    "fontawesome": "~4.4.0"
+  }
+}

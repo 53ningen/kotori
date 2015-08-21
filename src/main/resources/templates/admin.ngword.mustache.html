@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Kotori - Admin</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+  <!-- endbower -->
+  <!-- build:css -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
+  <link rel="stylesheet" href="styles/kotori.admin.ng.css">
+  <!-- endbuild -->
+</head>
+<body>
+  <!-- startHeader -->
+  <header>
+    <nav class="nav-header--left">
+      <a href="/admin">
+        <button class="btn btn--header btn--write">
+          <i class="fa fa-cog"></i>
+        </button>
+      </a>
+      <a href="/admin_nguser">
+        <button class="btn btn--header btn--margin">
+          <i class="fa fa-user-times"></i>
+        </button>
+      </a>
+    </nav>
+    <h1 class="heading">
+      <a href="{{path}}">NGWord</a>
+    </h1>
+    <nav class="nav-header--right">
+      <a href="/">
+        <button class="btn btn--header">
+          <i class="fa fa-sign-out"></i>
+        </button>
+      </a>
+    </nav>
+    <div class="notice notice--error">
+      <i class="fa fa-exclamation-triangle"></i>
+      <span class="notice__text"></span>
+    </div>
+  </header>
+  <!-- endHeader -->
+
+  <!-- startMain -->
+  <main>
+    <!-- startSection#form-ng -->
+    <section id="form-ng">
+      <form id="post-ng">
+        <input class="ng-word" type="text" name="word">
+        <input class="btn--margin" type="submit" value="追加">
+      </form>
+    </section>
+    <!-- endSection#form-ng -->
+
+    <!-- startSection#nglist -->
+    <section id="nglist">
+      {{#nglist}}
+      <div class="ng">
+        <div class="ng__word">
+          <span class="ng-id">
+            {{id}}
+          </span>
+          <span class="ng-word">
+            {{word}}
+          </span>
+        </div>
+        <div class="ng__delete">
+          <form id="delete-ng">
+            <input class="delete-id" type="hidden" name="id" value="{{id}}">
+          </form>
+          <i class="fa fa-trash-o"></i>
+        </div>
+      </div>
+      {{/nglist}}
+    </section>
+    <!-- endSection#nglist -->
+  </main>
+  <!-- endMain -->
+
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- endbower -->
+  <!-- build:js -->
+  <script src="scripts/kotori.ajax.js"></script>
+  <script src="scripts/kotori.admin.ng.js"></script>
+  <!-- endbuild -->
+</body>
+</html>

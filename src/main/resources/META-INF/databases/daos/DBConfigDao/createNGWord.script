@@ -1,0 +1,7 @@
+create table if not exists ngword (
+    id int(11) unsigned not null primary key auto_increment,
+    word varchar(255) not null
+);
+
+insert into ngword(word) values ('hoge');
+insert into ngword(word) values ('fuga');
