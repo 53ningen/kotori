@@ -16,10 +16,22 @@ import spark.Response;
 import java.util.Optional;
 
 public class InsertContribution extends Status implements InsertInterface {
-    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
-    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
-    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
-    private HandleContribution handleContribution = new HandleContribution();
+    private static final InsertContribution insertContribution = new InsertContribution();
+    private HandleDBForContribution handleDBForContribution;
+    private HandleDBForNGWord handleDBForNGWord;
+    private HandleDBForNGUser handleDBForNGUser;
+    private HandleContribution handleContribution;
+
+    private InsertContribution() {
+        handleDBForContribution = new HandleDBForContribution();
+        handleDBForNGWord = new HandleDBForNGWord();
+        handleDBForNGUser = new HandleDBForNGUser();
+        handleContribution = new HandleContribution();
+    }
+
+    public static InsertContribution getInsertContribution() {
+        return insertContribution;
+    }
 
     /**
      * postによる投稿を受け付ける
@@ -41,22 +53,22 @@ public class InsertContribution extends Status implements InsertInterface {
                 return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }
 
-            // OptionalなContributionを生成する
-            Optional<Contribution> contributionOpt = handleContribution.createContribution(payload);
+            // Contributionを生成する
+            Contribution contribution = new Contribution(payload);
 
             // ContributionがNotNullならばDBに挿入する
-            int result = handleDBForContribution.insert(contributionOpt.get());
+            int result = handleDBForContribution.insert(contribution);
             if (result < 1) {
                 return setInternalServerError(response);
             }
 
             // Contributionに新着情報を付与する
-            Contribution contribution = handleContribution.addInformationContribution(contributionOpt.get());
+            Contribution editedContribution = handleContribution.addInformationContribution(contribution);
 
             // ステータスコード200 OKを設定する
             setOK(response, RESPONSE_TYPE_JSON);
 
-            return convertObjectToJson(contribution);
+            return convertObjectToJson(editedContribution);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }

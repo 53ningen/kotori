@@ -4,6 +4,7 @@ import bulletinBoard.DBConfig;
 import databases.DBContributionResource;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import models.payloads.PostPayload;
 import models.payloads.UpdatePayload;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,8 +28,7 @@ public class ContributionDaoTest {
     public void 用意したテストデータをidを指定して取得できる() throws Exception {
         tm.required(() -> {
             // exercise
-            Optional<Contribution> contributionOpt = dao.findById(1);
-            Contribution contribution = contributionOpt.orElse(new Contribution());
+            Contribution contribution = dao.findById(1);
 
             // verify
             assertThat(contribution.getId(), is(1));
@@ -61,12 +61,12 @@ public class ContributionDaoTest {
     public void INSERTが問題なく実行できる() throws Exception {
         tm.required(() -> {
             // setup
-            Contribution contribution = new Contribution();
-            contribution.setUsername("高坂穂乃果");
-            contribution.setTitle("foo");
-            contribution.setContent("test");
-            contribution.setDeleteKey("pass");
-            contribution.setCreatedAt(LocalDateTime.of(2015, 7, 31, 12, 24, 36));
+            PostPayload payload = new PostPayload();
+            payload.setUsername("高坂穂乃果");
+            payload.setTitle("foo");
+            payload.setContent("test");
+            payload.setDeleteKey("pass");
+            Contribution contribution = new Contribution(payload);
 
             // exercise
             int result = dao.insert(contribution);
@@ -117,8 +117,7 @@ public class ContributionDaoTest {
 
             // exercise
             int result = dao.updateById(payload);
-            Optional<Contribution> resultContributionOpt = dao.findById(1);
-            Contribution resultContribution = resultContributionOpt.get();
+            Contribution resultContribution = dao.findById(1);
 
             // verify
             assertThat(result, is(1));

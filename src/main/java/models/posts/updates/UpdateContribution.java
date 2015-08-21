@@ -10,7 +10,16 @@ import spark.Request;
 import spark.Response;
 
 public class UpdateContribution extends Status implements UpdateInterface {
-    private HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
+    private static final UpdateContribution updateContribution = new UpdateContribution();
+    private HandleDBForContribution handleDBForContribution;
+
+    private UpdateContribution() {
+        handleDBForContribution = new HandleDBForContribution();
+    }
+
+    public static UpdateContribution getUpdateContribution() {
+        return updateContribution;
+    }
 
     /**
      * postによる投稿を受け付ける

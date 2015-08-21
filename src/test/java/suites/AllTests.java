@@ -6,7 +6,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ModelTests.class,
-        DaoTests.class
+        DatabaseTests.class
 })
 public class AllTests {
 }

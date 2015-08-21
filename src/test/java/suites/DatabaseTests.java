@@ -4,6 +4,7 @@ import databases.daos.ContributionDaoTest;
 import databases.daos.NGUserDaoTest;
 import databases.daos.NGWordDaoTest;
 
+import databases.entities.ContributionTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -11,7 +12,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ContributionDaoTest.class,
         NGWordDaoTest.class,
-        NGUserDaoTest.class
+        NGUserDaoTest.class,
+        ContributionTest.class
 })
-public class DaoTests {
+public class DatabaseTests {
 }

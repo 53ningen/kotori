@@ -19,13 +19,13 @@ import static org.mockito.Mockito.when;
 public class InsertNGWordTest {
     @Rule
     public final DBNGWordResource ngWordResource = new DBNGWordResource();
-    private InsertNGWord insertNGWord = new InsertNGWord();
+    private InsertNGWord insertNGWord;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() throws Exception {
-        insertNGWord = new InsertNGWord();
+        insertNGWord = InsertNGWord.getInsertNGWord();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
@@ -40,7 +40,7 @@ public class InsertNGWordTest {
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class InsertNGWordTest {
         
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test

@@ -25,7 +25,7 @@ public class DeleteContributionTest {
 
     @Before
     public void setUp() throws Exception {
-        deleteContribution = new DeleteContribution();
+        deleteContribution = DeleteContribution.getDeleteContribution();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
@@ -40,7 +40,7 @@ public class DeleteContributionTest {
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class DeleteContributionTest {
 
         // verify
         verify(response).status(400);
-        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID));
+        assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test

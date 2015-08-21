@@ -4,6 +4,7 @@ import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
+import models.contributions.HandleContribution;
 import models.payloads.UpdatePayload;
 import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
@@ -15,6 +16,7 @@ import java.util.*;
 public class HandleDBForContribution {
     private final ContributionDao contributionDao = DaoImplHelper.get(ContributionDao.class);
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
+    private final HandleContribution handleContribution = new HandleContribution();
     private SelectOptions options;
 
     /**
@@ -61,7 +63,7 @@ public class HandleDBForContribution {
     public List<Contribution> findWithLimit(HandleRequest req)
     {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> contributionDao.findWithLimit(options));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.findWithLimit(options)));
     }
 
     /**
@@ -71,6 +73,6 @@ public class HandleDBForContribution {
      */
     public List<Contribution> findByKeyword(HandleRequest req) {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> contributionDao.findByKeyword(options, req.getQuery()));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.findByKeyword(options, req.getQuery())));
     }
 }
