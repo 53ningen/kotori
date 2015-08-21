@@ -4,13 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import models.contributions.Encryption;
 import models.payloads.DeletePayload;
 import models.payloads.HandlePayload;
-import models.posts.utils.ErrorCode;
 import models.posts.handles.HandleDBForContribution;
-import models.posts.utils.Status;
+import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 
-public class DeleteContribution extends Status implements DeleteInterface {
+public class DeleteContribution implements DeleteInterface {
     private static final DeleteContribution deleteContribution = new DeleteContribution();
     private HandleDBForContribution handleDBForContribution;
 

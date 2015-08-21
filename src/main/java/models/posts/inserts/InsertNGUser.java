@@ -3,13 +3,12 @@ package models.posts.inserts;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.NGUser;
 import models.payloads.HandlePayload;
-import models.posts.utils.ErrorCode;
-import models.posts.utils.Status;
 import models.posts.handles.HandleDBForNGUser;
+import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 
-public class InsertNGUser extends Status implements InsertInterface {
+public class InsertNGUser implements InsertInterface {
     private static final InsertNGUser insertNGUser = new InsertNGUser();
     private HandleDBForNGUser handleDBForNGUser;
 

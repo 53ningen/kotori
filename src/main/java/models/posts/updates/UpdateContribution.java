@@ -3,13 +3,12 @@ package models.posts.updates;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.HandlePayload;
 import models.payloads.UpdatePayload;
-import models.posts.utils.ErrorCode;
 import models.posts.handles.HandleDBForContribution;
-import models.posts.utils.Status;
+import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 
-public class UpdateContribution extends Status implements UpdateInterface {
+public class UpdateContribution implements UpdateInterface {
     private static final UpdateContribution updateContribution = new UpdateContribution();
     private HandleDBForContribution handleDBForContribution;
 

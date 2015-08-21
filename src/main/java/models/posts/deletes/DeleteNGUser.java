@@ -2,13 +2,12 @@ package models.posts.deletes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.DeletePayload;
-import models.posts.utils.ErrorCode;
-import models.posts.utils.Status;
 import models.posts.handles.HandleDBForNGUser;
+import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 
-public class DeleteNGUser extends Status implements DeleteInterface {
+public class DeleteNGUser implements DeleteInterface {
     private static final DeleteNGUser deleteNGUser = new DeleteNGUser();
     private HandleDBForNGUser handleDBForNGUser;
 

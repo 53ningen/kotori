@@ -2,13 +2,12 @@ package models.posts.deletes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.payloads.DeletePayload;
-import models.posts.utils.ErrorCode;
-import models.posts.utils.Status;
 import models.posts.handles.HandleDBForNGWord;
+import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 
-public class DeleteNGWord extends Status implements DeleteInterface {
+public class DeleteNGWord implements DeleteInterface {
     private static final DeleteNGWord deleteNGWord = new DeleteNGWord();
     private HandleDBForNGWord handleDBForNGWord;
 

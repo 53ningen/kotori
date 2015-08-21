@@ -3,10 +3,11 @@ package models.posts.inserts;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import models.posts.utils.Status;
 import spark.Request;
 import spark.Response;
 
-public interface InsertInterface {
+public interface InsertInterface extends Status {
     String RESPONSE_TYPE_JSON = "application/json";
     String requestInsert(Request request, Response response);
 

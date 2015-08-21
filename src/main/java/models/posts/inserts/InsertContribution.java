@@ -5,17 +5,14 @@ import databases.entities.Contribution;
 import models.contributions.HandleContribution;
 import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
-import models.posts.handles.HandleDBForNGUser;
-import models.posts.utils.ErrorCode;
 import models.posts.handles.HandleDBForContribution;
-import models.posts.utils.Status;
+import models.posts.handles.HandleDBForNGUser;
 import models.posts.handles.HandleDBForNGWord;
+import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 
-import java.util.Optional;
-
-public class InsertContribution extends Status implements InsertInterface {
+public class InsertContribution implements InsertInterface {
     private static final InsertContribution insertContribution = new InsertContribution();
     private HandleDBForContribution handleDBForContribution;
     private HandleDBForNGWord handleDBForNGWord;
