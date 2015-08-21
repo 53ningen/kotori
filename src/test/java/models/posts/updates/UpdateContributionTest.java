@@ -1,6 +1,6 @@
 package models.posts.updates;
 
-import databases.DBContributionResource;
+import databases.resources.DBContributionResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import models.posts.utils.ErrorCode;

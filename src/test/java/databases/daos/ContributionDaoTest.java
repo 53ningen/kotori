@@ -1,7 +1,7 @@
 package databases.daos;
 
 import bulletinBoard.DBConfig;
-import databases.DBContributionResource;
+import databases.resources.DBContributionResource;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
 import models.payloads.PostPayload;
@@ -13,7 +13,6 @@ import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

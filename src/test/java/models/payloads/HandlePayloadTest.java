@@ -1,7 +1,7 @@
 package models.payloads;
 
-import databases.DBNGUserResource;
-import databases.DBNGWordResource;
+import databases.resources.DBNGUserResource;
+import databases.resources.DBNGWordResource;
 import databases.entities.NGUser;
 import databases.entities.NGWord;
 import models.posts.handles.HandleDBForNGUser;

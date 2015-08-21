@@ -12,7 +12,7 @@ public interface UserDao {
     @Insert
     int insert(User user);
 
-    @Delete
-    int delete(User user);
+    @Delete(sqlFile = true)
+    int deleteById(int id);
 
 }

@@ -5,9 +5,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-import databases.DBContributionResource;
-import databases.DBNGUserResource;
-import databases.DBNGWordResource;
+import databases.resources.DBContributionResource;
+import databases.resources.DBNGUserResource;
+import databases.resources.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import models.posts.utils.ErrorCode;

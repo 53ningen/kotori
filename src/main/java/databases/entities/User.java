@@ -16,6 +16,13 @@ public class User {
     @Column(name ="userid")
     private String userid;
 
+    public User() {}
+
+    public User(String username, String userid) {
+        setUsername(username);
+        setUserid(userid);
+    }
+
     public int getId() {
         return id;
     }
@@ -24,7 +31,7 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
+    private void setUsername(String username) {
         this.username = username;
     }
 
@@ -32,7 +39,7 @@ public class User {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    private void setUserid(String userid) {
         this.userid = userid;
     }
 }
