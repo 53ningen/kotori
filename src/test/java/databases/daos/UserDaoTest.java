@@ -6,6 +6,7 @@ import databases.resources.DBUserResource;
 import helper.DaoImplHelper;
 import org.junit.Rule;
 import org.junit.Test;
+import org.seasar.doma.jdbc.UniqueConstraintException;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import static org.hamcrest.Matchers.is;
@@ -28,6 +29,25 @@ public class UserDaoTest {
 
             // verify
             assertThat(result, is(1));
+        });
+    }
+
+    @Test
+    public void useridが既に存在する場合主キー違反でエラーが返る() throws Exception {
+        tm.required(() -> {
+            // setup
+            User user = new User("hanayo", "username", "password");
+
+            // exercise
+            int result;
+            try {
+                result = dao.insert(user);
+            } catch (UniqueConstraintException e) {
+                result = 0;
+            }
+
+            // verify
+            assertThat(result, is(0));
         });
     }
 

@@ -6,6 +6,7 @@ import databases.entities.User;
 import models.payloads.HandlePayload;
 import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
+import org.seasar.doma.jdbc.UniqueConstraintException;
 import spark.Request;
 import spark.Response;
 
@@ -39,6 +40,8 @@ public class InsertUser implements InsertInterface {
             setOK(response, RESPONSE_TYPE_JSON);
 
             return convertObjectToJson(user);
+        } catch (UniqueConstraintException e) {
+            return setBadRequest(response, ErrorCode.REGISTERED_ID);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
