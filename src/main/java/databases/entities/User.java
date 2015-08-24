@@ -10,14 +10,11 @@ import org.seasar.doma.jdbc.entity.NamingType;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "userid")
+    private String userid;
 
     @Column(name = "username")
     private String username;
-
-    @Column(name = "userid")
-    private String userid;
 
     @Column(name = "password")
     private String password;
@@ -25,28 +22,16 @@ public class User {
     public User() {}
 
     @JsonCreator
-    public User(@JsonProperty("username") String username,
-                @JsonProperty("userid") String userid,
+    public User(@JsonProperty("userid") String userid,
+                @JsonProperty("username") String username,
                 @JsonProperty("password") String password) {
-        setUsername(username);
         setUserid(userid);
+        setUsername(username);
         setPassword(password, userid);
     }
 
     public boolean isValid() {
         return !username.isEmpty() && !userid.isEmpty() && !password.isEmpty();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    private void setUsername(String username) {
-        this.username = username;
     }
 
     public String getUserid() {
@@ -55,6 +40,14 @@ public class User {
 
     private void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    private void setUsername(String username) {
+        this.username = username;
     }
 
     private void setPassword(String password, String userid) {

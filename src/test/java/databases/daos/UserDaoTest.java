@@ -21,7 +21,7 @@ public class UserDaoTest {
     public void INSERTが問題なく実行できる() throws Exception {
         tm.required(() -> {
             // setup
-            User user = new User("hoge", "hoge", "password");
+            User user = new User("fuga", "hoge", "password");
 
             // exercise
             int result = dao.insert(user);
@@ -35,7 +35,7 @@ public class UserDaoTest {
     public void deleteが正しく実行される() throws Exception {
         tm.required(() -> {
             // setup
-            User user = new User("hoge", "hoge", "password");
+            User user = new User("hanayo", "小泉花陽", "password");
 
             // exercise
             int result = dao.delete(user);

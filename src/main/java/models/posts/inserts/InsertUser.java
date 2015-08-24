@@ -40,7 +40,6 @@ public class InsertUser implements InsertInterface {
 
             return convertObjectToJson(user);
         } catch (Exception e) {
-            e.printStackTrace();
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }

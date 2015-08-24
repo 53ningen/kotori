@@ -60,7 +60,7 @@ public class DeleteUserTest {
     @Test
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
-        String content = "{\"username\":\"username\", \"userid\":\"hoge\", \"password\":\"password\"}";
+        String content = "{\"username\":\"username\", \"userid\":\"hanayo\", \"password\":\"password\"}";
         when(request.body()).thenReturn(content);
 
         // exercise

@@ -58,6 +58,10 @@ public class ApplicationRoute {
 
         post("/api/delete", ((req, res) -> postRequest.delete(req, res, DeleteContribution.getDeleteContribution())));
 
+        post("/api/user/insert", ((req, res) -> postRequest.insert(req, res, InsertUser.getInsertUser())));
+
+        post("/api/user/delete", ((req, res) -> postRequest.delete(req, res, DeleteUser.getDeleteUser())));
+
         post("/api/admin_delete", ((req, res) -> postRequest.deleteWithoutKey(req, res, DeleteContribution.getDeleteContribution())));
 
         post("/api/admin_update", ((req, res) -> postRequest.update(req, res, UpdateContribution.getUpdateContribution())));
