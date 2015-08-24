@@ -6,6 +6,7 @@ import models.payloads.HandlePayloadTest;
 import models.posts.deletes.DeleteContributionTest;
 import models.posts.deletes.DeleteNGUserTest;
 import models.posts.deletes.DeleteNGWordTest;
+import models.posts.deletes.DeleteUserTest;
 import models.posts.inserts.InsertContributionTest;
 import models.posts.inserts.InsertNGUserTest;
 import models.posts.inserts.InsertNGWordTest;
@@ -26,6 +27,7 @@ import org.junit.runners.Suite;
         InsertNGUserTest.class,
         DeleteNGUserTest.class,
         InsertUserTest.class,
+        DeleteUserTest.class,
         HandlePayloadTest.class,
         HandleRequestTest.class,
         HandlePaginationTest.class

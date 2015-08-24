@@ -35,7 +35,7 @@ public class UserDaoTest {
     public void deleteが正しく実行される() throws Exception {
         tm.required(() -> {
             // setup
-            User user = new User("hoge", "password");
+            User user = new User("hoge", "hoge", "password");
 
             // exercise
             int result = dao.delete(user);

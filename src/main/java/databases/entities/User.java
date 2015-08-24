@@ -33,11 +33,6 @@ public class User {
         setPassword(password, userid);
     }
 
-    public User(String userid, String password) {
-        setUserid(userid);
-        setPassword(password, userid);
-    }
-
     public boolean isValid() {
         return !username.isEmpty() && !userid.isEmpty() && !password.isEmpty();
     }
