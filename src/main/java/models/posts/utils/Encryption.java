@@ -1,4 +1,4 @@
-package models.contributions;
+package models.posts.utils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -14,12 +14,12 @@ public class Encryption {
     private static final int KEY_LENGTH = 256;
 
     /**
-     * 平文の削除キーとソルトからハッシュ化された削除キーを生成する
+     * 平文の削除キーとソルトからハッシュ化されたキーを生成する
      * @param deleteKey 削除キー
      * @param salt ソルト（ユーザ名）
-     * @return ハッシュ化された削除キー
+     * @return ハッシュ化されたキー
      */
-    public static String getSaltedDeleteKey(String deleteKey, String salt) {
+    public static String getSaltedKey(String deleteKey, String salt) {
         SecretKey secretKey;
 
         try {

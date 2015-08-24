@@ -1,8 +1,9 @@
 create table if not exists user (
     id int(11) unsigned not null primary key auto_increment,
     username varchar(20) not null,
-    userid varchar(255) not null
+    userid varchar(20) not null,
+    password varchar(255) not null
 );
 
-insert into user(username, userid)
-       values ('小泉花陽', 'hoge')
+insert into user(username, userid, password)
+       values ('小泉花陽', 'hoge', '5c2b5ab9e5e27d1e9729933386d55b9a274afac87408a78435ad383c563f180f')

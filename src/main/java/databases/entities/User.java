@@ -1,5 +1,8 @@
 package databases.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import models.posts.utils.Encryption;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
@@ -13,14 +16,30 @@ public class User {
     @Column(name = "username")
     private String username;
 
-    @Column(name ="userid")
+    @Column(name = "userid")
     private String userid;
+
+    @Column(name = "password")
+    private String password;
 
     public User() {}
 
-    public User(String username, String userid) {
+    @JsonCreator
+    public User(@JsonProperty("username") String username,
+                @JsonProperty("userid") String userid,
+                @JsonProperty("password") String password) {
         setUsername(username);
         setUserid(userid);
+        setPassword(password, userid);
+    }
+
+    public User(String userid, String password) {
+        setUserid(userid);
+        setPassword(password, userid);
+    }
+
+    public boolean isValid() {
+        return !username.isEmpty() && !userid.isEmpty() && !password.isEmpty();
     }
 
     public int getId() {
@@ -41,5 +60,9 @@ public class User {
 
     private void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    private void setPassword(String password, String userid) {
+        this.password = Encryption.getSaltedKey(password, userid);
     }
 }

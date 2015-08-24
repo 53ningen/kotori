@@ -21,7 +21,7 @@ public class UserDaoTest {
     public void INSERTが問題なく実行できる() throws Exception {
         tm.required(() -> {
             // setup
-            User user = new User("hoge", "hoge");
+            User user = new User("hoge", "hoge", "password");
 
             // exercise
             int result = dao.insert(user);
@@ -32,10 +32,13 @@ public class UserDaoTest {
     }
 
     @Test
-    public void IDによるdeleteが正しく実行される() throws Exception {
+    public void deleteが正しく実行される() throws Exception {
         tm.required(() -> {
+            // setup
+            User user = new User("hoge", "password");
+
             // exercise
-            int result = dao.deleteById(1);
+            int result = dao.delete(user);
 
             // verify
             assertThat(result, is(1));

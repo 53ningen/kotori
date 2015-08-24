@@ -1,11 +1,10 @@
 package models.posts.deletes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.contributions.Encryption;
+import models.posts.utils.Encryption;
 import models.payloads.DeletePayload;
 import models.payloads.HandlePayload;
 import models.posts.handles.HandleDB;
-import models.posts.handles.HandleDBForContribution;
 import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
@@ -60,7 +59,7 @@ public class DeleteContribution implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = HandleDB.contribution().deleteWithKey(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
+            int result = HandleDB.contribution().deleteWithKey(payload.getId(), Encryption.getSaltedKey(payload.getDeleteKey(), payload.getUsername()));
             if (result < 1) {
                 return setInternalServerError(response);
             }
