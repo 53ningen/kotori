@@ -1,7 +1,7 @@
 package databases.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import models.contributions.Encryption;
+import models.posts.utils.Encryption;
 import models.payloads.PostPayload;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
@@ -39,7 +39,7 @@ public class Contribution extends SupContribution {
         setUsername(payload.getUsername());
         setTitle(payload.getTitle());
         setContent(payload.getContent());
-        setDeleteKey(Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
+        setDeleteKey(Encryption.getSaltedKey(payload.getDeleteKey(), payload.getUsername()));
         setCreatedAt(LocalDateTime.now());
     }
 

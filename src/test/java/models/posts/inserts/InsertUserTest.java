@@ -1,6 +1,6 @@
-package models.posts.updates;
+package models.posts.inserts;
 
-import databases.resources.DBContributionResource;
+import databases.resources.DBUserResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import models.posts.utils.ErrorCode;
@@ -16,16 +16,16 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class UpdateContributionTest {
+public class InsertUserTest {
     @Rule
-    public final DBContributionResource resource = new DBContributionResource();
-    private UpdateContribution updateContribution;
+    public final DBUserResource resource = new DBUserResource();
+    private InsertUser insertUser;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() throws Exception {
-        updateContribution = UpdateContribution.getUpdateContribution();
+        insertUser = InsertUser.getInsertUser();
         request = RequestHelper.Requestモックの生成();
         response = ResponseHelper.Responseモックの生成();
     }
@@ -36,7 +36,7 @@ public class UpdateContributionTest {
         when(request.body()).thenReturn(null);
 
         // exercise
-        String errorCode = updateContribution.requestUpdate(request, response);
+        String errorCode = insertUser.requestInsert(request, response);
 
         // verify
         verify(response).status(400);
@@ -46,25 +46,38 @@ public class UpdateContributionTest {
     @Test
     public void パラメータが足りない場合BadRequestを返す() throws Exception {
         // setup
-        String content = "{\"id\": \"1\", \"content\":}";
+        String content = "{\"username\":\"username\",\"userid\":\"userid\",\"password\":}";
         when(request.body()).thenReturn(content);
 
         // exercise
-        String errorCode = updateContribution.requestUpdate(request, response);
-
+        String errorCode = insertUser.requestInsert(request, response);
+        
         // verify
         verify(response).status(400);
         assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
     }
 
     @Test
-    public void パラメータが正しければ200OKを返す() throws Exception {
+    public void ユーザIDが登録済みならエラーを返す() throws Exception {
         // setup
-        String content = "{\"id\": \"1\", \"content\": \"小泉花陽\"}";
+        String content = "{\"username\":\"username\", \"userid\":\"hanayo\", \"password\":\"password\"}";
         when(request.body()).thenReturn(content);
 
         // exercise
-        updateContribution.requestUpdate(request, response);
+        insertUser.requestInsert(request, response);
+
+        // verify
+        verify(response).status(400);
+    }
+
+    @Test
+    public void パラメータが正しければ200OKを返す() throws Exception {
+        // setup
+        String content = "{\"username\":\"username\", \"userid\":\"userid\", \"password\":\"password\"}";
+        when(request.body()).thenReturn(content);
+
+        // exercise
+        insertUser.requestInsert(request, response);
 
         // verify
         verify(response).status(200);

@@ -1,22 +1,16 @@
 package models.posts.deletes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.contributions.Encryption;
+import models.posts.utils.Encryption;
 import models.payloads.DeletePayload;
 import models.payloads.HandlePayload;
+import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
-import models.posts.handles.HandleDBForContribution;
-import models.posts.utils.Status;
 import spark.Request;
 import spark.Response;
 
-public class DeleteContribution extends Status implements DeleteInterface {
+public class DeleteContribution implements DeleteInterface {
     private static final DeleteContribution deleteContribution = new DeleteContribution();
-    private HandleDBForContribution handleDBForContribution;
-
-    private DeleteContribution() {
-        handleDBForContribution = new HandleDBForContribution();
-    }
 
     public static DeleteContribution getDeleteContribution() {
         return deleteContribution;
@@ -37,7 +31,7 @@ public class DeleteContribution extends Status implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForContribution.delete(payload.getId());
+            int result = HandleDB.contribution().delete(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }
@@ -65,7 +59,7 @@ public class DeleteContribution extends Status implements DeleteInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForContribution.deleteWithKey(payload.getId(), Encryption.getSaltedDeleteKey(payload.getDeleteKey(), payload.getUsername()));
+            int result = HandleDB.contribution().deleteWithKey(payload.getId(), Encryption.getSaltedKey(payload.getDeleteKey(), payload.getUsername()));
             if (result < 1) {
                 return setInternalServerError(response);
             }

@@ -1,6 +1,6 @@
 package databases.entities;
 
-import models.contributions.Encryption;
+import models.posts.utils.Encryption;
 import models.payloads.PostPayload;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class ContributionTest {
 
         // verify
         String deleteKey = contribution.getDeleteKey();
-        assertThat(deleteKey, is(Encryption.getSaltedDeleteKey("pass", "小泉花陽")));
-        assertThat(deleteKey, is(not(Encryption.getSaltedDeleteKey("pass", "星空凛"))));
+        assertThat(deleteKey, is(Encryption.getSaltedKey("pass", "小泉花陽")));
+        assertThat(deleteKey, is(not(Encryption.getSaltedKey("pass", "星空凛"))));
     }
 }

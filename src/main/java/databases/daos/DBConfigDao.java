@@ -25,4 +25,10 @@ public interface DBConfigDao {
     @Script
     void dropNGUser();
 
+    @Script
+    void createUser();
+
+    @Script
+    void dropUser();
+
 }

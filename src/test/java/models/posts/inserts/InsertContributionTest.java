@@ -5,9 +5,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-import databases.DBContributionResource;
-import databases.DBNGUserResource;
-import databases.DBNGWordResource;
+import databases.resources.DBContributionResource;
+import databases.resources.DBNGUserResource;
+import databases.resources.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import models.posts.utils.ErrorCode;
@@ -85,7 +85,7 @@ public class InsertContributionTest {
     public void パラメータが正しければ200OKを返す() throws Exception {
         // setup
         String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}}";
+        String content = "{\"username\": \"小泉花陽\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}";
         when(request.body()).thenReturn(content);
 
         // exercise
@@ -99,7 +99,7 @@ public class InsertContributionTest {
     public void パラメータが正しい場合でもNGワードが含まれていればBadRequestを返す() throws Exception {
         // setup
         String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-        String content = "{\"username\": \"hoge\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}}";
+        String content = "{\"username\": \"hoge\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}";
         when(request.body()).thenReturn(content);
 
         // exercise
@@ -114,7 +114,7 @@ public class InsertContributionTest {
     public void パラメータが正しい場合でもNGユーザであればBadRequestを返す() throws Exception {
         // setup
         String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-        String content = "{\"username\": \"piyopiyo\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}}";
+        String content = "{\"username\": \"piyopiyo\", \"title\": \""+ title +"\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}";
         when(request.body()).thenReturn(content);
 
         // exercise

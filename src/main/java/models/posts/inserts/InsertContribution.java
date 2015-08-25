@@ -5,27 +5,17 @@ import databases.entities.Contribution;
 import models.contributions.HandleContribution;
 import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
-import models.posts.handles.HandleDBForNGUser;
+import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
-import models.posts.handles.HandleDBForContribution;
-import models.posts.utils.Status;
-import models.posts.handles.HandleDBForNGWord;
+
 import spark.Request;
 import spark.Response;
 
-import java.util.Optional;
-
-public class InsertContribution extends Status implements InsertInterface {
+public class InsertContribution implements InsertInterface {
     private static final InsertContribution insertContribution = new InsertContribution();
-    private HandleDBForContribution handleDBForContribution;
-    private HandleDBForNGWord handleDBForNGWord;
-    private HandleDBForNGUser handleDBForNGUser;
     private HandleContribution handleContribution;
 
     private InsertContribution() {
-        handleDBForContribution = new HandleDBForContribution();
-        handleDBForNGWord = new HandleDBForNGWord();
-        handleDBForNGUser = new HandleDBForNGUser();
         handleContribution = new HandleContribution();
     }
 
@@ -47,9 +37,9 @@ public class InsertContribution extends Status implements InsertInterface {
             PostPayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), PostPayload.class);
             if (!payload.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
-            } else if (!HandlePayload.isValidUsername(handleDBForNGUser.findAll(), payload)) {
+            } else if (!HandlePayload.isValidUsername(HandleDB.ngUser().findAll(), payload)) {
                 return setBadRequest(response, ErrorCode.NGUSER);
-            } else if (!HandlePayload.isValidContent(handleDBForNGWord.findAll(), payload)) {
+            } else if (!HandlePayload.isValidContent(HandleDB.ngWord().findAll(), payload)) {
                 return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }
 
@@ -57,7 +47,7 @@ public class InsertContribution extends Status implements InsertInterface {
             Contribution contribution = new Contribution(payload);
 
             // ContributionがNotNullならばDBに挿入する
-            int result = handleDBForContribution.insert(contribution);
+            int result = HandleDB.contribution().insert(contribution);
             if (result < 1) {
                 return setInternalServerError(response);
             }

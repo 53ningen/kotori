@@ -1,6 +1,6 @@
 package models.posts.inserts;
 
-import databases.DBNGWordResource;
+import databases.resources.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import models.posts.utils.ErrorCode;

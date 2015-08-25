@@ -1,7 +1,7 @@
 package databases.daos;
 
 import bulletinBoard.DBConfig;
-import databases.DBNGWordResource;
+import databases.resources.DBNGWordResource;
 import databases.entities.NGWord;
 import helper.DaoImplHelper;
 import org.junit.Rule;

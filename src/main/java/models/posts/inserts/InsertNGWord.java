@@ -3,19 +3,14 @@ package models.posts.inserts;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.NGWord;
 import models.payloads.HandlePayload;
-import models.posts.utils.ErrorCode;
-import models.posts.utils.Status;
+import models.posts.handles.HandleDB;
 import models.posts.handles.HandleDBForNGWord;
+import models.posts.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 
-public class InsertNGWord extends Status implements InsertInterface {
+public class InsertNGWord implements InsertInterface {
     private static final InsertNGWord insertNGWord = new InsertNGWord();
-    private HandleDBForNGWord handleDBForNGWord;
-
-    private InsertNGWord() {
-        handleDBForNGWord = new HandleDBForNGWord();
-    }
 
     public static InsertNGWord getInsertNGWord() {
         return insertNGWord;
@@ -36,7 +31,7 @@ public class InsertNGWord extends Status implements InsertInterface {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = handleDBForNGWord.insert(ngWord);
+            int result = HandleDB.ngWord().insert(ngWord);
             if (result < 1) {
                 return setInternalServerError(response);
             }

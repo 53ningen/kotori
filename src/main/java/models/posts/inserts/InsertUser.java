@@ -2,22 +2,23 @@ package models.posts.inserts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.NGUser;
+import databases.entities.User;
 import models.payloads.HandlePayload;
 import models.posts.handles.HandleDB;
-import models.posts.handles.HandleDBForNGUser;
 import models.posts.utils.ErrorCode;
+import org.seasar.doma.jdbc.UniqueConstraintException;
 import spark.Request;
 import spark.Response;
 
-public class InsertNGUser implements InsertInterface {
-    private static final InsertNGUser insertNGUser = new InsertNGUser();
+public class InsertUser implements InsertInterface {
+    private static final InsertUser insertUser = new InsertUser();
 
-    public static InsertNGUser getInsertNGUser() {
-        return insertNGUser;
+    public static InsertUser getInsertUser() {
+        return insertUser;
     }
 
     /**
-     * postによるNGユーザ追加を受け付ける
+     * postによるユーザ追加を受け付ける
      * @param request リクエスト
      * @param response レスポンス
      * @return 投稿処理数
@@ -26,21 +27,24 @@ public class InsertNGUser implements InsertInterface {
     public String requestInsert(Request request, Response response) {
 
         try {
-            NGUser ngUser = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), NGUser.class);
-            if (!ngUser.isValid()) {
+            User user = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), User.class);
+            if (!user.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = HandleDB.ngUser().insert(ngUser);
+            int result = HandleDB.user().insert(user);
             if (result < 1) {
                 return setInternalServerError(response);
             }
 
             setOK(response, RESPONSE_TYPE_JSON);
 
-            return convertObjectToJson(ngUser);
+            return convertObjectToJson(user);
+        } catch (UniqueConstraintException e) {
+            return setBadRequest(response, ErrorCode.REGISTERED_ID);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }
 }
+
