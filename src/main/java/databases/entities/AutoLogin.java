@@ -1,5 +1,8 @@
 package databases.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import models.posts.utils.CSRFToken;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
@@ -27,6 +30,13 @@ public class AutoLogin {
         setToken(token);
         setUserid(userid);
         setExpire(ldt);
+    }
+
+    @JsonCreator
+    public AutoLogin(@JsonProperty("userid") String userid) {
+        setToken(CSRFToken.getCSRFToken());
+        setUserid(userid);
+        setExpire(LocalDateTime.now().plusWeeks(1));
     }
 
     public String getToken() {

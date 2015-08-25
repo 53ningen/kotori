@@ -15,6 +15,7 @@ import org.seasar.doma.jdbc.UniqueConstraintException;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -29,7 +30,8 @@ public class AutoLoginDaoTest {
     public void 用意したテストデータをTokenを指定して取得できる() throws Exception {
         tm.required(() -> {
             // exercise
-            AutoLogin al = dao.selectByToken("hoge");
+            Optional<AutoLogin> alOpt = dao.selectByToken("hoge");
+            AutoLogin al = alOpt.get();
 
             // verify
             assertThat(al.getToken(), is("hoge"));
@@ -71,21 +73,16 @@ public class AutoLoginDaoTest {
         });
     }
 
-
     @Test
-    public void UPDATEが問題なく実行できる() throws Exception {
+    public void deleteが正しく実行される() throws Exception {
         tm.required(() -> {
             // setup
-            LocalDateTime ldt = LocalDateTime.of(2015, 8, 25, 12, 32, 28);
-            AutoLogin al = new AutoLogin("hoge", "test", ldt);
-
+            AutoLogin al = new AutoLogin("hoge", "test", LocalDateTime.of(2009, 1, 1, 12, 11, 13));
             // exercise
-            int result = dao.update(al);
-            al = dao.selectByToken("hoge");
+            int result = dao.delete(al);
 
             // verify
             assertThat(result, is(1));
-            assertThat(al.getExpire(), is(ldt));
         });
     }
 

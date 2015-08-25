@@ -5,6 +5,7 @@ public class HandleDB {
     private static final HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
     private static final HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
     private static final HandleDBForUser handleDBForUser = new HandleDBForUser();
+    private static final HandleDBForAutoLogin handleDBForAutoLogin = new HandleDBForAutoLogin();
 
     public static HandleDBForContribution contribution() {
         return handleDBForContribution;
@@ -20,5 +21,9 @@ public class HandleDB {
 
     public static HandleDBForUser user() {
         return handleDBForUser;
+    }
+
+    public static HandleDBForAutoLogin autoLogin() {
+        return handleDBForAutoLogin;
     }
 }

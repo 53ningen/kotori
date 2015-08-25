@@ -12,8 +12,9 @@ public interface Status {
      * 200 OK を設定する
      * @param response レスポンス
      */
-    default void setOK(Response response) {
+    default String setOK(Response response) {
         response.status(HTTP_OK.getStatusCode());
+        return "OK";
     }
 
     /**
