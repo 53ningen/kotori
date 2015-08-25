@@ -22,9 +22,9 @@ public interface Status {
      * @param response レスポンス
      * @param type レスポンスタイプ
      */
-    default void setOK(Response response, String type) {
+    default void setOK(Response response, ResponseType type) {
         response.status(HTTP_OK.getStatusCode());
-        response.type(type);
+        response.type(type.getResponseType());
     }
 
     /**

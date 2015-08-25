@@ -1,11 +1,8 @@
 package routes;
 
-import static spark.Spark.*;
-
-import models.posts.deletes.*;
-import models.posts.inserts.*;
-import models.posts.updates.UpdateContribution;
 import spark.template.mustache.MustacheTemplateEngine;
+
+import static spark.Spark.*;
 
 /**
  * ルーティングを行うクラス
@@ -54,24 +51,26 @@ public class ApplicationRoute {
     }
 
     private void initRoutesPost() {
-        post("/api/post", ((req, res) -> postRequest.insert(req, res, InsertContribution.getInsertContribution())));
+        get("/login", ((req, res) -> postRequest.autoLoginRequest().insert(req, res)));
 
-        post("/api/delete", ((req, res) -> postRequest.delete(req, res, DeleteContribution.getDeleteContribution())));
+        post("/api/post", ((req, res) -> postRequest.contributionRequest().insert(req, res)));
 
-        post("/api/user/insert", ((req, res) -> postRequest.insert(req, res, InsertUser.getInsertUser())));
+        post("/api/delete", ((req, res) -> postRequest.contributionRequest().delete(req, res)));
 
-        post("/api/user/delete", ((req, res) -> postRequest.delete(req, res, DeleteUser.getDeleteUser())));
+        post("/api/user/insert", ((req, res) -> postRequest.userRequest().insert(req, res)));
 
-        post("/api/admin_delete", ((req, res) -> postRequest.deleteWithoutKey(req, res, DeleteContribution.getDeleteContribution())));
+        post("/api/user/delete", ((req, res) -> postRequest.userRequest().delete(req, res)));
 
-        post("/api/admin_update", ((req, res) -> postRequest.update(req, res, UpdateContribution.getUpdateContribution())));
+        post("/api/admin_delete", ((req, res) -> postRequest.contributionRequest().deleteWithoutKey(req, res)));
 
-        post("/api/admin_delete_ngword", ((req, res) -> postRequest.delete(req, res, DeleteNGWord.getDeleteNGWord())));
+        post("/api/admin_update", ((req, res) -> postRequest.contributionRequest().update(req, res)));
 
-        post("/api/admin_delete_nguser", ((req, res) -> postRequest.delete(req, res, DeleteNGUser.getDeleteNGUser())));
+        post("/api/admin_delete_ngword", ((req, res) -> postRequest.ngWordRequest().delete(req, res)));
 
-        post("/api/admin_insert_ngword", ((req, res) -> postRequest.insert(req, res, InsertNGWord.getInsertNGWord())));
+        post("/api/admin_delete_nguser", ((req, res) -> postRequest.ngUserRequest().delete(req, res)));
 
-        post("/api/admin_insert_nguser", ((req, res) -> postRequest.insert(req, res, InsertNGUser.getInsertNGUser())));
+        post("/api/admin_insert_ngword", ((req, res) -> postRequest.ngWordRequest().insert(req, res)));
+
+        post("/api/admin_insert_nguser", ((req, res) -> postRequest.ngUserRequest().insert(req, res)));
     }
 }

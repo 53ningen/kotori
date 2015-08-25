@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.AutoLogin;
 import models.payloads.HandlePayload;
 import models.posts.handles.HandleDB;
-import models.posts.handles.HandleDBForAutoLogin;
 import models.posts.utils.CSRFToken;
 import models.posts.utils.ErrorCode;
 import spark.Request;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class AutoLoginRequest implements DBRequest {
-    private final HandleDBForAutoLogin autoLogin = HandleDB.autoLogin();
 
     /**
      * ログイン情報をDBに追加する
@@ -26,7 +24,7 @@ public class AutoLoginRequest implements DBRequest {
     public String insert(Request request, Response response) {
         try {
             AutoLogin al = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), AutoLogin.class);
-            int result = autoLogin.insert(al);
+            int result = HandleDB.autoLogin().insert(al);
             if (result < 1) {
                 return setInternalServerError(response);
             }
@@ -52,8 +50,8 @@ public class AutoLoginRequest implements DBRequest {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            Optional<AutoLogin> alOpt = autoLogin.selectByToken(token);
-            Optional<Integer> result = alOpt.map(autoLogin::delete);
+            Optional<AutoLogin> alOpt = HandleDB.autoLogin().selectByToken(token);
+            Optional<Integer> result = alOpt.map(HandleDB.autoLogin()::delete);
             if (result.orElse(-1) < 1) {
                 return setInternalServerError(response);
             }
@@ -77,8 +75,8 @@ public class AutoLoginRequest implements DBRequest {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            Optional<AutoLogin> alOpt = autoLogin.selectByToken(token);
-            Optional<Integer> result = alOpt.map(al -> autoLogin.deleteByUserId(al.getUserid()));
+            Optional<AutoLogin> alOpt = HandleDB.autoLogin().selectByToken(token);
+            Optional<Integer> result = alOpt.map(al -> HandleDB.autoLogin().deleteByUserId(al.getUserid()));
             if (result.orElse(-1) < 1) {
                 return setInternalServerError(response);
             }
@@ -102,8 +100,8 @@ public class AutoLoginRequest implements DBRequest {
                 AutoLogin al = alOpt.get();
                 AutoLogin newAl = new AutoLogin(CSRFToken.getCSRFToken(), al.getUserid(), LocalDateTime.now().plusWeeks(1));
                 response.cookie("token", newAl.getToken(), 60 * 60 * 24 * 7); // クッキーを更新
-                autoLogin.delete(al); // 古いログイン情報を削除
-                autoLogin.insert(newAl); // 新しいログイン情報を追加
+                HandleDB.autoLogin().delete(al); // 古いログイン情報を削除
+                HandleDB.autoLogin().insert(newAl); // 新しいログイン情報を追加
                 return true;
             } else {
                 return false; // DBに存在しないか有効期限切れのため未ログイン
@@ -119,14 +117,14 @@ public class AutoLoginRequest implements DBRequest {
      * @return OptionalなAutoLoginインスタンス
      */
     private Optional<AutoLogin> checkAuthToken(String token) {
-        Optional<AutoLogin> alOpt = autoLogin.selectByToken(token);
+        Optional<AutoLogin> alOpt = HandleDB.autoLogin().selectByToken(token);
         AutoLogin al;
         if (!alOpt.isPresent()) {
             return Optional.empty(); // DBに存在しない
         } else {
             al = alOpt.get();
             if (al.getExpire().isBefore(LocalDateTime.now())) { // 有効期限が過ぎている
-                autoLogin.delete(al); // 古いログイン情報を削除
+                HandleDB.autoLogin().delete(al); // 古いログイン情報を削除
                 return Optional.empty();
             }
         }
