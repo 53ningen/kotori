@@ -1,0 +1,8 @@
+create table if not exists autologin (
+    token varchar(255) not null primary key,
+    userid varchar(20) not null,
+    expire timestamp not null
+);
+
+insert into autologin(token, userid, expire)
+       values ('hoge', 'test', '2009-01-01 12:11:13');
