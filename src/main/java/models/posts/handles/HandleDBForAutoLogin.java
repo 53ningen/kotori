@@ -1,50 +1,60 @@
 package models.posts.handles;
 
-import bulletinBoard.DBConfig;
-import databases.daos.AutoLoginDao;
+import bulletinBoard.RedisServer;
 import databases.entities.AutoLogin;
-import helper.DaoImplHelper;
-import org.seasar.doma.jdbc.tx.TransactionManager;
-
-import java.util.Optional;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 public class HandleDBForAutoLogin extends HandleDB {
-    private final AutoLoginDao autoLoginDao = DaoImplHelper.get(AutoLoginDao.class);
-    private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
+    private Jedis jedis;
+    private final JedisPool pool = RedisServer.getRedisServer().getJedisPool();
 
     /**
-     * AutoLogin情報をDBから取得する
+     * AutoLogin情報がDBに存在するか確認する
      * @param token トークン
-     * @return Optional型のAutoLoginインスタンス
+     * @return DBに存在していればtrueを返す
      */
-    public Optional<AutoLogin> selectByToken(String token) {
-        return tm.required(() -> autoLoginDao.selectByToken(token));
+    public boolean existToken(String token) {
+        try {
+            jedis = pool.getResource();
+            return jedis.exists(token);
+        } finally {
+            if (jedis != null) jedis.close();
+        }
     }
 
     /**
      * AutoLogin情報をDBに格納する
      * @param al AutoLoginインスタンス
-     * @return 処理した件数
+     * @return 成功時または既にメンバが存在している場合は1を返す
      */
-    public int insert(AutoLogin al) {
-        return tm.required(() -> autoLoginDao.insert(al));
+    public Long insert(AutoLogin al) {
+        try {
+            jedis = pool.getResource();
+            String key = al.getToken();
+            if (jedis.exists(key)) {
+                return 1L;
+            } else {
+                String result = jedis.set(key, al.getUserid());
+                jedis.expire(key, 60 * 60 * 24 * 7);
+                return result.isEmpty() ? 0L : 1L;
+            }
+        } finally {
+            if (jedis != null) jedis.close();
+        }
     }
 
     /**
      * AutoLogin情報をDBから削除する
-     * @param al AutoLoginインスタンス
-     * @return 処理した件数
+     * @param token トークン
+     * @return 成功時は1を、メンバが存在しない場合は0を返す
      */
-    public int delete(AutoLogin al) {
-        return tm.required(() -> autoLoginDao.delete(al));
-    }
-
-    /**
-     * AutoLogin情報をDBからID指定で一括削除する
-     * @param userid ユーザid
-     * @return 処理した件数
-     */
-    public int deleteByUserId(String userid) {
-        return tm.required(() -> autoLoginDao.deleteByUserId(userid));
+    public Long delete(String token) {
+        try {
+            jedis = pool.getResource();
+            return jedis.del(token);
+        } finally {
+            if (jedis != null) jedis.close();
+        }
     }
 }

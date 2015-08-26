@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HandleResponse {
-    HashMap<String, Object> responseMap = new HashMap<>();
+    private HashMap<String, Object> responseMap = new HashMap<>();
 
     public HashMap<String, Object> getResponseMap() {
         return responseMap;
@@ -50,6 +50,7 @@ public class HandleResponse {
      * @param query 絞り込むクエリ文字列
      */
     private void setQueryMap(Request request, String query) {
+        if (query.isEmpty()) return;
         Map<String, String> queryMap = new HashMap<>();
         request.queryMap(query).toMap().keySet().forEach(param -> {
             param = query + "[" + param + "]";

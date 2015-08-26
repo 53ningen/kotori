@@ -51,7 +51,9 @@ public class ApplicationRoute {
     }
 
     private void initRoutesPost() {
-        get("/login", ((req, res) -> postRequest.autoLoginRequest().insert(req, res)));
+        post("/api/login", ((req, res) -> postRequest.autoLoginRequest().insert(req, res)));
+
+        post("/api/logout", ((req, res) -> postRequest.autoLoginRequest().delete(req, res)));
 
         post("/api/post", ((req, res) -> postRequest.contributionRequest().insert(req, res)));
 
