@@ -14,6 +14,7 @@ public class ApplicationRoute {
 
     private ApplicationRoute() {
         initServerConf();
+        initRoutesBefore();
         initRoutesGet();
         initRoutesPost();
     }
@@ -34,7 +35,19 @@ public class ApplicationRoute {
     }
 
     /**
-     * ルーティングの設定を行う
+     * ルーティングの設定を行う（ログインの確認）
+     */
+    private void initRoutesBefore() {
+        before("/", (req, res) -> {
+            if (!getRequest.isLogin(req))  { // 未ログインであればログインページに飛ばす
+                res.redirect("/login");
+                halt();
+            }
+        });
+    }
+
+    /**
+     * ルーティングの設定を行う（getリクエスト）
      */
     private void initRoutesGet() {
         MustacheTemplateEngine engine = new MustacheTemplateEngine();
@@ -50,6 +63,9 @@ public class ApplicationRoute {
         get("/admin_nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
     }
 
+    /**
+     * ルーティングの設定を行う（postリクエスト）
+     */
     private void initRoutesPost() {
         post("/api/login", ((req, res) -> postRequest.autoLoginRequest().insert(req, res)));
 

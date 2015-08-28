@@ -14,10 +14,12 @@ import spark.Request;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class GetRequest {
     private final HandlePagination handlePagination = new HandlePagination();
     private final HandleRequest handleRequest = new HandleRequest();
+    private final String AUTH_TOKEN = "auth_token";
 
     /**
      * 指定ページを表示する
@@ -62,6 +64,16 @@ public class GetRequest {
         handleRequest.updateHandleRequest(req);
         List<NGUser> ngUsers = HandleDB.ngUser().findAll();
         return new ModelAndView(getResponseMap(req, ngUsers), "admin.nguser.mustache.html");
+    }
+
+    /**
+     * ログイン中かどうかを確認する
+     * @param request リクエスト
+     * @return ログイン中ならtrueを返す
+     */
+    protected boolean isLogin(Request request) {
+        Optional<String> tokenOpt = Optional.ofNullable(request.cookie(AUTH_TOKEN));
+        return tokenOpt.isPresent() && HandleDB.autoLogin().existToken(tokenOpt.get());
     }
 
     /**

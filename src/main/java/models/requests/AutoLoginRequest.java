@@ -60,14 +60,4 @@ public class AutoLoginRequest implements DBRequest {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }
-
-    /**
-     * ログイン中かどうかを確認する
-     * @param request リクエスト
-     * @return ログイン中ならtrueを返す
-     */
-    public boolean isLogin(Request request) {
-        Optional<String> tokenOpt = Optional.ofNullable(request.cookie(AUTH_TOKEN));
-        return tokenOpt.isPresent() && HandleDB.autoLogin().existToken(tokenOpt.get());
-    }
 }
