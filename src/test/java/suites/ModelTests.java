@@ -12,6 +12,7 @@ import org.junit.runners.Suite;
         NGUserRequestTest.class,
         NGWordRequestTest.class,
         UserRequestTest.class,
+        AutoLoginRequestTest.class,
         HandlePayloadTest.class,
         HandleRequestTest.class,
         HandlePaginationTest.class

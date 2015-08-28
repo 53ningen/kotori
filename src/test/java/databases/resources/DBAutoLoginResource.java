@@ -1,23 +1,39 @@
 package databases.resources;
 
-import bulletinBoard.DBConfig;
-import databases.daos.DBConfigDao;
-import helper.DaoImplHelper;
+import bulletinBoard.RedisServer;
+import databases.entities.AutoLogin;
 import org.junit.rules.ExternalResource;
-import org.seasar.doma.jdbc.tx.TransactionManager;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class DBAutoLoginResource extends ExternalResource {
-
-    private DBConfigDao dao = DaoImplHelper.get(DBConfigDao.class);
-    private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
+    private final JedisPool pool = RedisServer.getRedisServer().getJedisPool();
 
     @Override
     protected void before() throws Throwable {
-        tm.required(dao::createAutoLogin);
+        createResource();
     }
 
     @Override
     protected void after() {
-        tm.required(dao::dropAutoLogin);
+        dropResource();
+    }
+
+    private void createResource() {
+        try(Jedis jedis = pool.getResource()) {
+            AutoLogin al = mock(AutoLogin.class);
+            when(al.getToken()).thenReturn("testuser_testtoken");
+            when(al.getUserid()).thenReturn("testuser");
+            jedis.set(al.getToken(), al.getUserid());
+        }
+    }
+
+    private void dropResource() {
+        try(Jedis jedis = pool.getResource()) {
+            jedis.flushDB();
+        }
     }
 }

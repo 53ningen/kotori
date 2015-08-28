@@ -31,10 +31,4 @@ public interface DBConfigDao {
     @Script
     void dropUser();
 
-    @Script
-    void createAutoLogin();
-
-    @Script
-    void dropAutoLogin();
-
 }
