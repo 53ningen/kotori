@@ -54,6 +54,8 @@ public class ApplicationRoute {
 
         get("/", ((req, res) -> getRequest.getPage(req, "index.mustache.html")), engine);
 
+        get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
+
         get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
 
         get("/search", ((req, res) -> getRequest.getSearch(req)), engine);

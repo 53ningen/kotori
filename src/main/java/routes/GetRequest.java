@@ -34,6 +34,15 @@ public class GetRequest {
     }
 
     /**
+     * ログインページを表示する
+     * @param req リクエスト
+     * @return ModelAndView
+     */
+    protected ModelAndView getLogin(Request req) {
+        return new ModelAndView(getResponseMap(req), "login.mustache.html");
+    }
+
+    /**
      * 検索結果ページを表示する
      * @param req リクエスト
      * @return ModelAndView
@@ -104,5 +113,9 @@ public class GetRequest {
                 request,
                 list
         ).getResponseMap();
+    }
+
+    private HashMap<String, Object> getResponseMap(Request request) {
+        return new HandleResponse(request).getResponseMap();
     }
 }

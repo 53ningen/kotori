@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Kotoriに登録する</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+  <!-- endbower -->
+  <!-- build:css -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
+  <link rel="stylesheet" href="styles/kotori.login.css">
+  <!-- endbuild -->
+</head>
+<body>
+
+  <!-- startHeader -->
+  <header>
+    <h1 class="heading">
+      <a href="/">Kotori</a>
+    </h1>
+    <nav class="nav-header--right">
+      <small>アカウントをお持ちの場合はログイン</small>
+      <button class="btn btn--header btn--search">
+        <i class="fa fa-sign-in"></i>
+      </button>
+    </nav>
+    <div class="notice notice--error">
+      <i class="fa fa-exclamation-triangle"></i>
+      <span class="notice__text"></span>
+    </div>
+  </header>
+  <!-- endHeader -->
+
+  <!-- startMain -->
+  <main>
+    <!-- startSection#register -->
+    <section id="register">
+      <form id="register-form">
+        <div class="register-wrapper">
+          <input class="register-userid" type="text" name="userid" maxlength="20" placeholder="ユーザID" required>
+        </div>
+        <div class="register-wrapper">
+          <input class="register-username" type="text" name="username" maxlength="20" placeholder="ユーザ名" required>
+        </div>
+        <div class="register-wrapper">
+          <input class="register-password" type="password" name="password" placeholder="パスワード" required>
+        </div>
+        <div class="register-wrapper">
+          <input class="register-submit" type="submit" value="新規登録">
+        </div>
+      </form>
+      <div id="side-tip">
+        <div class="side-tip__msg tip-userid">
+          <i class="fa fa-fw fa-times"></i>
+          <small>無効なユーザー名です。半角英数字のみ使用してください。</small>
+        </div>
+        <div class="side-tip__msg tip-username">
+          <i class="fa fa-fw fa-times"></i>
+          <small>名前の入力は必須です。</small>
+        </div>
+        <div class="side-tip__msg tip-password">
+          <i class="fa fa-fw fa-times"></i>
+          <small>パスワードは8文字以上設定してください。</small>
+        </div>
+      </div>
+    </section>
+    <!-- endSection#register -->
+  </main>
+  <!-- endMain-->
+
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- endbower -->
+  <!-- build:js -->
+  <Script src="scripts/kotori.ajax.js"></script>
+  <script src="scripts/kotori.login.js"></script>
+  <!-- endbuild -->
+</body>
+</html>

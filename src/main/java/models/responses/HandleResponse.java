@@ -28,6 +28,10 @@ public class HandleResponse {
         setPathInfo(request);
     }
 
+    public HandleResponse(Request request) {
+        setPathInfo(request);
+    }
+
     private <T extends NGInterface> void setList(List<T> list) {
         responseMap.put("nglist", list);
     }

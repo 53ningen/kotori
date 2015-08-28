@@ -1,0 +1,46 @@
+@import "assets";
+@import "mixins";
+
+/**
+ * register Components
+ */
+#register {
+  padding: 50px 0 0;
+  width: 100%;
+}
+
+.register-wrapper {
+  width: 250px;
+  margin: 0 auto;
+  height: 28px;
+  padding-bottom: 1rem;
+
+  input {
+    width: 246px;
+  }
+
+  input[type="submit"] {
+    background-color: $main-color;
+    color: $white-color;
+    border: 1px solid $main-color;
+    width: 250px;
+  }
+}
+
+#side-tip {
+  position: absolute;
+  top: 50px;
+  left: calc(50% + 125px);
+  width: 200px;
+  margin-left: .5rem;
+
+  .side-tip__msg {
+    height: 28px;
+    line-height: .9rem;
+    font-size: $sml-text;
+    color: $topic-color;
+    margin-bottom: 1rem;
+    opacity: 0;
+    @include transition;
+  }
+}
