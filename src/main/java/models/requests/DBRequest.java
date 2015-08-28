@@ -1,4 +1,4 @@
-package models.posts.inserts;
+package models.requests;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,9 +7,10 @@ import models.posts.utils.Status;
 import spark.Request;
 import spark.Response;
 
-public interface InsertInterface extends Status {
-    String RESPONSE_TYPE_JSON = "application/json";
-    String requestInsert(Request request, Response response);
+public interface DBRequest extends Status {
+    default String insert(Request request, Response response) {return "";}
+    default String delete(Request request, Response response) {return "";}
+    default String update(Request request, Response response) {return "";}
 
     /**
      * 投稿情報をjson文字列に変換する

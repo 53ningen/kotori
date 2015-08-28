@@ -1,21 +1,16 @@
-package models.posts.inserts;
+package models.requests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import databases.entities.NGUser;
 import databases.entities.User;
 import models.payloads.HandlePayload;
 import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
+import models.posts.utils.ResponseType;
 import org.seasar.doma.jdbc.UniqueConstraintException;
 import spark.Request;
 import spark.Response;
 
-public class InsertUser implements InsertInterface {
-    private static final InsertUser insertUser = new InsertUser();
-
-    public static InsertUser getInsertUser() {
-        return insertUser;
-    }
+public class UserRequest implements DBRequest {
 
     /**
      * postによるユーザ追加を受け付ける
@@ -24,7 +19,7 @@ public class InsertUser implements InsertInterface {
      * @return 投稿処理数
      */
     @Override
-    public String requestInsert(Request request, Response response) {
+    public String insert(Request request, Response response) {
 
         try {
             User user = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), User.class);
@@ -37,7 +32,7 @@ public class InsertUser implements InsertInterface {
                 return setInternalServerError(response);
             }
 
-            setOK(response, RESPONSE_TYPE_JSON);
+            setOK(response, ResponseType.APPLICATION_JSON);
 
             return convertObjectToJson(user);
         } catch (UniqueConstraintException e) {
@@ -46,5 +41,30 @@ public class InsertUser implements InsertInterface {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
     }
-}
 
+    /**
+     * ユーザの削除を受け付ける
+     * @param request リクエスト
+     * @param response レスポンス
+     * @return ok
+     */
+    @Override
+    public String delete(Request request, Response response) {
+
+        try {
+            User user = new ObjectMapper().readValue(request.body(), User.class);
+            if (!user.isValid()) {
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+            }
+
+            int result = HandleDB.user().delete(user);
+            if (result < 1) {
+                return setInternalServerError(response);
+            }
+
+            return setOK(response);
+        } catch (Exception e) {
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+        }
+    }
+}
