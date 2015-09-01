@@ -135,13 +135,16 @@
     }
 
     $this.kotoriAjax({
-      url: '/api/register'
+      url: '/api_register'
     })
     .done(function() {
       // TODO: 新規登録成功時の処理
       var msg = "新規登録が完了しました"
       $this.find('input:not(.register-submit)').val("");
       $noticeSucess.showMsg(msg);
+      setTimeout(function() {
+        $(location).attr('href', '/');
+      }, 2000);
     })
     .fail(function(data) {
       var msg = data.responseText || "新規登録に失敗しました";
@@ -160,7 +163,7 @@
       url: '/api_login'
     })
     .done(function() {
-      $(location).attr("href", "/");
+      $(location).attr('href', '/');
     })
     .fail(function() {
       var msg = "ユーザIDまたはパスワードが違います";

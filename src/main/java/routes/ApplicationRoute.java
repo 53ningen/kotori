@@ -1,9 +1,12 @@
 package routes;
 
 import databases.entities.User;
+import models.posts.utils.StatusCode;
 import spark.Request;
 import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
+
+import java.io.IOException;
 
 import static spark.Spark.*;
 
@@ -73,10 +76,13 @@ public class ApplicationRoute {
     private void initRoutesPost() {
         post("/api_login", ((req, res) -> {
             String result = postRequest.userRequest().select(req, res);
-            if (result.equals("OK")) {
-                User user = postRequest.userRequest().createUser(req);
-                postRequest.autoLoginRequest().insert(user.getUserid(), res);
-            }
+            if (result.equals("OK")) setAutoLogin(req, res);
+            return result;
+        }));
+
+        post("/api_register", ((req, res) -> {
+            String result = postRequest.userRequest().insert(req, res);
+            if (result.equals("OK")) setAutoLogin(req, res);
             return result;
         }));
 
@@ -85,8 +91,6 @@ public class ApplicationRoute {
         post("/api/post", ((req, res) -> postRequest.contributionRequest().insert(req, res)));
 
         post("/api/delete", ((req, res) -> postRequest.contributionRequest().delete(req, res)));
-
-        post("/api/register", ((req, res) ->  postRequest.userRequest().insert(req, res)));
 
         post("/api/admin_delete", ((req, res) -> postRequest.contributionRequest().deleteWithoutKey(req, res)));
 
@@ -99,6 +103,21 @@ public class ApplicationRoute {
         post("/api/admin_insert_ngword", ((req, res) -> postRequest.ngWordRequest().insert(req, res)));
 
         post("/api/admin_insert_nguser", ((req, res) -> postRequest.ngUserRequest().insert(req, res)));
+    }
+
+    /**
+     * 自動ログイン情報を登録する
+     * @param request リクエスト
+     * @param response レスポンス
+     * @throws Exception
+     */
+    private void setAutoLogin(Request request, Response response) {
+        try {
+            User user = postRequest.userRequest().createUser(request);
+            postRequest.autoLoginRequest().insert(user.getUserid(), response);
+        } catch (IOException e) {
+            halt(StatusCode.HTTP_INTERNAL_SERVER_ERROR.getStatusCode());
+        }
     }
 
     /**

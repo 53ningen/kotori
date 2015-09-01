@@ -19,7 +19,7 @@ public class UserRequest implements DBRequest {
      * postによるユーザ追加を受け付ける
      * @param request リクエスト
      * @param response レスポンス
-     * @return 処理結果
+     * @return ok
      * */
     @Override
     public String insert(Request request, Response response) {
@@ -35,9 +35,7 @@ public class UserRequest implements DBRequest {
                 return setInternalServerError(response);
             }
 
-            setOK(response, ResponseType.APPLICATION_JSON);
-
-            return convertObjectToJson(user);
+            return setOK(response);
         } catch (UniqueConstraintException e) {
             return setBadRequest(response, ErrorCode.REGISTERED_ID);
         } catch (Exception e) {

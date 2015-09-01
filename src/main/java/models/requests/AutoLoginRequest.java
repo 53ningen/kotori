@@ -59,6 +59,7 @@ public class AutoLoginRequest implements DBRequest {
                 return setInternalServerError(response);
             }
 
+            response.removeCookie(AUTH_TOKEN);
             return setOK(response);
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
