@@ -108,7 +108,7 @@ header {
   font-family: "Quicksand", sans-serif;
 }
 
-.notice--error {
+.notice--error, .notice--success {
   visibility: hidden;
   position: absolute;
   top: -70px;
@@ -125,6 +125,11 @@ header {
 .notice--error {
   color: #FAFAFA;
   background-color: #F77825;
+}
+
+.notice--success {
+  color: #FAFAFA;
+  background-color: #60B99A;
 }
 
 /**

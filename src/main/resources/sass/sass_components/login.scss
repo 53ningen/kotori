@@ -9,10 +9,28 @@
   width: 100%;
 }
 
+#login {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem 1rem .5rem;
+  border-top: 1px solid $white-color;
+  background-color: $sub-color2;
+  opacity: 0;
+  visibility: hidden;
+  @include transition;
+}
+
+%submit-button {
+  background-color: $main-color;
+  color: $white-color;
+  border: 1px solid $main-color;
+}
+
 .register-wrapper {
   width: 250px;
-  margin: 0 auto;
   height: 28px;
+  margin: 0 auto;
   padding-bottom: 1rem;
 
   input {
@@ -20,10 +38,23 @@
   }
 
   input[type="submit"] {
-    background-color: $main-color;
-    color: $white-color;
-    border: 1px solid $main-color;
+    @extend %submit-button;
     width: 250px;
+  }
+}
+
+.login-wrapper {
+  width: 180px;
+  height: 28px;
+  padding-bottom: .5rem;
+
+  input {
+    width: 176px;
+  }
+
+  input[type="submit"] {
+    @extend %submit-button;
+    width: 180px;
   }
 }
 

@@ -77,7 +77,7 @@ public class ApplicationRoute {
 
         post("/api/delete", ((req, res) -> postRequest.contributionRequest().delete(req, res)));
 
-        post("/api/user/insert", ((req, res) -> postRequest.userRequest().insert(req, res)));
+        post("/api/register", ((req, res) ->  postRequest.userRequest().insert(req, res)));
 
         post("/api/user/delete", ((req, res) -> postRequest.userRequest().delete(req, res)));
 

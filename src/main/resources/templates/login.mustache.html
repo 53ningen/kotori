@@ -23,12 +23,16 @@
     </h1>
     <nav class="nav-header--right">
       <small>アカウントをお持ちの場合はログイン</small>
-      <button class="btn btn--header btn--search">
+      <button class="btn btn--header btn--signin">
         <i class="fa fa-sign-in"></i>
       </button>
     </nav>
     <div class="notice notice--error">
       <i class="fa fa-exclamation-triangle"></i>
+      <span class="notice__text"></span>
+    </div>
+    <div class="notice notice--success">
+      <i class="fa fa-check"></i>
       <span class="notice__text"></span>
     </div>
   </header>
@@ -68,6 +72,22 @@
       </div>
     </section>
     <!-- endSection#register -->
+
+    <!-- startSection#login -->
+    <section id="login">
+      <form id="login-form">
+        <div class="login-wrapper">
+          <input type="text" class="login-userid" name="userid" maxlength="20" placeholder="ユーザID" required>
+        </div>
+        <div class="login-wrapper">
+          <input class="login-password" type="password" name="password" placeholder="パスワード" required>
+        </div>
+        <div class="login-wrapper">
+          <input class="login-submit" type="submit" value="ログイン">
+        </div>
+      </form>
+    </section>
+    <!-- endSection#login -->
   </main>
   <!-- endMain-->
 

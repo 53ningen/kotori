@@ -15,6 +15,9 @@
     password: false
   };
 
+  var $noticeError = $('.notice--error');
+  var $noticeSucess = $('.notice--success');
+
   /**
    * inputの変更があるか確認する
    */
@@ -125,10 +128,9 @@
   $('form#register-form').on('submit', function(e) {
     e.preventDefault();
     var $this = $(this);
-    var $notice = $('.notice--error');
 
     if (!checkValidate()) {
-      $notice.showMsg('入力項目が不完全です');
+      $noticeError.showMsg('入力項目が不完全です');
       return false;
     }
 
@@ -137,11 +139,46 @@
     })
     .done(function() {
       // TODO: 新規登録成功時の処理
+      var msg = "新規登録が完了しました"
+      $this.find('input:not(.register-submit)').val("");
+      $noticeSucess.showMsg(msg);
+    })
+    .fail(function(data) {
+      var msg = data.responseText || "新規登録に失敗しました";
+      $noticeError.showMsg(msg);
+    });
+  });
+
+  /**
+   * ログイン
+   */
+  $('form#login-form').on('submit', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+
+    $this.kotoriAjax({
+      url: '/api/login'
+    })
+    .done(function() {
+      // TODO: ログイン成功時の処理
     })
     .fail(function() {
-      var msg = "新規登録に失敗しました";
-      $notice.showMsg(msg);
-    });
+      var msg = "ユーザIDまたはパスワードが違います";
+      $noticeError.showMsg(msg);
+    })
+  })
+
+  /**
+   * ログインモーダル
+   */
+  $('.btn--signin').on('click', function() {
+    var $login = $('#login');
+
+    if ($login.hasClass('active')) {
+      $login.css({ opacity: 0 }).removeClass('active');
+    } else {
+      $login.addClass('active').css({ opacity: 1 });
+    }
   });
 
 }(jQuery));
