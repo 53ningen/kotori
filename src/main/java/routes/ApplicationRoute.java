@@ -1,5 +1,8 @@
 package routes;
 
+import databases.entities.User;
+import spark.Request;
+import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import static spark.Spark.*;
@@ -39,9 +42,8 @@ public class ApplicationRoute {
      */
     private void initRoutesBefore() {
         before("/", (req, res) -> {
-            if (!getRequest.isLogin(req))  { // 未ログインであればログインページに飛ばす
-                res.redirect("/login");
-                halt();
+            if (!getRequest.isLogin(req)) { // 未ログインであればログインページに飛ばす
+                redirect(res, "/login");
             }
         });
     }
@@ -69,7 +71,14 @@ public class ApplicationRoute {
      * ルーティングの設定を行う（postリクエスト）
      */
     private void initRoutesPost() {
-        post("/api/login", ((req, res) -> postRequest.autoLoginRequest().insert(req, res)));
+        post("/api_login", ((req, res) -> {
+            String result = postRequest.userRequest().select(req, res);
+            if (result.equals("OK")) {
+                User user = postRequest.userRequest().createUser(req);
+                postRequest.autoLoginRequest().insert(user.getUserid(), res);
+            }
+            return result;
+        }));
 
         post("/api/logout", ((req, res) -> postRequest.autoLoginRequest().delete(req, res)));
 
@@ -78,8 +87,6 @@ public class ApplicationRoute {
         post("/api/delete", ((req, res) -> postRequest.contributionRequest().delete(req, res)));
 
         post("/api/register", ((req, res) ->  postRequest.userRequest().insert(req, res)));
-
-        post("/api/user/delete", ((req, res) -> postRequest.userRequest().delete(req, res)));
 
         post("/api/admin_delete", ((req, res) -> postRequest.contributionRequest().deleteWithoutKey(req, res)));
 
@@ -92,5 +99,15 @@ public class ApplicationRoute {
         post("/api/admin_insert_ngword", ((req, res) -> postRequest.ngWordRequest().insert(req, res)));
 
         post("/api/admin_insert_nguser", ((req, res) -> postRequest.ngUserRequest().insert(req, res)));
+    }
+
+    /**
+     * リダイレクト処理を行う
+     * @param response レスポンス
+     * @param path リダイレクト先パス
+     */
+    private void redirect(Response response, String path) {
+        response.redirect(path);
+        halt();
     }
 }

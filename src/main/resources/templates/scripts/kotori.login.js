@@ -157,10 +157,10 @@
     var $this = $(this);
 
     $this.kotoriAjax({
-      url: '/api/login'
+      url: '/api_login'
     })
     .done(function() {
-      // TODO: ログイン成功時の処理
+      $(location).attr("href", "/");
     })
     .fail(function() {
       var msg = "ユーザIDまたはパスワードが違います";

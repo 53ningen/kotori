@@ -34,6 +34,10 @@ public class User {
         return !username.isEmpty() && !userid.isEmpty() && !password.isEmpty();
     }
 
+    public boolean isValidLogin() {
+        return !userid.isEmpty() && !password.isEmpty();
+    }
+
     public String getUserid() {
         return userid;
     }
@@ -48,6 +52,10 @@ public class User {
 
     private void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     private void setPassword(String password, String userid) {
