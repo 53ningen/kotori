@@ -3,7 +3,9 @@ package databases.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import models.posts.utils.Encryption;
-import org.seasar.doma.*;
+import org.seasar.doma.Column;
+import org.seasar.doma.Entity;
+import org.seasar.doma.Id;
 import org.seasar.doma.jdbc.entity.NamingType;
 
 @Entity(naming = NamingType.LOWER_CASE)
@@ -47,7 +49,7 @@ public class User {
         return userid;
     }
 
-    private void setUserid(String userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
@@ -55,7 +57,7 @@ public class User {
         return username;
     }
 
-    private void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

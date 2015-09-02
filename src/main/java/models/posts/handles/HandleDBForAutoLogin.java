@@ -4,6 +4,9 @@ import bulletinBoard.RedisServer;
 import databases.entities.AutoLogin;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisDataException;
+
+import java.util.Optional;
 
 public class HandleDBForAutoLogin extends HandleDB {
     private Jedis jedis;
@@ -24,14 +27,14 @@ public class HandleDBForAutoLogin extends HandleDB {
     }
 
     /**
-     * KeyからValueを取得する
+     * KeyとFieldから対応するValueを取得する
      * @param token トークン
-     * @return DBに存在していればユーザ名が返る
+     * @return DBに存在していればvalueを返す
      */
-    public String select(String token) {
+    public Optional<String> select(String token, String field) {
         try {
             jedis = pool.getResource();
-            return jedis.get(token);
+            return Optional.ofNullable(jedis.hget(token, field));
         } finally {
             if (jedis != null) jedis.close();
         }
@@ -49,10 +52,16 @@ public class HandleDBForAutoLogin extends HandleDB {
             if (jedis.exists(key)) {
                 return 1L;
             } else {
-                String result = jedis.set(key, al.getUserid());
+                Long result = jedis.hset(key, "userid", al.getUserid());
+                if (result < 1L) {
+                    return 0L;
+                }
+                result = jedis.hset(key, "username", al.getUsername());
                 jedis.expire(key, 60 * 60 * 24 * 7);
-                return result.isEmpty() ? 0L : 1L;
+                return result;
             }
+        } catch (JedisDataException e) {
+            return 0L;
         } finally {
             if (jedis != null) jedis.close();
         }

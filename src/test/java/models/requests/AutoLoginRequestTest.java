@@ -1,5 +1,6 @@
 package models.requests;
 
+import databases.entities.User;
 import databases.resources.DBAutoLoginResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
@@ -23,50 +24,32 @@ public class AutoLoginRequestTest {
 
     public static class 挿入テスト {
         private AutoLoginRequest autoLoginRequest = new AutoLoginRequest();
-        private Request request;
         private Response response;
 
         @Before
         public void setUp() throws Exception {
-            request = RequestHelper.Requestモックの生成();
             response = ResponseHelper.Responseモックの生成();
         }
 
         @Test
-        public void bodyがnullの場合BadRequestを返す() throws Exception {
+        public void Userインスタンスのフィールドがnullの場合InternalServerErrorを返す() throws Exception {
             // setup
-            when(request.body()).thenReturn(null);
+            User user = new User();
 
             // exercise
-            String errorCode = autoLoginRequest.insert(request, response);
+            autoLoginRequest.insert(user, response);
 
             // verify
-            verify(response).status(400);
-            assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
-        }
-
-        @Test
-        public void パラメータが足りない場合BadRequestを返す() throws Exception {
-            // setup
-            String content = "{\"userid\":}";
-            when(request.body()).thenReturn(content);
-
-            // exercise
-            String errorCode = autoLoginRequest.insert(request, response);
-
-            // verify
-            verify(response).status(400);
-            assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
+            verify(response).status(500);
         }
 
         @Test
         public void パラメータが正しければ200OKを返す() throws Exception {
             // setup
-            String content = "{\"userid\": \"hoge\"}";
-            when(request.body()).thenReturn(content);
+            User user = new User("id", "name");
 
             // exercise
-            autoLoginRequest.insert(request, response);
+            autoLoginRequest.insert(user, response);
 
             // verify
             verify(response).status(200);

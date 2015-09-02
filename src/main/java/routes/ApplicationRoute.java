@@ -1,8 +1,8 @@
 package routes;
 
 import databases.entities.User;
-import models.posts.utils.Status;
 import models.posts.utils.StatusCode;
+import models.users.HandleUser;
 import spark.Request;
 import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
@@ -126,8 +126,8 @@ public class ApplicationRoute {
      */
     private void setAutoLogin(Request request, Response response) {
         try {
-            User user = postRequest.userRequest().createUser(request);
-            postRequest.autoLoginRequest().insert(user.getUserid(), response);
+            User user = HandleUser.updateUser(postRequest.userRequest().createUser(request));
+            postRequest.autoLoginRequest().insert(user, response);
         } catch (IOException e) {
             halt(StatusCode.HTTP_INTERNAL_SERVER_ERROR.getStatusCode());
         }

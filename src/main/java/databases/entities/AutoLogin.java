@@ -10,10 +10,14 @@ public class AutoLogin {
 
     private String userid;
 
+    private String username;
+
     @JsonCreator
-    public AutoLogin(@JsonProperty("userid") String userid) {
+    public AutoLogin(@JsonProperty("userid") String userid,
+                     @JsonProperty("username") String username) {
         setToken(userid + "_" + CSRFToken.getCSRFToken());
         setUserid(userid);
+        setUsername(username);
     }
 
     public String getToken() {
@@ -30,5 +34,13 @@ public class AutoLogin {
 
     private void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    private void setUsername(String username) {
+        this.username = username;
     }
 }
