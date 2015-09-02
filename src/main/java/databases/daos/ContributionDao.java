@@ -31,7 +31,4 @@ public interface ContributionDao {
     @Delete(sqlFile = true)
     int deleteById(int id);
 
-    @Delete(sqlFile = true)
-    int deleteByIdWithKey(int id, String deleteKey);
-
 }

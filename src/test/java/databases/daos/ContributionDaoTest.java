@@ -1,8 +1,9 @@
 package databases.daos;
 
 import bulletinBoard.DBConfig;
-import databases.resources.DBContributionResource;
 import databases.entities.Contribution;
+import databases.entities.User;
+import databases.resources.DBContributionResource;
 import helper.DaoImplHelper;
 import models.payloads.PostPayload;
 import models.payloads.UpdatePayload;
@@ -15,7 +16,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class ContributionDaoTest {
     @Rule
@@ -61,11 +63,10 @@ public class ContributionDaoTest {
         tm.required(() -> {
             // setup
             PostPayload payload = new PostPayload();
-            payload.setUsername("高坂穂乃果");
             payload.setTitle("foo");
             payload.setContent("test");
-            payload.setDeleteKey("pass");
-            Contribution contribution = new Contribution(payload);
+            User user = new User("hanayo", "小泉花陽");
+            Contribution contribution = new Contribution(payload, user);
 
             // exercise
             int result = dao.insert(contribution);
@@ -134,17 +135,5 @@ public class ContributionDaoTest {
             assertThat(result, is(1));
         });
     }
-
-    @Test
-    public void 削除キーによるdeleteが正しく実行される() throws Exception {
-        tm.required(() -> {
-            // exercise
-            int result = dao.deleteByIdWithKey(2, "pass");
-
-            // verify
-            assertThat(result, is(1));
-        });
-    }
-
 
 }

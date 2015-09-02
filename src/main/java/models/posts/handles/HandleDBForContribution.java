@@ -47,15 +47,6 @@ public class HandleDBForContribution {
     }
 
     /**
-     * 受け取ったidの投稿を削除キーを使用してDBから削除する
-     * @param id 投稿id
-     * @return 処理した投稿数
-     */
-    public int deleteWithKey(int id, String deleteKey) {
-        return tm.required(() -> contributionDao.deleteByIdWithKey(id, deleteKey));
-    }
-
-    /**
      * pageの位置からlimit分だけ投稿情報をID降順で返す
      * @param req クエリリクエスト
      * @return 投稿リスト

@@ -1,13 +1,12 @@
 package models.requests;
 
-import databases.resources.DBContributionResource;
-import databases.resources.DBNGUserResource;
-import databases.resources.DBNGWordResource;
+import databases.resources.*;
 import helper.RequestHelper;
 import helper.ResponseHelper;
 import models.posts.utils.ErrorCode;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -33,6 +32,10 @@ public class ContributionRequestTest {
         public final DBNGWordResource ngWordResource = new DBNGWordResource();
         @Rule
         public final DBNGUserResource ngUserResource = new DBNGUserResource();
+        @Rule
+        public final DBUserResource userResource = new DBUserResource();
+        @Rule
+        public final DBAutoLoginResource autoLoginResource = new DBAutoLoginResource();
 
         private ContributionRequest contributionRequest = new ContributionRequest();
         private Request request;
@@ -61,7 +64,7 @@ public class ContributionRequestTest {
         @Test
         public void パラメータが足りない場合BadRequestを返す() throws Exception {
             // setup
-            String content = "{\"username\": \"小泉花陽\", \"title\": \"hoge\", \"content\":}";
+            String content = "{\"title\": \"hoge\", \"content\":}";
             when(request.body()).thenReturn(content);
 
             // exercise
@@ -76,7 +79,7 @@ public class ContributionRequestTest {
         public void 制限以上の文字数が送られてきた場合BadRequestを返す() throws Exception {
             // setup
             String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH + 1).collect(joining());
-            String content = "{\"username\": \"小泉花陽\", \"title\": \"" + title + "\", \"content\": \"hoge\"}";
+            String content = "{\"title\": \"" + title + "\", \"content\": \"hoge\"}";
             when(request.body()).thenReturn(content);
 
             // exercise
@@ -91,8 +94,9 @@ public class ContributionRequestTest {
         public void パラメータが正しければ200OKを返す() throws Exception {
             // setup
             String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-            String content = "{\"username\": \"小泉花陽\", \"title\": \"" + title + "\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}";
+            String content = "{\"title\": \"" + title + "\", \"content\": \"hoi\"}";
             when(request.body()).thenReturn(content);
+            when(request.cookie("auth_token")).thenReturn("testuser_testtoken");
 
             // exercise
             contributionRequest.insert(request, response);
@@ -105,7 +109,7 @@ public class ContributionRequestTest {
         public void パラメータが正しい場合でもNGワードが含まれていればBadRequestを返す() throws Exception {
             // setup
             String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-            String content = "{\"username\": \"hoge\", \"title\": \"" + title + "\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}";
+            String content = "{\"title\": \"" + title + "\", \"content\": \"hoge\"}";
             when(request.body()).thenReturn(content);
 
             // exercise
@@ -114,21 +118,6 @@ public class ContributionRequestTest {
             // verify
             verify(response).status(400);
             assertThat(errorCode, is(ErrorCode.NGWORD_CONTAINS.getErrorMsg()));
-        }
-
-        @Test
-        public void パラメータが正しい場合でもNGユーザであればBadRequestを返す() throws Exception {
-            // setup
-            String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
-            String content = "{\"username\": \"piyopiyo\", \"title\": \"" + title + "\", \"content\": \"hoi\", \"deleteKey\": \"pass\"}";
-            when(request.body()).thenReturn(content);
-
-            // exercise
-            String errorCode = contributionRequest.insert(request, response);
-
-            // verify
-            verify(response).status(400);
-            assertThat(errorCode, is(ErrorCode.NGUSER.getErrorMsg()));
         }
     }
 
@@ -145,6 +134,7 @@ public class ContributionRequestTest {
             response = ResponseHelper.Responseモックの生成();
         }
 
+        @Ignore("未実装")
         @Test
         public void bodyがnullの場合BadRequestを返す() throws Exception {
             // setup
@@ -158,6 +148,7 @@ public class ContributionRequestTest {
             assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
         }
 
+        @Ignore("未実装")
         @Test
         public void パラメータが足りない場合BadRequestを返す() throws Exception {
             // setup
@@ -172,6 +163,7 @@ public class ContributionRequestTest {
             assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
         }
 
+        @Ignore("未実装")
         @Test
         public void パラメータが正しければ200OKを返す() throws Exception {
             // setup
