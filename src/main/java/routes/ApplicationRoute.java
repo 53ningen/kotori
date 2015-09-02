@@ -1,6 +1,12 @@
 package routes;
 
+import databases.entities.User;
+import models.posts.utils.StatusCode;
+import spark.Request;
+import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
+
+import java.io.IOException;
 
 import static spark.Spark.*;
 
@@ -14,6 +20,7 @@ public class ApplicationRoute {
 
     private ApplicationRoute() {
         initServerConf();
+        initRoutesBefore();
         initRoutesGet();
         initRoutesPost();
     }
@@ -34,12 +41,31 @@ public class ApplicationRoute {
     }
 
     /**
-     * ルーティングの設定を行う
+     * ルーティングの設定を行う（ログインの確認）
+     */
+    private void initRoutesBefore() {
+        before("/", (req, res) -> {
+            if (!getRequest.isLogin(req)) { // 未ログインであればログインページに飛ばす
+                redirect(res, "/login");
+            }
+        });
+
+        before("/search", (req, res) -> {
+            if (!getRequest.isLogin(req)) {
+                redirect(res, "/login");
+            }
+        });
+    }
+
+    /**
+     * ルーティングの設定を行う（getリクエスト）
      */
     private void initRoutesGet() {
         MustacheTemplateEngine engine = new MustacheTemplateEngine();
 
         get("/", ((req, res) -> getRequest.getPage(req, "index.mustache.html")), engine);
+
+        get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
 
         get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
 
@@ -50,18 +76,27 @@ public class ApplicationRoute {
         get("/admin_nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
     }
 
+    /**
+     * ルーティングの設定を行う（postリクエスト）
+     */
     private void initRoutesPost() {
-        post("/api/login", ((req, res) -> postRequest.autoLoginRequest().insert(req, res)));
+        post("/api_login", ((req, res) -> {
+            String result = postRequest.userRequest().select(req, res);
+            if (result.equals("OK")) setAutoLogin(req, res);
+            return result;
+        }));
+
+        post("/api_register", ((req, res) -> {
+            String result = postRequest.userRequest().insert(req, res);
+            if (result.equals("OK")) setAutoLogin(req, res);
+            return result;
+        }));
 
         post("/api/logout", ((req, res) -> postRequest.autoLoginRequest().delete(req, res)));
 
         post("/api/post", ((req, res) -> postRequest.contributionRequest().insert(req, res)));
 
         post("/api/delete", ((req, res) -> postRequest.contributionRequest().delete(req, res)));
-
-        post("/api/user/insert", ((req, res) -> postRequest.userRequest().insert(req, res)));
-
-        post("/api/user/delete", ((req, res) -> postRequest.userRequest().delete(req, res)));
 
         post("/api/admin_delete", ((req, res) -> postRequest.contributionRequest().deleteWithoutKey(req, res)));
 
@@ -74,5 +109,30 @@ public class ApplicationRoute {
         post("/api/admin_insert_ngword", ((req, res) -> postRequest.ngWordRequest().insert(req, res)));
 
         post("/api/admin_insert_nguser", ((req, res) -> postRequest.ngUserRequest().insert(req, res)));
+    }
+
+    /**
+     * 自動ログイン情報を登録する
+     * @param request リクエスト
+     * @param response レスポンス
+     * @throws Exception
+     */
+    private void setAutoLogin(Request request, Response response) {
+        try {
+            User user = postRequest.userRequest().createUser(request);
+            postRequest.autoLoginRequest().insert(user.getUserid(), response);
+        } catch (IOException e) {
+            halt(StatusCode.HTTP_INTERNAL_SERVER_ERROR.getStatusCode());
+        }
+    }
+
+    /**
+     * リダイレクト処理を行う
+     * @param response レスポンス
+     * @param path リダイレクト先パス
+     */
+    private void redirect(Response response, String path) {
+        response.redirect(path);
+        halt();
     }
 }

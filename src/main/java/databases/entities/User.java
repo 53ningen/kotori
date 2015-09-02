@@ -21,6 +21,11 @@ public class User {
 
     public User() {}
 
+    public User(String userid, String username) {
+        setUserid(userid);
+        setUsername(username);
+    }
+
     @JsonCreator
     public User(@JsonProperty("userid") String userid,
                 @JsonProperty("username") String username,
@@ -32,6 +37,10 @@ public class User {
 
     public boolean isValid() {
         return !username.isEmpty() && !userid.isEmpty() && !password.isEmpty();
+    }
+
+    public boolean isValidLogin() {
+        return !userid.isEmpty() && !password.isEmpty();
     }
 
     public String getUserid() {
@@ -48,6 +57,10 @@ public class User {
 
     private void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     private void setPassword(String password, String userid) {

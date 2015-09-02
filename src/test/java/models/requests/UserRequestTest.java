@@ -141,4 +141,58 @@ public class UserRequestTest {
             verify(response).status(200);
         }
     }
+
+    public static class 検索テスト {
+        @Rule
+        public final DBUserResource userResource = new DBUserResource();
+        private UserRequest userRequest = new UserRequest();
+        private Request request;
+        private Response response;
+
+        @Before
+        public void setUp() throws Exception {
+            request = RequestHelper.Requestモックの生成();
+            response = ResponseHelper.Responseモックの生成();
+        }
+
+        @Test
+        public void bodyがnullの場合BadRequestを返す() throws Exception {
+            // setup
+            when(request.body()).thenReturn(null);
+
+            // exercise
+            String errorCode = userRequest.select(request, response);
+
+            // verify
+            verify(response).status(400);
+            assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
+        }
+
+        @Test
+        public void パラメータが足りない場合BadRequestを返す() throws Exception {
+            // setup
+            String content = "{\"userid\":\"userid\", \"password\":}";
+            when(request.body()).thenReturn(content);
+
+            // exercise
+            String errorCode = userRequest.select(request, response);
+
+            // verify
+            verify(response).status(400);
+            assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
+        }
+
+        @Test
+        public void パラメータが正しければ200OKを返す() throws Exception {
+            // setup
+            String content = "{\"userid\":\"hanayo\", \"password\":\"password\"}";
+            when(request.body()).thenReturn(content);
+
+            // exercise
+            userRequest.select(request, response);
+
+            // verify
+            verify(response).status(200);
+        }
+    }
 }

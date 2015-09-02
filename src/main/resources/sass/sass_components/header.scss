@@ -58,3 +58,9 @@ header {
   color: $white-color;
   background-color: $topic-color;
 }
+
+.notice--success {
+  @extend %notice;
+  color: $white-color;
+  background-color: $main-color;
+}

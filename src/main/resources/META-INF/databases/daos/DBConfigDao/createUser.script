@@ -6,3 +6,5 @@ create table if not exists user (
 
 insert into user(userid, username, password)
        values ('hanayo', '小泉花陽', '114c78cdcef7180378381aae4ed7a8fcaf8dcff33aa620cdb6adeec775fb5faa');
+insert into user(userid, username, password)
+       values ('testuser', 'テストユーザ', 'password');

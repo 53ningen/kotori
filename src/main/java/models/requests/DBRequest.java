@@ -9,6 +9,7 @@ import spark.Response;
 
 public interface DBRequest extends Status {
     default String insert(Request request, Response response) {return "";}
+    default String select(Request request, Response response) {return "";}
     default String delete(Request request, Response response) {return "";}
     default String update(Request request, Response response) {return "";}
 

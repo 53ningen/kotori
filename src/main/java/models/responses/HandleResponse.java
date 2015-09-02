@@ -2,12 +2,14 @@ package models.responses;
 
 import databases.entities.Contribution;
 import databases.entities.NGInterface;
+import databases.entities.User;
 import models.paginations.Pagination;
 import spark.Request;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class HandleResponse {
     private HashMap<String, Object> responseMap = new HashMap<>();
@@ -16,8 +18,13 @@ public class HandleResponse {
         return responseMap;
     }
 
-    public HandleResponse(Request request, List<Contribution> contributions, Pagination pagination, String query) {
+    public HandleResponse(Request request,
+                          List<Contribution> contributions,
+                          Optional<User> userOpt,
+                          Pagination pagination,
+                          String query) {
         setContributions(contributions);
+        setUser(userOpt);
         setPagination(pagination);
         setPathInfo(request);
         setQueryMap(request, query);
@@ -28,12 +35,20 @@ public class HandleResponse {
         setPathInfo(request);
     }
 
+    public HandleResponse(Request request) {
+        setPathInfo(request);
+    }
+
     private <T extends NGInterface> void setList(List<T> list) {
         responseMap.put("nglist", list);
     }
 
     private void setContributions(List<Contribution> contributions) {
         responseMap.put("contributions", contributions);
+    }
+
+    private void setUser(Optional<User> userOpt) {
+        userOpt.ifPresent(user -> responseMap.put("user", user));
     }
 
     private void setPagination(Pagination pagination) {
