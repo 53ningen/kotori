@@ -2,6 +2,7 @@ package models.responses;
 
 import databases.entities.Contribution;
 import databases.entities.NGInterface;
+import databases.entities.User;
 import models.paginations.Pagination;
 import spark.Request;
 
@@ -16,8 +17,9 @@ public class HandleResponse {
         return responseMap;
     }
 
-    public HandleResponse(Request request, List<Contribution> contributions, Pagination pagination, String query) {
+    public HandleResponse(Request request, List<Contribution> contributions, User user, Pagination pagination, String query) {
         setContributions(contributions);
+        setUser(user);
         setPagination(pagination);
         setPathInfo(request);
         setQueryMap(request, query);
@@ -38,6 +40,10 @@ public class HandleResponse {
 
     private void setContributions(List<Contribution> contributions) {
         responseMap.put("contributions", contributions);
+    }
+
+    private void setUser(User user) {
+        responseMap.put("user", user);
     }
 
     private void setPagination(Pagination pagination) {

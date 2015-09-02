@@ -24,6 +24,20 @@ public class HandleDBForAutoLogin extends HandleDB {
     }
 
     /**
+     * KeyからValueを取得する
+     * @param token トークン
+     * @return DBに存在していればユーザ名が返る
+     */
+    public String select(String token) {
+        try {
+            jedis = pool.getResource();
+            return jedis.get(token);
+        } finally {
+            if (jedis != null) jedis.close();
+        }
+    }
+
+    /**
      * AutoLogin情報をDBに格納する
      * @param al AutoLoginインスタンス
      * @return 成功時または既にメンバが存在している場合は1を返す

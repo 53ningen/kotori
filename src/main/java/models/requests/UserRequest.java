@@ -5,7 +5,6 @@ import databases.entities.User;
 import models.payloads.HandlePayload;
 import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
-import models.posts.utils.ResponseType;
 import org.seasar.doma.jdbc.UniqueConstraintException;
 import spark.Request;
 import spark.Response;

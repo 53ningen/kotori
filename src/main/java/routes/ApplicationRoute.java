@@ -49,6 +49,12 @@ public class ApplicationRoute {
                 redirect(res, "/login");
             }
         });
+
+        before("/search", (req, res) -> {
+            if (!getRequest.isLogin(req)) {
+                redirect(res, "/login");
+            }
+        });
     }
 
     /**

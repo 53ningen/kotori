@@ -19,6 +19,9 @@ public interface UserDao {
     @Select
     Optional<User> select(String userid, String password);
 
+    @Select
+    String selectUsername(String userid);
+
     @Delete(sqlFile = true)
     int delete(User user);
 

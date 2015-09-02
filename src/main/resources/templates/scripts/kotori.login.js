@@ -138,7 +138,6 @@
       url: '/api_register'
     })
     .done(function() {
-      // TODO: 新規登録成功時の処理
       var msg = "新規登録が完了しました"
       $this.find('input:not(.register-submit)').val("");
       $noticeSucess.showMsg(msg);
@@ -165,8 +164,8 @@
     .done(function() {
       $(location).attr('href', '/');
     })
-    .fail(function() {
-      var msg = "ユーザIDまたはパスワードが違います";
+    .fail(function(data) {
+      var msg = data.responseText || "ユーザIDまたはパスワードが違います";
       $noticeError.showMsg(msg);
     })
   })

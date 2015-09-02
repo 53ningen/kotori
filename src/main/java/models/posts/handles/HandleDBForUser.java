@@ -38,4 +38,13 @@ public class HandleDBForUser extends HandleDB {
     public int delete(User user) {
         return tm.required(() -> userDao.delete(user));
     }
+
+    /**
+     * 指定したuseridのusernameを取得する
+     * @param userid ユーザID
+     * @return ユーザ名
+     */
+    public String selectUsername(String userid) {
+        return tm.required(() -> userDao.selectUsername(userid));
+    }
 }

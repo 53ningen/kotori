@@ -21,6 +21,11 @@ public class User {
 
     public User() {}
 
+    public User(String userid, String username) {
+        setUserid(userid);
+        setUsername(username);
+    }
+
     @JsonCreator
     public User(@JsonProperty("userid") String userid,
                 @JsonProperty("username") String username,

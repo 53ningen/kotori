@@ -1,14 +1,12 @@
 package routes;
 
-import databases.entities.Contribution;
-import databases.entities.NGInterface;
-import databases.entities.NGUser;
-import databases.entities.NGWord;
+import databases.entities.*;
 import models.paginations.HandlePagination;
 import models.posts.handles.HandleDB;
 import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
+import models.users.HandleUsers;
 import spark.ModelAndView;
 import spark.Request;
 
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class GetRequest {
-    private final HandlePagination handlePagination = new HandlePagination();
     private final HandleRequest handleRequest = new HandleRequest();
     private final String AUTH_TOKEN = "auth_token";
 
@@ -96,7 +93,8 @@ public class GetRequest {
         return new HandleResponse(
                 request,
                 contributions,
-                handlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest),
+                HandleUsers.createUser(request),
+                HandlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest),
                 query
         ).getResponseMap();
     }
