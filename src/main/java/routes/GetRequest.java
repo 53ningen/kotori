@@ -79,7 +79,7 @@ public class GetRequest {
      */
     protected boolean isLogin(Request request) {
         Optional<String> tokenOpt = Optional.ofNullable(request.cookie(AUTH_TOKEN));
-        return tokenOpt.isPresent() && HandleDB.autoLogin().existToken(tokenOpt.get());
+        return tokenOpt.map(token -> HandleDB.autoLogin().existToken(token)).orElse(false);
     }
 
     /**
