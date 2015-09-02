@@ -24,7 +24,4 @@ public interface UserDao {
 
     @Delete(sqlFile = true)
     int delete(User user);
-
-    @Delete(sqlFile = true)
-    int deleteById(int id);
 }

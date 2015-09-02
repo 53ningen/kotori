@@ -3,6 +3,7 @@ package suites;
 import models.paginations.HandlePaginationTest;
 import models.payloads.HandlePayloadTest;
 import models.requests.*;
+import models.users.HandleUserTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -15,6 +16,7 @@ import org.junit.runners.Suite;
         AutoLoginRequestTest.class,
         HandlePayloadTest.class,
         HandleRequestTest.class,
+        HandleUserTest.class,
         HandlePaginationTest.class
 })
 public class ModelTests {

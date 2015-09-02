@@ -6,7 +6,7 @@ import models.posts.handles.HandleDB;
 import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
-import models.users.HandleUsers;
+import models.users.HandleUser;
 import spark.ModelAndView;
 import spark.Request;
 
@@ -93,7 +93,7 @@ public class GetRequest {
         return new HandleResponse(
                 request,
                 contributions,
-                HandleUsers.createUser(request),
+                HandleUser.createUser(request),
                 HandlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest),
                 query
         ).getResponseMap();

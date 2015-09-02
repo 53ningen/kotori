@@ -9,6 +9,7 @@ import spark.Request;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class HandleResponse {
     private HashMap<String, Object> responseMap = new HashMap<>();
@@ -17,9 +18,13 @@ public class HandleResponse {
         return responseMap;
     }
 
-    public HandleResponse(Request request, List<Contribution> contributions, User user, Pagination pagination, String query) {
+    public HandleResponse(Request request,
+                          List<Contribution> contributions,
+                          Optional<User> userOpt,
+                          Pagination pagination,
+                          String query) {
         setContributions(contributions);
-        setUser(user);
+        setUser(userOpt);
         setPagination(pagination);
         setPathInfo(request);
         setQueryMap(request, query);
@@ -42,8 +47,8 @@ public class HandleResponse {
         responseMap.put("contributions", contributions);
     }
 
-    private void setUser(User user) {
-        responseMap.put("user", user);
+    private void setUser(Optional<User> userOpt) {
+        userOpt.ifPresent(user -> responseMap.put("user", user));
     }
 
     private void setPagination(Pagination pagination) {

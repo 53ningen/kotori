@@ -52,6 +52,20 @@ public class UserDaoTest {
     }
 
     @Test
+    public void useridを指定するとusernameが返る() throws Exception {
+        tm.required(() -> {
+            // setup
+            String userid = "hanayo";
+
+            // exercise
+            String username = dao.selectUsername(userid);
+
+            // verify
+            assertThat(username, is("小泉花陽"));
+        });
+    }
+
+    @Test
     public void deleteが正しく実行される() throws Exception {
         tm.required(() -> {
             // setup
