@@ -11,7 +11,7 @@ import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-import java.util.*;
+import java.util.List;
 
 public class HandleDBForContribution {
     private final ContributionDao contributionDao = DaoImplHelper.get(ContributionDao.class);
@@ -22,10 +22,18 @@ public class HandleDBForContribution {
     /**
      * 受け取ったContributionをDBに格納する
      * @param contribution Contributionインスタンス
-     * @return 処理した投稿数
+     * @return 格納されたContributionインスタンス
      */
-    public int insert(Contribution contribution) {
-        return tm.required(() -> contributionDao.insert(contribution));
+    public List<Contribution> insert(Contribution contribution) {
+        return tm.required(() -> {
+            int result = contributionDao.insert(contribution);
+            if (result < 1) {
+                return null;
+            }
+            options = DBSelectOptions.getDBSelectOptions().setOptions(1);
+
+            return contributionDao.select(options, contribution.getUserid());
+        });
     }
 
     /**

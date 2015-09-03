@@ -41,10 +41,10 @@ public class ContributionRequest implements DBRequest {
             // ログインしているUser情報を取得する
             Optional<User> userOpt = HandleUser.createUser(request);
 
-            Optional<Contribution> contributionOpt = userOpt.map(user -> new Contribution(payload, user));
-
-            int result = contributionOpt.map(contribution -> HandleDB.contribution().insert(contribution)).orElse(-1);
-            if (result < 1) {
+            Optional<Contribution> contributionOpt = userOpt.map(user -> new Contribution(payload, user))
+                                                            .map(cont -> HandleDB.contribution().insert(cont))
+                                                            .map(conts -> conts.get(0));
+            if (!contributionOpt.isPresent()) {
                 return setInternalServerError(response);
             }
 

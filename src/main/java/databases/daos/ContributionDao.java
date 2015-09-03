@@ -22,6 +22,9 @@ public interface ContributionDao {
     @Select
     List<Contribution> findByKeyword(SelectOptions options, String keyword);
 
+    @Select
+    List<Contribution> select(SelectOptions options, String userid);
+
     @Insert
     int insert(Contribution cont);
 

@@ -13,6 +13,7 @@ public class HandleUser {
     private static final String AUTH_TOKEN = "auth_token";
     private static final String USERID = "userid";
     private static final String USERNAME = "username";
+    private static final int USER_INFO_SIZE = 2;
 
     /**
      * OptionalなUserインスタンスを生成する
@@ -27,7 +28,7 @@ public class HandleUser {
             autoLogin().select(token, USERNAME).ifPresent(name -> userMap.put(USERNAME, name));
         });
 
-        return userMap.size() == 2 ? Optional.of(new User(userMap.get(USERID), userMap.get(USERNAME))) : Optional.empty();
+        return userMap.size() == USER_INFO_SIZE ? Optional.of(new User(userMap.get(USERID), userMap.get(USERNAME))) : Optional.empty();
     }
 
     /**
