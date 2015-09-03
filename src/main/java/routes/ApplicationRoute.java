@@ -1,6 +1,7 @@
 package routes;
 
 import databases.entities.User;
+import models.posts.utils.Status;
 import models.posts.utils.StatusCode;
 import models.users.HandleUser;
 import spark.Request;
@@ -8,6 +9,7 @@ import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static spark.Spark.*;
 
@@ -51,6 +53,12 @@ public class ApplicationRoute {
             }
         });
 
+        before("/my", (req, res) -> {
+            if (!getRequest.isLogin(req)) {
+                redirect(res, "/login");
+            }
+        });
+
         before("/search", (req, res) -> {
             if (!getRequest.isLogin(req)) { // 未ログインであればログインページに飛ばす
                 redirect(res, "/login");
@@ -72,9 +80,11 @@ public class ApplicationRoute {
 
         get("/", ((req, res) -> getRequest.getPage(req, "index.mustache.html")), engine);
 
-        get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
+        get("/my", ((req, res) -> HandleUser.createUser(req).map(user -> getRequest.getMypage(req, user)).get()), engine);
 
         get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
+
+        get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
 
         get("/search", ((req, res) -> getRequest.getSearch(req)), engine);
 

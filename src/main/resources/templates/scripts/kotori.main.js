@@ -8,11 +8,7 @@
    * サーバからのjsonレスポンスをDOMに反映する
    */
   var createContribution = function(data) {
-    var contribution = '<div class="contribution"><div class="contribution__user cf"><div class="contribution__user--icon">icon</div><div class="contribution__user--name">'+data.username+'</div></div><div class="contribution__body"><div class="contribution__body--title">'+data.title+'</div><div class="contribution__body--content">'+data.content+'</div></div><div class="contribution__footer">';
-    if (data.isNew === true) {
-      contribution += '<span class="contribution__footer--new">New</span>';
-    }
-    contribution += ' '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
+    var contribution = '<div class="contribution"><div class="contribution__user cf"><div class="contribution__user--icon">icon</div><div class="contribution__user--name">'+data.username+'</div></div><div class="contribution__body"><div class="contribution__body--title">'+data.title+'</div><div class="contribution__body--content">'+data.content+'</div></div><div class="contribution__footer"><span class="contribution__footer--new">New</span> '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
     return contribution;
   };
 

@@ -40,6 +40,18 @@ public class GetRequest {
     }
 
     /**
+     * マイページを表示する
+     * @param req リクエスト
+     * @param user ユーザ情報
+     * @return ModelAndView
+     */
+    protected ModelAndView getMypage(Request req, User user) {
+        handleRequest.updateHandleRequest(req);
+        List<Contribution> contributions = HandleDB.contribution().selectByUser(handleRequest, user);
+        return new ModelAndView(getResponseMap(req, contributions, ""), "my.mustache.html");
+    }
+
+    /**
      * 検索結果ページを表示する
      * @param req リクエスト
      * @return ModelAndView

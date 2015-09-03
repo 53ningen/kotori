@@ -238,18 +238,18 @@ header {
   vertical-align: middle;
 }
 
-#pagination {
+.pagination {
   position: relative;
   height: 40px;
   padding: 0 1rem 1rem;
 }
-#pagination .pagination__prev {
+.pagination .pagination__prev {
   position: absolute;
   top: 0;
   left: 1rem;
   z-index: 10;
 }
-#pagination .pagination__current {
+.pagination .pagination__current {
   position: absolute;
   top: 0;
   left: 0;
@@ -257,7 +257,7 @@ header {
   text-align: center;
   z-index: 1;
 }
-#pagination .pagination__next {
+.pagination .pagination__next {
   position: absolute;
   top: 0;
   right: 1rem;
