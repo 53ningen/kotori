@@ -59,6 +59,23 @@ public class ContributionDaoTest {
     }
 
     @Test
+    public void 用意したテストデータをuseridを指定して取得できる() throws Exception {
+        tm.required(() -> {
+            // setup
+            SelectOptions options = SelectOptions.get().offset(0);
+
+            // exercise
+            List<Contribution> contributions = dao.select(options, "hanayo");
+            Contribution contribution = contributions.get(0);
+
+            // verify
+            assertThat(contribution.getUsername(), is("小泉花陽"));
+            assertThat(contribution.getTitle(), is("hoge"));
+            assertThat(contribution.getContent(), is("テスト1"));
+        });
+    }
+
+    @Test
     public void INSERTが問題なく実行できる() throws Exception {
         tm.required(() -> {
             // setup
