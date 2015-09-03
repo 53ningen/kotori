@@ -5,13 +5,14 @@ import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
 import models.contributions.HandleContribution;
+import models.payloads.DeletePayload;
 import models.payloads.UpdatePayload;
 import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-import java.util.*;
+import java.util.List;
 
 public class HandleDBForContribution {
     private final ContributionDao contributionDao = DaoImplHelper.get(ContributionDao.class);
@@ -22,10 +23,18 @@ public class HandleDBForContribution {
     /**
      * 受け取ったContributionをDBに格納する
      * @param contribution Contributionインスタンス
-     * @return 処理した投稿数
+     * @return 格納されたContributionインスタンス
      */
-    public int insert(Contribution contribution) {
-        return tm.required(() -> contributionDao.insert(contribution));
+    public List<Contribution> insert(Contribution contribution) {
+        return tm.required(() -> {
+            int result = contributionDao.insert(contribution);
+            if (result < 1) {
+                return null;
+            }
+            options = DBSelectOptions.getDBSelectOptions().setOptions(1);
+
+            return contributionDao.select(options, contribution.getUserid());
+        });
     }
 
     /**
@@ -42,17 +51,17 @@ public class HandleDBForContribution {
      * @param id 投稿id
      * @return 処理した投稿数
      */
-    public int delete(int id) {
+    public int deleteById(int id) {
         return tm.required(() -> contributionDao.deleteById(id));
     }
 
     /**
-     * 受け取ったidの投稿を削除キーを使用してDBから削除する
-     * @param id 投稿id
+     * 投稿をDBから削除する
+     * @param payload Delete用Payloadインスタンス
      * @return 処理した投稿数
      */
-    public int deleteWithKey(int id, String deleteKey) {
-        return tm.required(() -> contributionDao.deleteByIdWithKey(id, deleteKey));
+    public int delete(DeletePayload payload) {
+        return tm.required(() -> contributionDao.delete(payload));
     }
 
     /**

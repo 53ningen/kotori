@@ -2,17 +2,20 @@ package models.requests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.Contribution;
+import databases.entities.User;
 import models.contributions.HandleContribution;
 import models.payloads.DeletePayload;
 import models.payloads.HandlePayload;
 import models.payloads.PostPayload;
 import models.payloads.UpdatePayload;
 import models.posts.handles.HandleDB;
-import models.posts.utils.Encryption;
 import models.posts.utils.ErrorCode;
 import models.posts.utils.ResponseType;
+import models.users.HandleUser;
 import spark.Request;
 import spark.Response;
+
+import java.util.Optional;
 
 public class ContributionRequest implements DBRequest {
     private HandleContribution handleContribution = new HandleContribution();
@@ -31,23 +34,22 @@ public class ContributionRequest implements DBRequest {
             PostPayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), PostPayload.class);
             if (!payload.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
-            } else if (!HandlePayload.isValidUsername(HandleDB.ngUser().findAll(), payload)) {
-                return setBadRequest(response, ErrorCode.NGUSER);
             } else if (!HandlePayload.isValidContent(HandleDB.ngWord().findAll(), payload)) {
                 return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }
 
-            // Contributionを生成する
-            Contribution contribution = new Contribution(payload);
+            // ログインしているUser情報を取得する
+            Optional<User> userOpt = HandleUser.createUser(request);
 
-            // ContributionがNotNullならばDBに挿入する
-            int result = HandleDB.contribution().insert(contribution);
-            if (result < 1) {
+            Optional<Contribution> contributionOpt = userOpt.map(user -> new Contribution(payload, user))
+                                                            .map(cont -> HandleDB.contribution().insert(cont))
+                                                            .map(conts -> conts.get(0));
+            if (!contributionOpt.isPresent()) {
                 return setInternalServerError(response);
             }
 
             // Contributionに新着情報を付与する
-            Contribution editedContribution = handleContribution.addInformationContribution(contribution);
+            Contribution editedContribution = handleContribution.addInformationContribution(contributionOpt.get());
 
             // ステータスコード200 OKを設定する
             setOK(response, ResponseType.APPLICATION_JSON);
@@ -72,7 +74,7 @@ public class ContributionRequest implements DBRequest {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = HandleDB.contribution().delete(payload.getId());
+            int result = HandleDB.contribution().deleteById(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }
@@ -94,11 +96,15 @@ public class ContributionRequest implements DBRequest {
 
         try {
             DeletePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), DeletePayload.class);
-            if (!payload.isValid()) {
+
+            Optional<User> userOpt = HandleUser.createUser(request);
+            userOpt.ifPresent(user -> payload.setUserid(user.getUserid()));
+
+            if(!payload.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = HandleDB.contribution().deleteWithKey(payload.getId(), Encryption.getSaltedKey(payload.getDeleteKey(), payload.getUsername()));
+            int result = HandleDB.contribution().delete(payload);
             if (result < 1) {
                 return setInternalServerError(response);
             }

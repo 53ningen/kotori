@@ -11,7 +11,7 @@ import spark.Request;
 
 import java.util.Optional;
 
-import static models.users.HandleUser.createUser;
+import static models.users.HandleUser.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
@@ -53,5 +53,18 @@ public class HandleUserTest {
 
         // verify
         assertThat(userOpt.isPresent(), is(false));
+    }
+
+    @Test
+    public void ユーザの情報をDBから取得する() throws Exception {
+        // setup
+        User user = new User();
+        user.setUserid("hanayo");
+
+        // exercise
+        user = updateUser(user);
+
+        // verify
+        assertThat(user.getUsername(), is("小泉花陽"));
     }
 }

@@ -21,6 +21,10 @@ public class DBSelectOptions {
         return options.offset(page * limit).limit(limit).count();
     }
 
+    public SelectOptions setOptions(int limit) {
+        return options.limit(limit);
+    }
+
     /**
      * DBに格納されている投稿件数を返す
      * @return 投稿件数

@@ -1,13 +1,16 @@
 package databases.daos;
 
 import bulletinBoard.DBConfig;
-import databases.resources.DBContributionResource;
 import databases.entities.Contribution;
+import databases.entities.User;
+import databases.resources.DBContributionResource;
 import helper.DaoImplHelper;
+import models.payloads.DeletePayload;
 import models.payloads.PostPayload;
 import models.payloads.UpdatePayload;
 import org.junit.Rule;
 import org.junit.Test;
+import org.seasar.doma.Delete;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
@@ -15,7 +18,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class ContributionDaoTest {
     @Rule
@@ -57,15 +61,31 @@ public class ContributionDaoTest {
     }
 
     @Test
+    public void 用意したテストデータをuseridを指定して取得できる() throws Exception {
+        tm.required(() -> {
+            // setup
+            SelectOptions options = SelectOptions.get().offset(0);
+
+            // exercise
+            List<Contribution> contributions = dao.select(options, "hanayo");
+            Contribution contribution = contributions.get(0);
+
+            // verify
+            assertThat(contribution.getUsername(), is("小泉花陽"));
+            assertThat(contribution.getTitle(), is("hoge"));
+            assertThat(contribution.getContent(), is("テスト1"));
+        });
+    }
+
+    @Test
     public void INSERTが問題なく実行できる() throws Exception {
         tm.required(() -> {
             // setup
             PostPayload payload = new PostPayload();
-            payload.setUsername("高坂穂乃果");
             payload.setTitle("foo");
             payload.setContent("test");
-            payload.setDeleteKey("pass");
-            Contribution contribution = new Contribution(payload);
+            User user = new User("hanayo", "小泉花陽");
+            Contribution contribution = new Contribution(payload, user);
 
             // exercise
             int result = dao.insert(contribution);
@@ -136,15 +156,18 @@ public class ContributionDaoTest {
     }
 
     @Test
-    public void 削除キーによるdeleteが正しく実行される() throws Exception {
+    public void ユーザIDと投稿IDによるdeleteが正しく実行される() throws Exception {
         tm.required(() -> {
+            // setup
+            DeletePayload payload = new DeletePayload(1);
+            payload.setUserid("hanayo");
+
             // exercise
-            int result = dao.deleteByIdWithKey(2, "pass");
+            int result = dao.delete(payload);
 
             // verify
             assertThat(result, is(1));
         });
     }
-
 
 }

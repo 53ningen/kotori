@@ -1,8 +1,7 @@
 package models.requests;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.AutoLogin;
-import models.payloads.HandlePayload;
+import databases.entities.User;
 import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
 import spark.Request;
@@ -14,29 +13,13 @@ public class AutoLoginRequest implements DBRequest {
     private final String AUTH_TOKEN = "auth_token";
 
     /**
-     * ログイン情報を追加する
-     * @param request リクエスト
-     * @param response レスポンス
-     * @return 成功時はOK, 失敗時はエラー文を出力
-     */
-    @Override
-    public String insert(Request request, Response response) {
-        try {
-            AutoLogin al = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), AutoLogin.class);
-            return insertAutoLoginInfo(al, response);
-        } catch (Exception e) {
-            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
-        }
-    }
-
-    /**
-     * ログイン情報をuseridを指定して追加する
-     * @param userid ユーザID
+     * ログイン情報をuserインスタンスを基に追加する
+     * @param user ユーザインスタンス
      * @param response レスポンス
      * @return 成功時はOK, 失敗時はInternalServerErrorを返す
      */
-    public String insert(String userid, Response response) {
-        AutoLogin al = new AutoLogin(userid);
+    public String insert(User user, Response response) {
+        AutoLogin al = new AutoLogin(user.getUserid(), user.getUsername());
         return insertAutoLoginInfo(al, response);
     }
 

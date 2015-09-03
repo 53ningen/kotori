@@ -2,6 +2,7 @@ package routes;
 
 import databases.entities.User;
 import models.posts.utils.StatusCode;
+import models.users.HandleUser;
 import spark.Request;
 import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
@@ -41,7 +42,7 @@ public class ApplicationRoute {
     }
 
     /**
-     * ルーティングの設定を行う（ログインの確認）
+     * ルーティングの設定を行う（アクセス前処理）
      */
     private void initRoutesBefore() {
         before("/", (req, res) -> {
@@ -51,8 +52,14 @@ public class ApplicationRoute {
         });
 
         before("/search", (req, res) -> {
-            if (!getRequest.isLogin(req)) {
+            if (!getRequest.isLogin(req)) { // 未ログインであればログインページに飛ばす
                 redirect(res, "/login");
+            }
+        });
+
+        before("/api/*", (req, res) -> {
+            if (!getRequest.isLogin(req)) { // 未ログイン時のapi利用を許可しない
+                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode()); // 401 Unauthorizedを返す
             }
         });
     }
@@ -119,8 +126,8 @@ public class ApplicationRoute {
      */
     private void setAutoLogin(Request request, Response response) {
         try {
-            User user = postRequest.userRequest().createUser(request);
-            postRequest.autoLoginRequest().insert(user.getUserid(), response);
+            User user = HandleUser.updateUser(postRequest.userRequest().createUser(request));
+            postRequest.autoLoginRequest().insert(user, response);
         } catch (IOException e) {
             halt(StatusCode.HTTP_INTERNAL_SERVER_ERROR.getStatusCode());
         }
