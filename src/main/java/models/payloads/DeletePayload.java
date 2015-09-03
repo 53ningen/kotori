@@ -1,12 +1,21 @@
 package models.payloads;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DeletePayload {
     private int id;
-    private String username;
-    private String deleteKey;
+    @JsonIgnore
+    private String userid;
+
+    @JsonCreator
+    public DeletePayload(@JsonProperty("id") int id) {
+        setId(id);
+    }
 
     public boolean isValid() {
-        return id > 0 && !username.isEmpty() && !deleteKey.isEmpty();
+        return id > 0 && !userid.isEmpty();
     }
 
     public boolean isValidWithoutKey() {
@@ -21,19 +30,11 @@ public class DeletePayload {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getDeleteKey() {
-        return deleteKey;
-    }
-
-    public void setDeleteKey(String deleteKey) {
-        this.deleteKey = deleteKey;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

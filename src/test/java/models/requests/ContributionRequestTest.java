@@ -124,6 +124,8 @@ public class ContributionRequestTest {
     public static class 削除テスト {
         @Rule
         public final DBContributionResource contributionResource = new DBContributionResource();
+        @Rule
+        public final DBAutoLoginResource autoLoginResource = new DBAutoLoginResource();
         private ContributionRequest contributionRequest = new ContributionRequest();
         private Request request;
         private Response response;
@@ -134,7 +136,6 @@ public class ContributionRequestTest {
             response = ResponseHelper.Responseモックの生成();
         }
 
-        @Ignore("未実装")
         @Test
         public void bodyがnullの場合BadRequestを返す() throws Exception {
             // setup
@@ -148,11 +149,10 @@ public class ContributionRequestTest {
             assertThat(errorCode, CoreMatchers.is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
         }
 
-        @Ignore("未実装")
         @Test
         public void パラメータが足りない場合BadRequestを返す() throws Exception {
             // setup
-            String content = "{\"id\": \"1\", \"username\": \"小泉花陽\", \"deleteKey\":}";
+            String content = "{\"id\": \"1\"}";
             when(request.body()).thenReturn(content);
 
             // exercise
@@ -163,12 +163,12 @@ public class ContributionRequestTest {
             assertThat(errorCode, is(ErrorCode.PARAMETER_INVALID.getErrorMsg()));
         }
 
-        @Ignore("未実装")
         @Test
         public void パラメータが正しければ200OKを返す() throws Exception {
             // setup
-            String content = "{\"id\": \"1\", \"username\": \"小泉花陽\", \"deleteKey\": \"pass\"}";
+            String content = "{\"id\": \"1\"}";
             when(request.body()).thenReturn(content);
+            when(request.cookie("auth_token")).thenReturn("hanayo_token");
 
             // exercise
             contributionRequest.delete(request, response);

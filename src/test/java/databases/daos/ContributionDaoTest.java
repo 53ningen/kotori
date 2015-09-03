@@ -5,10 +5,12 @@ import databases.entities.Contribution;
 import databases.entities.User;
 import databases.resources.DBContributionResource;
 import helper.DaoImplHelper;
+import models.payloads.DeletePayload;
 import models.payloads.PostPayload;
 import models.payloads.UpdatePayload;
 import org.junit.Rule;
 import org.junit.Test;
+import org.seasar.doma.Delete;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
@@ -147,6 +149,21 @@ public class ContributionDaoTest {
         tm.required(() -> {
             // exercise
             int result = dao.deleteById(1);
+
+            // verify
+            assertThat(result, is(1));
+        });
+    }
+
+    @Test
+    public void ユーザIDと投稿IDによるdeleteが正しく実行される() throws Exception {
+        tm.required(() -> {
+            // setup
+            DeletePayload payload = new DeletePayload(1);
+            payload.setUserid("hanayo");
+
+            // exercise
+            int result = dao.delete(payload);
 
             // verify
             assertThat(result, is(1));

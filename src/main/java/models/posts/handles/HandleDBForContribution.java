@@ -5,6 +5,7 @@ import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import helper.DaoImplHelper;
 import models.contributions.HandleContribution;
+import models.payloads.DeletePayload;
 import models.payloads.UpdatePayload;
 import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
@@ -50,8 +51,17 @@ public class HandleDBForContribution {
      * @param id 投稿id
      * @return 処理した投稿数
      */
-    public int delete(int id) {
+    public int deleteById(int id) {
         return tm.required(() -> contributionDao.deleteById(id));
+    }
+
+    /**
+     * 投稿をDBから削除する
+     * @param payload Delete用Payloadインスタンス
+     * @return 処理した投稿数
+     */
+    public int delete(DeletePayload payload) {
+        return tm.required(() -> contributionDao.delete(payload));
     }
 
     /**

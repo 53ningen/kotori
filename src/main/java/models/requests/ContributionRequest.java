@@ -74,7 +74,7 @@ public class ContributionRequest implements DBRequest {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = HandleDB.contribution().delete(payload.getId());
+            int result = HandleDB.contribution().deleteById(payload.getId());
             if (result < 1) {
                 return setInternalServerError(response);
             }
@@ -93,8 +93,26 @@ public class ContributionRequest implements DBRequest {
      */
     @Override
     public String delete(Request request, Response response) {
-        // TODO: ユーザidを照合して削除する
-        return null;
+
+        try {
+            DeletePayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), DeletePayload.class);
+
+            Optional<User> userOpt = HandleUser.createUser(request);
+            userOpt.ifPresent(user -> payload.setUserid(user.getUserid()));
+
+            if(!payload.isValid()) {
+                return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+            }
+
+            int result = HandleDB.contribution().delete(payload);
+            if (result < 1) {
+                return setInternalServerError(response);
+            }
+
+            return setOK(response);
+        } catch (Exception e) {
+            return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package databases.daos;
 
 import bulletinBoard.DBConfig;
 import databases.entities.Contribution;
+import models.payloads.DeletePayload;
 import models.payloads.UpdatePayload;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.SelectOptions;
@@ -33,5 +34,8 @@ public interface ContributionDao {
 
     @Delete(sqlFile = true)
     int deleteById(int id);
+
+    @Delete(sqlFile = true)
+    int delete(DeletePayload payload);
 
 }

@@ -12,7 +12,7 @@
     if (data.isNew === true) {
       contribution += '<span class="contribution__footer--new">New</span>';
     }
-    contribution += ' '+data.editedCreatedTime+' ・ '+data.id+'</div></div>';
+    contribution += ' '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
     return contribution;
   };
 
