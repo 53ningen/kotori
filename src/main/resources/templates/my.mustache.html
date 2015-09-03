@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width">
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
   <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
   <!-- endbower -->
   <!-- build:css -->
@@ -18,15 +19,17 @@
   <!-- startHeader -->
   <header>
     <nav class="nav-header--left">
-      <button class="btn btn--header btn--write">
+      <a href="/">
+        <button class="btn btn--header">
+          <i class="fa fa-home"></i>
+        </button>
+      </a>
+      <button class="btn btn--header btn--margin btn--write">
         <i class="fa fa-pencil"></i>
-      </button>
-      <button class="btn btn--header btn--margin btn--search">
-        <i class="fa fa-search"></i>
       </button>
     </nav>
     <h1 class="heading">
-      <a href="/">Kotori</a>
+      <a href="/my">{{#user}}@{{userid}}{{/user}}{{^user}}Kotori{{/user}}</a>
     </h1>
     <nav class="nav-header--right">
       <button class="btn btn--header btn--signout">
@@ -139,19 +142,10 @@
           </span>
           {{/isNew}}
           {{editedCreatedTime}} ・ #{{id}}
-        </div>
-        <div class="contribution__delete">
-          <div class="delete-wrapper">
-            <div class="delete-wrapper__inner">
-              <form id="delete-contribution">
-                <input class="delete-key" type="password" placeholder="削除キー" name="deleteKey" maxlength="20" required>
-                <input class="delete-id" type="hidden" name="id" value="{{id}}">
-                <input class="delete-username" type="hidden" name="username" value="{{username}}">
-                <input class="delete-btn btn--margin" type="submit" value="削除">
-              </form>
-            </div>
-          </div>
           <div class="delete-guide">
+            <form id="delete-contribution">
+              <input class="delete-id" type="hidden" name="id" value="{{id}}">
+            </form>
             <i class="fa fa-trash-o"></i>
           </div>
         </div>
@@ -269,6 +263,7 @@
 
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
   <!-- endbower -->
   <!-- build:js -->
   <script src="scripts/kotori.ajax.js"></script>

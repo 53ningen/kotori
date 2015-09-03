@@ -140,21 +140,6 @@
           {{/isNew}}
           {{editedCreatedTime}} ・ #{{id}}
         </div>
-        <div class="contribution__delete">
-          <div class="delete-wrapper">
-            <div class="delete-wrapper__inner">
-              <form id="delete-contribution">
-                <input class="delete-key" type="password" placeholder="削除キー" name="deleteKey" maxlength="20" required>
-                <input class="delete-id" type="hidden" name="id" value="{{id}}">
-                <input class="delete-username" type="hidden" name="username" value="{{username}}">
-                <input class="delete-btn btn--margin" type="submit" value="削除">
-              </form>
-            </div>
-          </div>
-          <div class="delete-guide">
-            <i class="fa fa-trash-o"></i>
-          </div>
-        </div>
       </div>
       {{/contributions}}
       {{^contributions}}
