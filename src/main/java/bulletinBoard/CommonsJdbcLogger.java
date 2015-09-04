@@ -9,15 +9,14 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 
 public class CommonsJdbcLogger implements JdbcLogger {
-    private Logger logger;
+    private final Logger logger = LoggerFactory.getLogger(CommonsJdbcLogger.class);
 
     @Override
     /**
      * Daoメソッドの実行開始
      */
     public void logDaoMethodEntering(String callerClassName, String callerMethodName, Object... args) {
-        logger = LoggerFactory.getLogger(callerClassName);
-        logger.info("START " + callerClassName + "#" + callerMethodName);
+        logger.debug("START " + callerClassName + "#" + callerMethodName);
     }
 
     @Override
@@ -25,8 +24,7 @@ public class CommonsJdbcLogger implements JdbcLogger {
      * Daoメソッドの実行終了
      */
     public void logDaoMethodExiting(String callerClassName, String callerMethodName, Object result) {
-        logger = LoggerFactory.getLogger(callerClassName);
-        logger.info("END " + callerClassName + "#" + callerMethodName);
+        logger.debug("END " + callerClassName + "#" + callerMethodName);
     }
 
     @Override
@@ -34,8 +32,7 @@ public class CommonsJdbcLogger implements JdbcLogger {
      * Daoメソッドの例外終了
      */
     public void logDaoMethodThrowing(String callerClassName, String callerMethodName, RuntimeException e) {
-        logger = LoggerFactory.getLogger(callerClassName);
-        logger.info("END " + callerClassName + "#" + callerMethodName + " RuntimeException: " + e);
+        logger.warn("END " + callerClassName + "#" + callerMethodName + " RuntimeException: " + e);
     }
 
     @Override
@@ -43,8 +40,7 @@ public class CommonsJdbcLogger implements JdbcLogger {
      * Daoメソッドの実行スキップ
      */
     public void logSqlExecutionSkipping(String callerClassName, String callerMethodName, SqlExecutionSkipCause cause) {
-        logger = LoggerFactory.getLogger(callerClassName);
-        logger.info("SKIPPED(" + cause.name() + ")" + callerClassName + "#" + callerMethodName);
+        logger.warn("SKIPPED(" + cause.name() + ")" + callerClassName + "#" + callerMethodName);
     }
 
     @Override
@@ -52,7 +48,6 @@ public class CommonsJdbcLogger implements JdbcLogger {
      * SQLのログ出力
      */
     public void logSql(String callerClassName, String callerMethodName, Sql<?> sql) {
-        logger = LoggerFactory.getLogger(callerClassName);
         String message = String.format("SQL Log. sqlFilePath=[%s],%n%s", sql.getSqlFilePath(), sql.getFormattedSql());
         logger.info(message);
     }

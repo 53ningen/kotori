@@ -47,7 +47,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}	level:%level	%marker	thread:%thread	logger:%logger	message:%msg%n
+            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}	level:%level %marker thread:%thread	logger:%logger message:%msg%n
             </pattern>
         </encoder>
     </appender>
@@ -64,7 +64,24 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}	level:%level	%marker	thread:%thread	logger:%logger	message:%msg%n
+            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}	level:%level %marker thread:%thread logger:%logger message:%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- SQL操作出力 -->
+    <appender name="SQL_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${LoggingDir}sql_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LoggingDir}history/sql_info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}  level:%level %marker message:%msg%n
             </pattern>
         </encoder>
     </appender>
@@ -132,6 +149,10 @@
     <logger name="freemarker" level="INFO">
         <appender-ref ref="ASYNC_STDOUT1"/>
         <appender-ref ref="ASYNC_INFO"/>
+    </logger>
+
+    <logger name="bulletinBoard.CommonsJdbcLogger" level="DEBUG">
+        <appender-ref ref="SQL_INFO" />
     </logger>
 
     <!-- rootレベル定義 -->
