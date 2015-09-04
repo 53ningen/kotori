@@ -1,31 +1,22 @@
 package suites;
 
-import models.contributions.HandleContributionTest;
 import models.paginations.HandlePaginationTest;
 import models.payloads.HandlePayloadTest;
-import models.posts.deletes.DeleteContributionTest;
-import models.posts.deletes.DeleteNGUserTest;
-import models.posts.deletes.DeleteNGWordTest;
-import models.posts.inserts.InsertContributionTest;
-import models.posts.inserts.InsertNGUserTest;
-import models.posts.inserts.InsertNGWordTest;
-import models.posts.updates.UpdateContributionTest;
-import models.requests.HandleRequestTest;
+import models.requests.*;
+import models.users.HandleUserTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        InsertContributionTest.class,
-        UpdateContributionTest.class,
-        DeleteContributionTest.class,
-        HandleContributionTest.class,
-        InsertNGWordTest.class,
-        DeleteNGWordTest.class,
-        InsertNGUserTest.class,
-        DeleteNGUserTest.class,
+        ContributionRequestTest.class,
+        NGUserRequestTest.class,
+        NGWordRequestTest.class,
+        UserRequestTest.class,
+        AutoLoginRequestTest.class,
         HandlePayloadTest.class,
         HandleRequestTest.class,
+        HandleUserTest.class,
         HandlePaginationTest.class
 })
 public class ModelTests {

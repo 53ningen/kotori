@@ -39,12 +39,4 @@
     toggleHeader($search, $post);
   });
 
-  /**
-   * 削除ボタンをクリックした時のイベント
-   */
-  $('.delete-guide').on('click', function() {
-    var wrap = $(this).parent().find('.delete-wrapper').get(0);
-    $(wrap).slideToggle(400);
-  });
-
 }(jQuery));

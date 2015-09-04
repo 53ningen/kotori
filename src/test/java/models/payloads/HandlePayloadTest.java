@@ -1,10 +1,8 @@
 package models.payloads;
 
-import databases.DBNGUserResource;
-import databases.DBNGWordResource;
-import databases.entities.NGUser;
 import databases.entities.NGWord;
-import models.posts.handles.HandleDBForNGUser;
+import databases.resources.DBNGUserResource;
+import databases.resources.DBNGWordResource;
 import models.posts.handles.HandleDBForNGWord;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,9 +11,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HandlePayloadTest {
     @Rule
@@ -23,45 +19,11 @@ public class HandlePayloadTest {
     @Rule
     public final DBNGUserResource ngUserResource = new DBNGUserResource();
     private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
-    private HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
-
-    @Test
-    public void PayloadがNGユーザでなければtrueを返す() throws Exception {
-        // setup
-        PostPayload payload = new PostPayload();
-        payload.setUsername("西木野真姫");
-        payload.setTitle("foo");
-        payload.setContent("テスト");
-        List<NGUser> ngUsers= handleDBForNGUser.findAll();
-
-        // exercise
-        Boolean stu = HandlePayload.isValidUsername(ngUsers, payload);
-
-        // verify
-        assertTrue(stu);
-    }
-
-    @Test
-    public void PayloadがNGユーザであればfalseを返す() throws Exception {
-        // setup
-        PostPayload payload = new PostPayload();
-        payload.setUsername("piyopiyo");
-        payload.setTitle("テスト");
-        payload.setContent("hoge");
-        List<NGUser> ngUsers= handleDBForNGUser.findAll();
-
-        // exercise
-        Boolean stu = HandlePayload.isValidUsername(ngUsers, payload);
-
-        // verify
-        assertFalse(stu);
-    }
 
     @Test
     public void PayloadがNGワードを含んでいなければtrueを返す() throws Exception {
         // setup
         PostPayload payload = new PostPayload();
-        payload.setUsername("西木野真姫");
         payload.setTitle("foo");
         payload.setContent("テスト");
         List<NGWord> ngWords = handleDBForNGWord.findAll();
@@ -77,7 +39,6 @@ public class HandlePayloadTest {
     public void PayloadがNGワードを含んでいればfalseを返す() throws Exception {
         // setup
         PostPayload payload = new PostPayload();
-        payload.setUsername("西木野真姫");
         payload.setTitle("テスト");
         payload.setContent("hoge");
         List<NGWord> ngWords = handleDBForNGWord.findAll();

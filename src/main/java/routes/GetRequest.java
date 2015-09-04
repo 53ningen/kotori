@@ -1,28 +1,22 @@
 package routes;
 
-import databases.entities.Contribution;
-import databases.entities.NGInterface;
-import databases.entities.NGUser;
-import databases.entities.NGWord;
+import databases.entities.*;
 import models.paginations.HandlePagination;
-import models.posts.handles.HandleDBForContribution;
-import models.posts.handles.HandleDBForNGUser;
-import models.posts.handles.HandleDBForNGWord;
+import models.posts.handles.HandleDB;
 import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
+import models.users.HandleUser;
 import spark.ModelAndView;
 import spark.Request;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class GetRequest {
-    private final HandleDBForContribution handleDBForContribution = new HandleDBForContribution();
-    private final HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
-    private final HandleDBForNGUser handleDBForNGUser = new HandleDBForNGUser();
-    private final HandlePagination handlePagination = new HandlePagination();
     private final HandleRequest handleRequest = new HandleRequest();
+    private final String AUTH_TOKEN = "auth_token";
 
     /**
      * 指定ページを表示する
@@ -32,8 +26,29 @@ public class GetRequest {
      */
     protected ModelAndView getPage(Request req, String viewFile) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDBForContribution.findWithLimit(handleRequest);
+        List<Contribution> contributions = HandleDB.contribution().findWithLimit(handleRequest);
         return new ModelAndView(getResponseMap(req, contributions, ""), viewFile);
+    }
+
+    /**
+     * ログインページを表示する
+     * @param req リクエスト
+     * @return ModelAndView
+     */
+    protected ModelAndView getLogin(Request req) {
+        return new ModelAndView(getResponseMap(req), "login.mustache.html");
+    }
+
+    /**
+     * マイページを表示する
+     * @param req リクエスト
+     * @param user ユーザ情報
+     * @return ModelAndView
+     */
+    protected ModelAndView getMypage(Request req, User user) {
+        handleRequest.updateHandleRequest(req);
+        List<Contribution> contributions = HandleDB.contribution().selectByUser(handleRequest, user);
+        return new ModelAndView(getResponseMap(req, contributions, ""), "my.mustache.html");
     }
 
     /**
@@ -43,7 +58,7 @@ public class GetRequest {
      */
     protected ModelAndView getSearch(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = handleDBForContribution.findByKeyword(handleRequest);
+        List<Contribution> contributions = HandleDB.contribution().findByKeyword(handleRequest);
         return new ModelAndView(getResponseMap(req, contributions, "q"), "index.mustache.html");
     }
 
@@ -54,7 +69,7 @@ public class GetRequest {
      */
     protected ModelAndView getAdminNGWord(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<NGWord> ngWords = handleDBForNGWord.findAll();
+        List<NGWord> ngWords = HandleDB.ngWord().findAll();
         return new ModelAndView(getResponseMap(req, ngWords), "admin.ngword.mustache.html");
     }
 
@@ -65,8 +80,18 @@ public class GetRequest {
      */
     protected ModelAndView getAdminNGUser(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<NGUser> ngUsers = handleDBForNGUser.findAll();
+        List<NGUser> ngUsers = HandleDB.ngUser().findAll();
         return new ModelAndView(getResponseMap(req, ngUsers), "admin.nguser.mustache.html");
+    }
+
+    /**
+     * ログイン中かどうかを確認する
+     * @param request リクエスト
+     * @return ログイン中ならtrueを返す
+     */
+    protected boolean isLogin(Request request) {
+        Optional<String> tokenOpt = Optional.ofNullable(request.cookie(AUTH_TOKEN));
+        return tokenOpt.map(token -> HandleDB.autoLogin().existToken(token)).orElse(false);
     }
 
     /**
@@ -80,7 +105,8 @@ public class GetRequest {
         return new HandleResponse(
                 request,
                 contributions,
-                handlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest),
+                HandleUser.createUser(request),
+                HandlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest),
                 query
         ).getResponseMap();
     }
@@ -97,5 +123,9 @@ public class GetRequest {
                 request,
                 list
         ).getResponseMap();
+    }
+
+    private HashMap<String, Object> getResponseMap(Request request) {
+        return new HandleResponse(request).getResponseMap();
     }
 }

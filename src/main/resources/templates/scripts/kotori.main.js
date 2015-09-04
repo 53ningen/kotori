@@ -2,17 +2,12 @@
   'use strict';
 
   var $document = $(document);
-  var $notice = $('.notice--error');
 
   /**
    * サーバからのjsonレスポンスをDOMに反映する
    */
   var createContribution = function(data) {
-    var contribution = '<div class="contribution"><div class="contribution__user cf"><div class="contribution__user--icon">icon</div><div class="contribution__user--name">'+data.username+'</div></div><div class="contribution__body"><div class="contribution__body--title">'+data.title+'</div><div class="contribution__body--content">'+data.content+'</div></div><div class="contribution__footer">';
-    if (data.isNew === true) {
-      contribution += '<span class="contribution__footer--new">New</span>';
-    }
-    contribution += ' '+data.editedCreatedTime+'</div></div>';
+    var contribution = '<div class="contribution"><div class="contribution__user cf"><div class="contribution__user--icon">icon</div><div class="contribution__user--name">'+data.username+'<small>@'+data.userid+'</small></div></div><div class="contribution__body"><div class="contribution__body--title">'+data.title+'</div><div class="contribution__body--content">'+data.content+'</div></div><div class="contribution__footer"><span class="contribution__footer--new">New</span> '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
     return contribution;
   };
 
@@ -22,18 +17,20 @@
   $('#post-contribution').on('submit', function(e) {
     e.preventDefault();
     var $this = $(this);
+
     $this.kotoriAjax({
       url: '/api/post'
     })
     .done(function(data) {
+      showSuccessAlert();
       $('#post').slideToggle(400, function() {
         $this.find('input:not(.post-submit), textarea').val("");
       });
       $('#contributions').prepend($(createContribution(data)).fadeIn(400));
     })
     .fail(function(data) {
-      var msg = data.responseText || "新規投稿に失敗しました";
-      $notice.showMsg(msg);
+      var msg = data.responseText || "投稿に失敗しました";
+      $this.showErrorAlert(msg);
     });
   });
 
@@ -50,21 +47,50 @@
   /**
    * 削除
    */
-  $document.on('submit', '#delete-contribution', function(e) {
-    e.preventDefault();
+  $document.on('click', '.delete-guide', function() {
     var $this = $(this);
-    $this.kotoriAjax({
-      url: '/api/delete'
-    })
-    .done(function() {
-      $this.parents('.contribution').fadeOut(400, function() {
-        $(this).remove()
+
+    swal({
+      title: '投稿を削除しますか？',
+      text: $this.parents('.contribution').find('.contribution__body--content').text(),
+      allowOutsideClick: true,
+      showCancelButton: true,
+      closeOnConfirm: false
+    }, function() {
+      $('#delete-contribution').kotoriAjax({
+        url: '/api/delete'
+      })
+      .done(function() {
+        $this.parents('.contribution').fadeOut(400, function() {
+          $(this).remove()
+        });
+        $this.showSuccessAlert();
+      })
+      .fail(function() {
+        var msg = "投稿の削除に失敗しました";
+        $this.showErrorAlert(msg);
       });
-    })
-    .fail(function() {
-      var msg = "投稿の削除に失敗しました";
-      $notice.showMsg(msg);
-      $this.find('.delete-key').val("");
+    });
+  });
+
+  $document.on('click', '.btn--signout', function() {
+    var $this =  $(this);
+    swal({
+      title: 'ログアウトしますか？',
+      allowOutsideClick: true,
+      showCancelButton: true,
+      closeOnConfirm: false,
+    }, function() {
+      $this.kotoriAjax({
+        url: '/api_logout'
+      })
+      .done(function() {
+        $(location).attr('href', '/login');
+      })
+      .fail(function() {
+        var msg = "ログアウトに失敗しました";
+        $this.showErrorAlert(msg);
+      });
     });
   });
 

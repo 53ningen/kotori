@@ -11,7 +11,7 @@ public class HandlePagination {
      * @param handleRequest HandleRequestインスタンス
      * @return Paginationインスタンス
      */
-    public Pagination createPagination(DBSelectOptions DBSelectOptions, HandleRequest handleRequest) {
+    public static Pagination createPagination(DBSelectOptions DBSelectOptions, HandleRequest handleRequest) {
         int limit = handleRequest.getLimit();
         int page  = handleRequest.getPage();
         long count = DBSelectOptions.getContributionCounts();

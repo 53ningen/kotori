@@ -5,19 +5,18 @@ import models.requests.HandleRequest;
 import org.junit.Before;
 import org.junit.Test;
 
+import static models.paginations.HandlePagination.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class HandlePaginationTest {
     private final int SHOW_PAGE_NUM = 2;
-    private HandlePagination handlePagination;
     private HandleRequest handleRequest;
     private DBSelectOptions dbSelectOptions;
 
     @Before
     public void setUp() throws Exception {
-        handlePagination = new HandlePagination();
         handleRequest = mock(HandleRequest.class);
         dbSelectOptions = mock(DBSelectOptions.class);
         when(handleRequest.getLimit()).thenReturn(10);
@@ -31,7 +30,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
+        Pagination pagination = createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.getCurrent(), is(page));
@@ -55,7 +54,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
+        Pagination pagination = createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.hasPrev(), is(false));
@@ -69,7 +68,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
+        Pagination pagination = createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.getNextList(), hasSize(1));
@@ -82,7 +81,7 @@ public class HandlePaginationTest {
         when(handleRequest.getPage()).thenReturn(page);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(dbSelectOptions, handleRequest);
+        Pagination pagination = createPagination(dbSelectOptions, handleRequest);
 
         // verify
         assertThat(pagination.getCurrent(), is(1));
@@ -98,7 +97,7 @@ public class HandlePaginationTest {
         when(dbSelectOptions.getContributionCounts()).thenReturn((long) 0);
 
         // exercise
-        Pagination pagination = handlePagination.createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest);
+        Pagination pagination = createPagination(DBSelectOptions.getDBSelectOptions(), handleRequest);
 
         // verify
         assertThat(pagination.getCurrent(), is(1));

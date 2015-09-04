@@ -38,23 +38,3 @@ header {
   line-height: $header-height;
   font-family: $ggl-font;
 }
-
-%notice {
-  visibility: hidden;
-  position: absolute;
-  top: -$header-height - 20;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  padding: 10px 0;
-  opacity: 0;
-  z-index: 9999;
-  @include transition;
-}
-
-.notice--error {
-  @extend %notice;
-  color: $white-color;
-  background-color: $topic-color;
-}

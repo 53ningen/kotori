@@ -11,6 +11,7 @@ header, main, footer {
 
 main {
   margin-top: 70px;
+  margin-bottom: 1rem;
 }
 
 a {
@@ -106,25 +107,6 @@ header {
   padding: 0;
   line-height: 50px;
   font-family: "Quicksand", sans-serif;
-}
-
-.notice--error {
-  visibility: hidden;
-  position: absolute;
-  top: -70px;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  padding: 10px 0;
-  opacity: 0;
-  z-index: 9999;
-  transition: all .3s;
-}
-
-.notice--error {
-  color: #FAFAFA;
-  background-color: #F77825;
 }
 
 /**

@@ -85,16 +85,6 @@
       color: $topic-color;
     }
   }
-
-  .contribution__delete {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 30px;
-    padding: 1rem 0;
-    z-index: 100;
-  }
 }
 
 .delete-wrapper {
@@ -116,6 +106,7 @@
   bottom: 1rem;
   right: 1rem;
   text-align: right;
+  font-size: $nml-text;
   @include transition;
   &:hover {
     color: $topic-color;
@@ -127,10 +118,10 @@
   }
 }
 
-#pagination {
+.pagination {
   position: relative;
   height: 40px;
-  padding: 0 1rem 1rem;
+  padding: 0 1rem;
 
   .pagination__prev {
     position: absolute;
