@@ -15,9 +15,6 @@
     password: false
   };
 
-  var $noticeError = $('.notice--error');
-  var $noticeSucess = $('.notice--success');
-
   /**
    * inputの変更があるか確認する
    */
@@ -130,25 +127,37 @@
     var $this = $(this);
 
     if (!checkValidate()) {
-      $noticeError.showMsg('入力項目が不完全です');
+      var msg = "入力項目が不完全です"
+      $this.showErrorAlert(msg);
       return false;
     }
 
-    $this.kotoriAjax({
-      url: '/api_register'
-    })
-    .done(function() {
-      var msg = "新規登録が完了しました"
-      $this.find('input:not(.register-submit)').val("");
-      $noticeSucess.showMsg(msg);
-      setTimeout(function() {
-        $(location).attr('href', '/');
-      }, 2000);
-    })
-    .fail(function(data) {
-      var msg = data.responseText || "新規登録に失敗しました";
-      $noticeError.showMsg(msg);
+    swal({
+      title: '以下の内容で登録します',
+      text: 'ユーザID: ' + $this.find('.register-userid').val() + '<br>' +
+            'ユーザ名: ' + $this.find('.register-username').val() + '<br>' +
+            'パスワード: ' + Array($this.find('.register-password').val().length).join('●'),
+      html: true,
+      allowOutsideClick: true,
+      showCancelButton: true,
+      closeOnConfirm: false,
+    }, function() {
+      $this.kotoriAjax({
+        url: '/api_register'
+      })
+      .done(function() {
+        $this.find('input:not(.register-submit)').val("");
+        $this.showSuccessAlert();
+        setTimeout(function() {
+          $(location).attr('href', '/');
+        }, 1000);
+      })
+      .fail(function(data) {
+        var msg = data.responseText || "新規登録に失敗しました";
+        $this.showErrorAlert(msg);
+      });
     });
+
   });
 
   /**
@@ -166,7 +175,7 @@
     })
     .fail(function(data) {
       var msg = data.responseText || "ユーザIDまたはパスワードが違います";
-      $noticeError.showMsg(msg);
+      $this.showErrorAlert(msg);
     })
   })
 

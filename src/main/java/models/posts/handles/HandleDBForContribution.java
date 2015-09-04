@@ -3,6 +3,7 @@ package models.posts.handles;
 import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
+import databases.entities.User;
 import helper.DaoImplHelper;
 import models.contributions.HandleContribution;
 import models.payloads.DeletePayload;
@@ -83,5 +84,16 @@ public class HandleDBForContribution {
     public List<Contribution> findByKeyword(HandleRequest req) {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
         return tm.required(() -> handleContribution.addInformationContributions(contributionDao.findByKeyword(options, req.getQuery())));
+    }
+
+    /**
+     * 指定されたユーザの投稿情報をID降順で返す
+     * @param req クエリリクエスト
+     * @param user ユーザ情報
+     * @return 投稿リスト
+     */
+    public List<Contribution> selectByUser(HandleRequest req, User user) {
+        options = DBSelectOptions.getDBSelectOptions().setOptions(req);
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.select(options, user.getUserid())));
     }
 }
