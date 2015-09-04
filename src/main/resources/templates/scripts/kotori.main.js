@@ -47,8 +47,7 @@
   /**
    * 削除
    */
-  $document.on('click', '.delete-guide', function(e) {
-    e.preventDefault();
+  $document.on('click', '.delete-guide', function() {
     var $this = $(this);
 
     swal({
@@ -56,7 +55,7 @@
       text: $this.parents('.contribution').find('.contribution__body--content').text(),
       allowOutsideClick: true,
       showCancelButton: true,
-      closeOnConfirm: false,
+      closeOnConfirm: false
     }, function() {
       $('#delete-contribution').kotoriAjax({
         url: '/api/delete'
@@ -69,6 +68,27 @@
       })
       .fail(function() {
         var msg = "投稿の削除に失敗しました";
+        $this.showErrorAlert(msg);
+      });
+    });
+  });
+
+  $document.on('click', '.btn--signout', function() {
+    var $this =  $(this);
+    swal({
+      title: 'ログアウトしますか？',
+      allowOutsideClick: true,
+      showCancelButton: true,
+      closeOnConfirm: false,
+    }, function() {
+      $this.kotoriAjax({
+        url: '/api_logout'
+      })
+      .done(function() {
+        $(location).attr('href', '/login');
+      })
+      .fail(function() {
+        var msg = "ログアウトに失敗しました";
         $this.showErrorAlert(msg);
       });
     });
