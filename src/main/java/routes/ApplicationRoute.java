@@ -1,7 +1,6 @@
 package routes;
 
 import databases.entities.User;
-import models.posts.utils.Status;
 import models.posts.utils.StatusCode;
 import models.users.HandleUser;
 import spark.Request;
@@ -9,7 +8,6 @@ import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static spark.Spark.*;
 
@@ -99,17 +97,17 @@ public class ApplicationRoute {
     private void initRoutesPost() {
         post("/api_login", ((req, res) -> {
             String result = postRequest.userRequest().select(req, res);
-            if (result.equals("OK")) setAutoLogin(req, res);
+            if (result.equals("OK")) result = setAutoLogin(req, res);
             return result;
         }));
+
+        post("/api_logout", ((req, res) -> postRequest.autoLoginRequest().delete(req, res)));
 
         post("/api_register", ((req, res) -> {
             String result = postRequest.userRequest().insert(req, res);
-            if (result.equals("OK")) setAutoLogin(req, res);
+            if (result.equals("OK")) result = setAutoLogin(req, res);
             return result;
         }));
-
-        post("/api/logout", ((req, res) -> postRequest.autoLoginRequest().delete(req, res)));
 
         post("/api/post", ((req, res) -> postRequest.contributionRequest().insert(req, res)));
 
@@ -132,14 +130,16 @@ public class ApplicationRoute {
      * 自動ログイン情報を登録する
      * @param request リクエスト
      * @param response レスポンス
+     * @return 登録結果
      * @throws Exception
      */
-    private void setAutoLogin(Request request, Response response) {
+    private String setAutoLogin(Request request, Response response) {
         try {
             User user = HandleUser.updateUser(postRequest.userRequest().createUser(request));
-            postRequest.autoLoginRequest().insert(user, response);
+            return postRequest.autoLoginRequest().insert(user, response);
         } catch (IOException e) {
             halt(StatusCode.HTTP_INTERNAL_SERVER_ERROR.getStatusCode());
+            return "";
         }
     }
 
