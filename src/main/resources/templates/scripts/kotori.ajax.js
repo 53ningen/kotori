@@ -9,20 +9,23 @@
     return connectByAjax(settings, json);
   }
 
-  $.fn.showMsg = function(msg) {
-    var $this = this;
-    $this.find('.notice__text').text(msg);
-    $this.addClass('active').css({
-        top: 0,
-        opacity: 1
-      });
-    setTimeout(function() {
-      $this.css({
-        top: '-70px',
-        opacity: 0
-      }).removeClass('active');
-    }, 3000);
+  $.fn.showSuccessAlert = function(msg) {
+    swal({
+      title: '',
+      type: 'success',
+      timer: 1000,
+      showConfirmButton: false
+    });
   }
+
+  $.fn.showErrorAlert = function(msg) {
+    swal({
+      title: 'Oops!',
+      text: msg,
+      type: 'error'
+    });
+  }
+
 
   /**
    * 文字列をエスケープする
