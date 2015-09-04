@@ -2,6 +2,7 @@ package bulletinBoard;
 
 import javax.sql.DataSource;
 
+import logger.CommonsJdbcLogger;
 import org.seasar.doma.SingletonConfig;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.JdbcLogger;

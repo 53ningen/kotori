@@ -1,4 +1,4 @@
-package bulletinBoard;
+package logger;
 
 import org.seasar.doma.jdbc.JdbcLogger;
 import org.seasar.doma.jdbc.Sql;

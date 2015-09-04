@@ -1,7 +1,7 @@
 <configuration>
 
     <!-- ログ出力先 -->
-    <property name="LoggingDir" value="logs/" />
+    <property name="LoggingDir" value="src/main/resources/logs/" />
     <!-- ルートのログレベル -->
     <property name="ROOT_LEVEL" value="INFO" />
     <timestamp key="byDate" datePattern="yyyyMMdd"/>
@@ -151,7 +151,7 @@
         <appender-ref ref="ASYNC_INFO"/>
     </logger>
 
-    <logger name="bulletinBoard.CommonsJdbcLogger" level="DEBUG">
+    <logger name="logger.CommonsJdbcLogger" level="DEBUG">
         <appender-ref ref="SQL_INFO" />
     </logger>
 
