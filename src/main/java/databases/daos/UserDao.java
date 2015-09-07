@@ -8,6 +8,7 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.jdbc.UniqueConstraintException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Dao(config = DBConfig.class)
