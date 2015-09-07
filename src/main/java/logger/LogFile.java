@@ -53,7 +53,7 @@ public class LogFile {
             str += "</pre>";
             br.close();
             return Optional.of(str);
-        } catch (URISyntaxException | IOException e) {
+        } catch (URISyntaxException | IOException | NullPointerException e) {
             return Optional.empty();
         }
     }

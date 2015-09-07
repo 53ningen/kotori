@@ -9,6 +9,7 @@ import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static spark.Spark.*;
 
@@ -81,19 +82,23 @@ public class ApplicationRoute {
 
         get("/my", ((req, res) -> HandleUser.createUser(req).map(user -> getRequest.getMypage(req, user)).get()), engine);
 
-        get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
-
-        get("/admin/log", ((req, res) -> getRequest.getLog(req)), engine);
-
-        get("/admin/log/:filename", (req, res) -> LogFile.getLogFile().getFileText(req.params("filename")).orElse("Not Found."));
-
         get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
 
         get("/search", ((req, res) -> getRequest.getSearch(req)), engine);
 
-        get("/admin_ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);
+        get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
 
-        get("/admin_nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
+        get("/admin/log", ((req, res) -> getRequest.getLog(req)), engine);
+
+        get("/admin/log/:filename", (req, res) -> {
+            Optional<String> resultOpt = LogFile.getLogFile().getFileText(req.params("filename"));
+            if (!resultOpt.isPresent()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
+            return resultOpt.orElse("");
+        });
+
+        get("/admin/ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);
+
+        get("/admin/nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
     }
 
     /**
