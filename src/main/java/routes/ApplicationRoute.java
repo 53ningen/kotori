@@ -18,6 +18,7 @@ import static spark.Spark.*;
  */
 public class ApplicationRoute {
     private static final ApplicationRoute applicationRoute = new ApplicationRoute();
+    private final LogFile logFile = LogFile.getLogFile();
     private final PostRequest postRequest = new PostRequest();
     private final GetRequest getRequest = new GetRequest();
 
@@ -90,10 +91,16 @@ public class ApplicationRoute {
 
         get("/admin/log", ((req, res) -> getRequest.getLog(req)), engine);
 
-        get("/admin/log/:filename", (req, res) -> {
-            Optional<String> resultOpt = LogFile.getLogFile().getFileText(req.params("filename"));
+        get("/admin/log/latest/:filename", (req, res) -> {
+            Optional<String> resultOpt = logFile.getFileText(req.params("filename"));
             if (!resultOpt.isPresent()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
-            return resultOpt.orElse("");
+            return resultOpt.orElse("Logfile is not found.");
+        });
+
+        get("/admin/log/:date/:filename", (req, res) -> {
+           Optional<String> resultOpt = logFile.getFileText("history/" + req.params("date") + "/" + req.params("filename"));
+            if (!resultOpt.isPresent()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
+            return resultOpt.orElse("Logfile is not found.");
         });
 
         get("/admin/ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);

@@ -169,3 +169,13 @@ header {
 .btn__text {
   font-size: 1rem;
 }
+
+/**
+ * Log Components
+ */
+#log {
+  padding: 1rem;
+}
+#log .log__files > a:hover {
+  color: #60B99A;
+}

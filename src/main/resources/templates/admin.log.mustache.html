@@ -12,7 +12,7 @@
   <!-- endbower -->
   <!-- build:css -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
-  <link rel="stylesheet" href="../styles/kotori.login.css">
+  <link rel="stylesheet" href="../styles/kotori.admin.log.css">
   <!-- endbuild -->
 </head>
 <body>
@@ -27,11 +27,28 @@
 
   <!-- startMain -->
   <main>
-    <ul>
-    {{#list}}
-      <li><a href="{{path}}/{{.}}">{{.}}</a></li>
-    {{/list}}
-    </ul>
+    <!-- startSection#log -->
+    <section id="log">
+      <h3>
+        <i class="fa fa-fw fa-file-text-o"></i>
+        最新ログ
+      </h3>
+      <ul>
+      {{#latest}}
+        <li class="log__files"><a href="{{path}}/latest/{{.}}">{{.}}</a></li>
+      {{/latest}}
+      </ul>
+      <h3>
+        <i class="fa fa-fw fa-file-text-o"></i>
+        過去ログ
+      </h3>
+      <ul>
+      {{#old}}
+        <li class="log__files"><a href="{{path}}/{{.}}/sql_info.log">{{.}}</a></li>
+      {{/old}}
+      </ul>
+    </section>
+    <!-- endSection#log -->
   </main>
   <!-- endMain-->
 

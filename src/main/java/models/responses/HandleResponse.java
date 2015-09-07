@@ -35,12 +35,21 @@ public class HandleResponse {
         setPathInfo(request);
     }
 
+    public <T> HandleResponse(Request request, Map<String, T> map) {
+        setMap(map);
+        setPathInfo(request);
+    }
+
     public HandleResponse(Request request) {
         setPathInfo(request);
     }
 
     private <T> void setList(List<T> list) {
         responseMap.put("list", list);
+    }
+
+    private <T> void setMap(Map<String, T> map) {
+        map.forEach(responseMap::put);
     }
 
     private void setContributions(List<Contribution> contributions) {

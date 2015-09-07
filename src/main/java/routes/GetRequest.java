@@ -11,11 +11,10 @@ import models.users.HandleUser;
 import spark.ModelAndView;
 import spark.Request;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class GetRequest {
+    private final LogFile logFile = LogFile.getLogFile();
     private final HandleRequest handleRequest = new HandleRequest();
     private final String AUTH_TOKEN = "auth_token";
 
@@ -46,8 +45,12 @@ public class GetRequest {
      * @return ModelAndView
      */
     protected ModelAndView getLog(Request req) {
-        List<String> files = LogFile.getLogFile().getLogFileNames();
-        return new ModelAndView(getResponseMap(req, files), "admin.log.mustache.html");
+        Map<String, List<String>> map = new HashMap<>();
+        List<String> latest = logFile.getLogFileNames("");
+        List<String> old = logFile.getLogDirectoryNames();
+        map.put("latest", latest);
+        map.put("old", old);
+        return new ModelAndView(getResponseMap(req, map), "admin.log.mustache.html");
     }
 
     /**
@@ -133,6 +136,13 @@ public class GetRequest {
         return new HandleResponse(
                 request,
                 list
+        ).getResponseMap();
+    }
+
+    private <T> HashMap<String, Object> getResponseMap(Request request, Map<String, T> map) {
+        return new HandleResponse(
+                request,
+                map
         ).getResponseMap();
     }
 

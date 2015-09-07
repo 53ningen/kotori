@@ -13,9 +13,11 @@ public class LogFile {
     private static final LogFile logFile = new LogFile();
     private final String LINE_SEPARATOR = System.getProperty("line.separator");
     private final String LOGFILE_PATH;
+    private final String HISTORY_PATH;
 
     public LogFile() {
         LOGFILE_PATH = "/logs";
+        HISTORY_PATH = LOGFILE_PATH + "/history";
     }
 
     public static LogFile getLogFile() {
@@ -26,11 +28,25 @@ public class LogFile {
      * ログファイルの一覧を返す
      * @return String型のList
      */
-    public List<String> getLogFileNames() {
+    public List<String> getLogFileNames(String path) {
         try {
-            URL url = LogFile.class.getResource(LOGFILE_PATH);
+            URL url = LogFile.class.getResource(LOGFILE_PATH + path);
             File directory = new File(url.toURI());
-            return Stream.of(directory.list()).filter(str -> str.contains(".log")).collect(Collectors.toList());
+            return Stream.of(directory.list()).filter(name -> name.contains(".log")).collect(Collectors.toList());
+        } catch (URISyntaxException e) {
+            return Collections.emptyList();
+        }
+    }
+
+    /**
+     * ログディレクトリの一覧を返す
+     * @return String型のList
+     */
+    public List<String> getLogDirectoryNames() {
+        try {
+            URL url = LogFile.class.getResource(HISTORY_PATH);
+            File directory = new File(url.toURI());
+            return Stream.of(directory.list()).filter(name -> !name.contains(".log")).collect(Collectors.toList());
         } catch (URISyntaxException e) {
             return Collections.emptyList();
         }
