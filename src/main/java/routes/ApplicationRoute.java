@@ -1,6 +1,7 @@
 package routes;
 
 import databases.entities.User;
+import logger.LogFile;
 import models.posts.utils.StatusCode;
 import models.users.HandleUser;
 import spark.Request;
@@ -8,6 +9,7 @@ import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static spark.Spark.*;
 
@@ -16,6 +18,7 @@ import static spark.Spark.*;
  */
 public class ApplicationRoute {
     private static final ApplicationRoute applicationRoute = new ApplicationRoute();
+    private final LogFile logFile = LogFile.getLogFile();
     private final PostRequest postRequest = new PostRequest();
     private final GetRequest getRequest = new GetRequest();
 
@@ -80,15 +83,29 @@ public class ApplicationRoute {
 
         get("/my", ((req, res) -> HandleUser.createUser(req).map(user -> getRequest.getMypage(req, user)).get()), engine);
 
-        get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
-
         get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
 
         get("/search", ((req, res) -> getRequest.getSearch(req)), engine);
 
-        get("/admin_ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);
+        get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
 
-        get("/admin_nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
+        get("/admin/log", ((req, res) -> getRequest.getLog(req)), engine);
+
+        get("/admin/log/latest/:filename", (req, res) -> {
+            Optional<String> resultOpt = logFile.getFileText(req.params("filename"));
+            if (!resultOpt.isPresent()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
+            return resultOpt.orElse("Logfile is not found.");
+        });
+
+        get("/admin/log/:date/:filename", (req, res) -> {
+           Optional<String> resultOpt = logFile.getFileText("history/" + req.params("date") + "/" + req.params("filename"));
+            if (!resultOpt.isPresent()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
+            return resultOpt.orElse("Logfile is not found.");
+        });
+
+        get("/admin/ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);
+
+        get("/admin/nguser", ((req, res) -> getRequest.getAdminNGUser(req)), engine);
     }
 
     /**

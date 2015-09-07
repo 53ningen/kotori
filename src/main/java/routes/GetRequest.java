@@ -1,6 +1,7 @@
 package routes;
 
 import databases.entities.*;
+import logger.LogFile;
 import models.paginations.HandlePagination;
 import models.posts.handles.HandleDB;
 import models.posts.utils.DBSelectOptions;
@@ -10,11 +11,10 @@ import models.users.HandleUser;
 import spark.ModelAndView;
 import spark.Request;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class GetRequest {
+    private final LogFile logFile = LogFile.getLogFile();
     private final HandleRequest handleRequest = new HandleRequest();
     private final String AUTH_TOKEN = "auth_token";
 
@@ -37,6 +37,20 @@ public class GetRequest {
      */
     protected ModelAndView getLogin(Request req) {
         return new ModelAndView(getResponseMap(req), "login.mustache.html");
+    }
+
+    /**
+     * ログページを表示する
+     * @param req リクエスト
+     * @return ModelAndView
+     */
+    protected ModelAndView getLog(Request req) {
+        Map<String, List<String>> map = new HashMap<>();
+        List<String> latest = logFile.getLogFileNames("");
+        List<String> old = logFile.getLogDirectoryNames();
+        map.put("latest", latest);
+        map.put("old", old);
+        return new ModelAndView(getResponseMap(req, map), "admin.log.mustache.html");
     }
 
     /**
@@ -115,13 +129,20 @@ public class GetRequest {
      * テンプレートエンジンに渡すレスポンスを生成する
      * @param request リクエスト
      * @param list Viewに渡すリスト
-     * @param <T> NGInterfaceを実装する型クラス
+     * @param <T> 型クラス
      * @return HashMap
      */
-    private <T extends NGInterface> HashMap<String, Object> getResponseMap(Request request, List<T> list) {
+    private <T> HashMap<String, Object> getResponseMap(Request request, List<T> list) {
         return new HandleResponse(
                 request,
                 list
+        ).getResponseMap();
+    }
+
+    private <T> HashMap<String, Object> getResponseMap(Request request, Map<String, T> map) {
+        return new HandleResponse(
+                request,
+                map
         ).getResponseMap();
     }
 

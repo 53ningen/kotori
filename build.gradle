@@ -16,6 +16,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    all*.exclude group: 'org.slf4j', module: 'slf4j-simple'
+}
+
 dependencies {
     testCompile 'junit:junit:4.11'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
@@ -26,6 +30,7 @@ dependencies {
     compile 'mysql:mysql-connector-java:5.1.36'
     compile 'org.seasar.doma:doma:2.3.1'
     compile 'redis.clients:jedis:2.7.3'
+    compile 'ch.qos.logback:logback-classic:1.1.3'
 }
 
 test {

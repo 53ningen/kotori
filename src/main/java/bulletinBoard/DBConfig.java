@@ -2,8 +2,10 @@ package bulletinBoard;
 
 import javax.sql.DataSource;
 
+import logger.CommonsJdbcLogger;
 import org.seasar.doma.SingletonConfig;
 import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.JdbcLogger;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.dialect.MysqlDialect;
 import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
@@ -19,6 +21,7 @@ public class DBConfig implements Config {
     private final Dialect dialect;
     private final LocalTransactionDataSource dataSource;
     private final TransactionManager transactionManager;
+    private final JdbcLogger jdbcLogger;
 
     private DBConfig() {
         dialect = new MysqlDialect();
@@ -27,13 +30,20 @@ public class DBConfig implements Config {
                 resource.getString("hostname"),
                 resource.getString("username"),
                 resource.getString("password"));
+        jdbcLogger = new CommonsJdbcLogger();
         transactionManager = new LocalTransactionManager(
-                dataSource.getLocalTransaction(getJdbcLogger()));
+                dataSource.getLocalTransaction(jdbcLogger));
     }
+
 
     @Override
     public Dialect getDialect() {
         return dialect;
+    }
+
+    @Override
+    public JdbcLogger getJdbcLogger() {
+        return jdbcLogger;
     }
 
     @Override

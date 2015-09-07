@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Kotori - Log</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="../bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" href="../bower_components/fontawesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../bower_components/sweetalert/dist/sweetalert.css">
+  <!-- endbower -->
+  <!-- build:css -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
+  <link rel="stylesheet" href="../styles/kotori.admin.log.css">
+  <!-- endbuild -->
+</head>
+<body>
+
+  <!-- startHeader -->
+  <header>
+    <h1 class="heading">
+      <a href="/">Log</a>
+    </h1>
+  </header>
+  <!-- endHeader -->
+
+  <!-- startMain -->
+  <main>
+    <!-- startSection#log -->
+    <section id="log">
+      <h3>
+        <i class="fa fa-fw fa-file-text-o"></i>
+        最新ログ
+      </h3>
+      <ul>
+      {{#latest}}
+        <li class="log__files"><a href="{{path}}/latest/{{.}}">{{.}}</a></li>
+      {{/latest}}
+      </ul>
+      <h3>
+        <i class="fa fa-fw fa-file-text-o"></i>
+        過去ログ
+      </h3>
+      <ul>
+      {{#old}}
+        <li class="log__files"><a href="{{path}}/{{.}}/sql_info.log">{{.}}</a></li>
+      {{/old}}
+      </ul>
+    </section>
+    <!-- endSection#log -->
+  </main>
+  <!-- endMain-->
+
+  <!-- bower:js -->
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- endbower -->
+  <!-- build:js -->
+  <!-- endbuild -->
+</body>
+</html>
