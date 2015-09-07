@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Kotori - Log</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
+  <!-- endbower -->
+  <!-- build:css -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
+  <link rel="stylesheet" href="../styles/kotori.login.css">
+  <!-- endbuild -->
+</head>
+<body>
+
+  <!-- startHeader -->
+  <header>
+    <h1 class="heading">
+      <a href="/">Log</a>
+    </h1>
+  </header>
+  <!-- endHeader -->
+
+  <!-- startMain -->
+  <main>
+    <ul>
+    {{#list}}
+      <li><a href="{{path}}/{{.}}">{{.}}</a></li>
+    {{/list}}
+    </ul>
+  </main>
+  <!-- endMain-->
+
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- endbower -->
+  <!-- build:js -->
+  <Script src="scripts/kotori.ajax.js"></script>
+  <script src="scripts/kotori.login.js"></script>
+  <!-- endbuild -->
+</body>
+</html>

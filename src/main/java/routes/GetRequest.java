@@ -1,6 +1,7 @@
 package routes;
 
 import databases.entities.*;
+import logger.LogFile;
 import models.paginations.HandlePagination;
 import models.posts.handles.HandleDB;
 import models.posts.utils.DBSelectOptions;
@@ -37,6 +38,16 @@ public class GetRequest {
      */
     protected ModelAndView getLogin(Request req) {
         return new ModelAndView(getResponseMap(req), "login.mustache.html");
+    }
+
+    /**
+     * ログページを表示する
+     * @param req リクエスト
+     * @return ModelAndView
+     */
+    protected ModelAndView getLog(Request req) {
+        List<String> files = LogFile.getLogFile().getLogFileNames();
+        return new ModelAndView(getResponseMap(req, files), "admin.log.mustache.html");
     }
 
     /**
@@ -115,10 +126,10 @@ public class GetRequest {
      * テンプレートエンジンに渡すレスポンスを生成する
      * @param request リクエスト
      * @param list Viewに渡すリスト
-     * @param <T> NGInterfaceを実装する型クラス
+     * @param <T> 型クラス
      * @return HashMap
      */
-    private <T extends NGInterface> HashMap<String, Object> getResponseMap(Request request, List<T> list) {
+    private <T> HashMap<String, Object> getResponseMap(Request request, List<T> list) {
         return new HandleResponse(
                 request,
                 list

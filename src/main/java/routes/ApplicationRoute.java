@@ -1,6 +1,7 @@
 package routes;
 
 import databases.entities.User;
+import logger.LogFile;
 import models.posts.utils.StatusCode;
 import models.users.HandleUser;
 import spark.Request;
@@ -81,6 +82,10 @@ public class ApplicationRoute {
         get("/my", ((req, res) -> HandleUser.createUser(req).map(user -> getRequest.getMypage(req, user)).get()), engine);
 
         get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
+
+        get("/admin/log", ((req, res) -> getRequest.getLog(req)), engine);
+
+        get("/admin/log/:filename", (req, res) -> LogFile.getLogFile().getFileText(req.params("filename")).orElse("Not Found."));
 
         get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
 

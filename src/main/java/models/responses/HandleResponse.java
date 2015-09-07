@@ -30,7 +30,7 @@ public class HandleResponse {
         setQueryMap(request, query);
     }
 
-    public <T extends NGInterface> HandleResponse(Request request, List<T> list) {
+    public <T> HandleResponse(Request request, List<T> list) {
         setList(list);
         setPathInfo(request);
     }
@@ -39,8 +39,8 @@ public class HandleResponse {
         setPathInfo(request);
     }
 
-    private <T extends NGInterface> void setList(List<T> list) {
-        responseMap.put("nglist", list);
+    private <T> void setList(List<T> list) {
+        responseMap.put("list", list);
     }
 
     private void setContributions(List<Contribution> contributions) {

@@ -30,7 +30,7 @@ public class LogFile {
         try {
             URL url = LogFile.class.getResource(LOGFILE_PATH);
             File directory = new File(url.toURI());
-            return Stream.of(directory.list()).collect(Collectors.toList());
+            return Stream.of(directory.list()).filter(str -> str.contains(".log")).collect(Collectors.toList());
         } catch (URISyntaxException e) {
             return Collections.emptyList();
         }
