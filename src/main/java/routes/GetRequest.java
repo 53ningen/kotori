@@ -12,6 +12,7 @@ import spark.ModelAndView;
 import spark.Request;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class GetRequest {
     private final LogFile logFile = LogFile.getLogFile();
@@ -104,8 +105,22 @@ public class GetRequest {
      * @return ログイン中ならtrueを返す
      */
     protected boolean isLogin(Request request) {
-        Optional<String> tokenOpt = Optional.ofNullable(request.cookie(AUTH_TOKEN));
-        return tokenOpt.map(token -> HandleDB.autoLogin().existToken(token)).orElse(false);
+        return Optional.ofNullable(request.cookie(AUTH_TOKEN))
+                       .map(token -> HandleDB.autoLogin().existToken(token))
+                       .orElse(false);
+    }
+
+    /**
+     * Adminユーザかどうかを確認する
+     * @param request リクエスト
+     * @return Adminユーザであればtrueを返す
+     */
+    protected boolean isAdmin(Request request) {
+        return Optional.ofNullable(request.cookie(AUTH_TOKEN))
+                       .map(token -> HandleDB.autoLogin().select(token, "userid")
+                               .map(userid -> HandleDB.user().selectAdminUser(userid))
+                               .map(Optional::isPresent).orElse(false))
+                       .orElse(false);
     }
 
     /**

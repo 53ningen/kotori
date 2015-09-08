@@ -71,6 +71,18 @@ public class ApplicationRoute {
                 halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode()); // 401 Unauthorizedを返す
             }
         });
+
+        before("/admin", (req, res) -> {
+            if (!getRequest.isAdmin(req)) {
+                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+            }
+        });
+
+        before("/admin/*", (req, res) -> {
+            if (!getRequest.isAdmin(req)) {
+                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+            }
+        });
     }
 
     /**
