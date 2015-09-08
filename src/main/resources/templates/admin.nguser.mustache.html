@@ -8,6 +8,7 @@
   <!-- bower:css -->
   <link rel="stylesheet" href="../bower_components/normalize.css/normalize.css">
   <link rel="stylesheet" href="../bower_components/fontawesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../bower_components/sweetalert/dist/sweetalert.css">
   <!-- endbower -->
   <!-- build:css -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
@@ -17,24 +18,17 @@
 <body>
   <!-- startHeader -->
   <header>
-    <nav class="nav-header--left">
-      <a href="/admin">
-        <button class="btn btn--header btn--write">
-          <i class="fa fa-cog"></i>
-        </button>
-      </a>
-      <a href="/admin/ngword">
-        <button class="btn btn--header btn--margin">
-          <i class="fa fa-commenting"></i>
-        </button>
-      </a>
-    </nav>
     <h1 class="heading">
       <a href="{{path}}">NGUser</a>
     </h1>
     <nav class="nav-header--right">
+      <a href="/admin">
+        <button class="btn btn--header btn--margin">
+          <i class="fa fa-cog"></i>
+        </button>
+      </a>
       <a href="/">
-        <button class="btn btn--header">
+        <button class="btn btn--header btn--margin">
           <i class="fa fa-sign-out"></i>
         </button>
       </a>
@@ -47,7 +41,7 @@
     <!-- startSection#form-ng -->
     <section id="form-ng">
       <form id="post-ng">
-        <input class="ng-word" type="text" name="word">
+        <input class="input-ng-word" type="text" name="word" required>
         <input class="btn--margin" type="submit" value="追加">
       </form>
     </section>
@@ -80,6 +74,7 @@
 
   <!-- bower:js -->
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
   <!-- endbower -->
   <!-- build:js -->
   <script src="../scripts/kotori.ajax.js"></script>
