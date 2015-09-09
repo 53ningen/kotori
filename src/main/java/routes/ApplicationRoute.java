@@ -71,6 +71,24 @@ public class ApplicationRoute {
                 halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode()); // 401 Unauthorizedを返す
             }
         });
+
+        before("/api/admin/*", (req, res) -> {
+            if (!getRequest.isAdmin(req)) {
+                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+            }
+        });
+
+        before("/admin", (req, res) -> {
+            if (!getRequest.isAdmin(req)) {
+                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+            }
+        });
+
+        before("/admin/*", (req, res) -> {
+            if (!getRequest.isAdmin(req)) {
+                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+            }
+        });
     }
 
     /**
@@ -130,17 +148,17 @@ public class ApplicationRoute {
 
         post("/api/delete", ((req, res) -> postRequest.contributionRequest().delete(req, res)));
 
-        post("/api/admin_delete", ((req, res) -> postRequest.contributionRequest().deleteWithoutKey(req, res)));
+        post("/api/admin/delete", ((req, res) -> postRequest.contributionRequest().deleteWithoutKey(req, res)));
 
-        post("/api/admin_update", ((req, res) -> postRequest.contributionRequest().update(req, res)));
+        post("/api/admin/update", ((req, res) -> postRequest.contributionRequest().update(req, res)));
 
-        post("/api/admin_delete_ngword", ((req, res) -> postRequest.ngWordRequest().delete(req, res)));
+        post("/api/admin/delete_ngword", ((req, res) -> postRequest.ngWordRequest().delete(req, res)));
 
-        post("/api/admin_delete_nguser", ((req, res) -> postRequest.ngUserRequest().delete(req, res)));
+        post("/api/admin/delete_nguser", ((req, res) -> postRequest.ngUserRequest().delete(req, res)));
 
-        post("/api/admin_insert_ngword", ((req, res) -> postRequest.ngWordRequest().insert(req, res)));
+        post("/api/admin/insert_ngword", ((req, res) -> postRequest.ngWordRequest().insert(req, res)));
 
-        post("/api/admin_insert_nguser", ((req, res) -> postRequest.ngUserRequest().insert(req, res)));
+        post("/api/admin/insert_nguser", ((req, res) -> postRequest.ngUserRequest().insert(req, res)));
     }
 
     /**

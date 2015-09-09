@@ -6,6 +6,7 @@ import databases.entities.NGUser;
 import helper.DaoImplHelper;
 import org.junit.Rule;
 import org.junit.Test;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.util.List;
@@ -25,14 +26,14 @@ public class NGUserDaoTest {
     public void 用意したテストデータを全件取得できる() throws Exception {
         tm.required(() -> {
             // exercise
-            List<NGUser> ngUsers = dao.findAll();
+            List<NGUser> ngUsers = dao.select(SelectOptions.get());
             NGUser ngUser = ngUsers.get(0);
 
             // verify
             assertNotNull(ngUsers);
             assertThat(ngUsers.size(), greaterThan(1));
             assertThat(ngUser.getId(), is(2));
-            assertThat(ngUser.getWord(), is("piyopiyo"));
+            assertThat(ngUser.getWord(), is("nguser"));
         });
     }
 

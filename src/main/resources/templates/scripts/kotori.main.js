@@ -22,7 +22,7 @@
       url: '/api/post'
     })
     .done(function(data) {
-      showSuccessAlert();
+      $this.showSuccessAlert();
       $('#post').slideToggle(400, function() {
         $this.find('input:not(.post-submit), textarea').val("");
       });
@@ -62,7 +62,7 @@
       })
       .done(function() {
         $this.parents('.contribution').fadeOut(400, function() {
-          $(this).remove()
+          $(this).remove();
         });
         $this.showSuccessAlert();
       })

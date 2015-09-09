@@ -6,6 +6,7 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
+import org.seasar.doma.jdbc.SelectOptions;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public interface NGWordDao {
 
     @Select
-    List<NGWord> findAll();
+    List<NGWord> select(SelectOptions options);
 
     @Insert
     int insert(NGWord word);

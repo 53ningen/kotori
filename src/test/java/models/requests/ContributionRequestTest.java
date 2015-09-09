@@ -119,6 +119,22 @@ public class ContributionRequestTest {
             verify(response).status(400);
             assertThat(errorCode, is(ErrorCode.NGWORD_CONTAINS.getErrorMsg()));
         }
+
+        @Test
+        public void パラメータが正しい場合でもNGユーザであればBadRequestを返す() throws Exception {
+            // setup
+            String title = Stream.generate(() -> "a").limit(LIMIT_NAME_AND_TITLE_LENGTH).collect(joining());
+            String content = "{\"title\": \"" + title + "\", \"content\": \"content\"}";
+            when(request.body()).thenReturn(content);
+            when(request.cookie("auth_token")).thenReturn("nguser_token");
+
+            // exercise
+            String errorCode = contributionRequest.insert(request, response);
+
+            // verify
+            verify(response).status(400);
+            assertThat(errorCode, is(ErrorCode.NGUSER.getErrorMsg()));
+        }
     }
 
     public static class 削除テスト {

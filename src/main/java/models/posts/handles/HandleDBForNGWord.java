@@ -4,9 +4,13 @@ import bulletinBoard.DBConfig;
 import databases.daos.NGWordDao;
 import databases.entities.NGWord;
 import helper.DaoImplHelper;
+import models.posts.utils.DBSelectOptions;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class HandleDBForNGWord {
     private final NGWordDao ngWordDao = DaoImplHelper.get(NGWordDao.class);
@@ -14,19 +18,34 @@ public class HandleDBForNGWord {
 
     /**
      * NGワードのリストを返す
+     * @param options SelectOptions
      * @return NGワードリスト
      */
-    public List<NGWord> findAll() {
-        return tm.required(ngWordDao::findAll);
+    public List<NGWord> select(SelectOptions options) {
+        return tm.required(() -> ngWordDao.select(options));
+    }
+
+    /**
+     * NGワードのリストを全件返す
+     * @return NGワードリスト
+     */
+    public List<NGWord> selectAll() {
+        return tm.required(() -> ngWordDao.select(SelectOptions.get()));
     }
 
     /**
      * 受け取ったNGワードをDBに格納する
      * @param ngWord NGWordインスタンス
-     * @return 処理した投稿数
+     * @return 格納されたNGWordインスタンス
      */
-    public int insert(NGWord ngWord) {
-        return tm.required(() -> ngWordDao.insert(ngWord));
+    public List<NGWord> insert(NGWord ngWord) {
+        return tm.required(() -> {
+            int result = ngWordDao.insert(ngWord);
+            if (result < 1) {
+                return Collections.<NGWord>emptyList();
+            }
+            return ngWordDao.select(DBSelectOptions.getDBSelectOptions().setOptions(1));
+        });
     }
 
     /**

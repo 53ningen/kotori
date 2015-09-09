@@ -2,28 +2,23 @@
   'use strict';
 
   var $document = $(document);
-  var $notice = $('.notice--error');
+  $('.update-text').css({ height: $('.contribution__body--content').height() + 'px' });
 
   /**
    * 投稿の更新を適用する
    */
-  var applyUpdate = function(el) {
-    var $contribution = el.parents('.contribution');
+  var applyUpdate = function($el) {
+    var $contribution = $el.parents('.contribution');
 
-    $contribution.find('.contribution__edit').css({
-      backgroundColor: 'transparent',
-      zIndex: 99
-    });
-    el.css({
+    $el.css({
       opacity: 0
     }).removeClass('active');
 
     var editedData = {};
-    el.serializeArray().forEach(function(el) {
+    $el.serializeArray().forEach(function(el) {
       editedData[el.name] = el.value;
     });
 
-    $contribution.find('.contribution__user--name').first().text(editedData.username);
     $contribution.find('.contribution__body--title').first().text(editedData.title);
     $contribution.find('.contribution__body--content').first().text(editedData.content);
   }
@@ -31,23 +26,14 @@
   /**
    * 編集ボタンをクリックした時のイベント
    **/
-  $document.on('click', '.edit-guide', function() {
-    var $wrapper = $(this).parent();
-    var $updateform = $wrapper.find('#update-contribution');
+  $document.on('click', '.update-guide', function() {
+    var $updateform = $('#update-contribution');
 
     if ($updateform.hasClass('active')) {
-      $wrapper.css({
-        backgroundColor: 'transparent',
-        zIndex: 99
-      });
       $updateform.css({
         opacity: 0
       }).removeClass('active');
     } else {
-      $wrapper.css({
-        backgroundColor: '#eee',
-        zIndex: 101
-      });
       $updateform.addClass('active').css({
         opacity: 1
       });
@@ -60,35 +46,55 @@
   $document.on('submit', '#update-contribution', function(e) {
     e.preventDefault();
     var $this = $(this);
-    $this.kotoriAjax({
-      url: '/api/admin_update'
-    })
-    .done(function() {
-      applyUpdate($this);
-    })
-    .fail(function() {
-      var msg = "投稿の更新に失敗しました";
-      $notice.showMsg(msg);
+
+    swal({
+      title: '投稿内容を更新しますか？',
+      text: '',
+      allowOutsideClick: true,
+      showCancelButton: true,
+      closeOnConfirm: false
+    }, function() {
+      $this.kotoriAjax({
+        url: '/api/admin/update'
+      })
+      .done(function() {
+        applyUpdate($this);
+        $this.showSuccessAlert();
+      })
+      .fail(function() {
+        var msg = "投稿の更新に失敗しました";
+        $this.showErrorAlert(msg);
+      });
     });
+
   });
 
   /**
    * 削除
    */
-  $document.on('submit', '#delete-contribution', function(e) {
-    e.preventDefault();
+  $document.on('click', '.delete-guide', function() {
     var $this = $(this);
-    $this.kotoriAjax({
-      url: '/api/admin_delete'
-    })
-    .done(function() {
-      $this.parents('.contribution').fadeOut(400, function(){
-        $(this).remove();
+
+    swal({
+      title: '投稿を削除しますか？',
+      text: $this.parents('.contribution').find('.contribution__body--content').first().text(),
+      allowOutsideClick: true,
+      showCancelButton: true,
+      closeOnConfirm: false
+    }, function() {
+      $this.kotoriAjax({
+        url: '/api/admin/delete'
+      })
+      .done(function() {
+        $this.parents('.contribution').fadeOut(400, function(){
+          $(this).remove();
+        });
+        $this.showSuccessAlert();
+      })
+      .fail(function() {
+        var msg = "投稿の削除に失敗しました";
+        $this.showErrorAlert(msg);
       });
-    })
-    .fail(function() {
-      var msg ="投稿の削除に失敗しました";
-      $notice.showMsg(msg);
     });
   });
 

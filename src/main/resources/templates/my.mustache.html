@@ -19,12 +19,7 @@
   <!-- startHeader -->
   <header>
     <nav class="nav-header--left">
-      <a href="/">
-        <button class="btn btn--header">
-          <i class="fa fa-home"></i>
-        </button>
-      </a>
-      <button class="btn btn--header btn--margin btn--write">
+      <button class="btn btn--header btn--write">
         <i class="fa fa-pencil"></i>
       </button>
     </nav>
@@ -32,6 +27,11 @@
       <a href="/my">{{#user}}@{{userid}}{{/user}}{{^user}}Kotori{{/user}}</a>
     </h1>
     <nav class="nav-header--right">
+      <a href="/">
+        <button class="btn btn--header btn--margin">
+          <i class="fa fa-home"></i>
+        </button>
+      </a>
       <button class="btn btn--header btn--signout">
         <i class="fa fa-sign-out"></i>
       </button>
@@ -114,6 +114,14 @@
     <section id="contributions">
       {{#contributions}}
       <div class="contribution">
+        <div class="contribution__header">
+          <div class="delete-guide">
+            <form id="delete-contribution">
+              <input class="delete-id" type="hidden" name="id" value="{{id}}">
+            </form>
+            <i class="fa fa-trash-o"></i>
+          </div>
+        </div>
         <div class="contribution__user cf">
           <div class="contribution__user--icon">
             icon
@@ -138,12 +146,6 @@
           </span>
           {{/isNew}}
           {{editedCreatedTime}} ・ #{{id}}
-          <div class="delete-guide">
-            <form id="delete-contribution">
-              <input class="delete-id" type="hidden" name="id" value="{{id}}">
-            </form>
-            <i class="fa fa-trash-o"></i>
-          </div>
         </div>
       </div>
       {{/contributions}}
