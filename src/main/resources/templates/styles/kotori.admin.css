@@ -239,18 +239,6 @@ footer .nav-footer--sns {
   left: 1rem;
 }
 
-.wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #F1EFA5;
-  opacity: 0;
-  z-index: 1;
-  transition: all .3s;
-}
-
 /**
  * Post Component
  */
