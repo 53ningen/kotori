@@ -2,7 +2,7 @@
   'use strict';
 
   var $document = $(document);
-  var url = $(location).attr('pathname').split('_')[1];
+  var url = $(location).attr('pathname').split('/admin/')[1];
 
   /**
    * サーバからのjsonレスポンスをDOMに反映する
@@ -27,7 +27,7 @@
       closeOnConfirm: false
     }, function() {
       $this.kotoriAjax({
-        url: '/api/admin_insert_' + url
+        url: '/api/admin/insert_' + url
       })
       .done(function(data) {
         $this.find('.input-ng-word').val("");
@@ -55,7 +55,7 @@
       closeOnConfirm: false
     }, function() {
       $('#delete-ng').kotoriAjax({
-        url: '/api/admin_delete_' + url
+        url: '/api/admin/delete_' + url
       })
       .done(function() {
         $this.parent().fadeOut(400, function(){

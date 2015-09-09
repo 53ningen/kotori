@@ -55,7 +55,7 @@
       closeOnConfirm: false
     }, function() {
       $this.kotoriAjax({
-        url: '/api/admin_update'
+        url: '/api/admin/update'
       })
       .done(function() {
         applyUpdate($this);
@@ -83,7 +83,7 @@
       closeOnConfirm: false
     }, function() {
       $this.kotoriAjax({
-        url: '/api/admin_delete'
+        url: '/api/admin/delete'
       })
       .done(function() {
         $this.parents('.contribution').fadeOut(400, function(){
