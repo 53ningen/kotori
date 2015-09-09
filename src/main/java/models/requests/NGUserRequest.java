@@ -10,6 +10,8 @@ import models.posts.utils.ResponseType;
 import spark.Request;
 import spark.Response;
 
+import java.util.Optional;
+
 public class NGUserRequest implements DBRequest {
 
     /**
@@ -27,14 +29,15 @@ public class NGUserRequest implements DBRequest {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = HandleDB.ngUser().insert(ngUser);
-            if (result < 1) {
+            Optional<NGUser> ngUserOpt = Optional.ofNullable(HandleDB.ngUser().insert(ngUser))
+                                                 .map(users -> users.get(0));
+            if (!ngUserOpt.isPresent()) {
                 return setInternalServerError(response);
             }
 
             setOK(response, ResponseType.APPLICATION_JSON);
 
-            return convertObjectToJson(ngUser);
+            return convertObjectToJson(ngUserOpt.get());
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }

@@ -1,6 +1,9 @@
 package routes;
 
-import databases.entities.*;
+import databases.entities.Contribution;
+import databases.entities.NGUser;
+import databases.entities.NGWord;
+import databases.entities.User;
 import logger.LogFile;
 import models.paginations.HandlePagination;
 import models.posts.handles.HandleDB;
@@ -8,11 +11,14 @@ import models.posts.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import models.responses.HandleResponse;
 import models.users.HandleUser;
+import org.seasar.doma.jdbc.SelectOptions;
 import spark.ModelAndView;
 import spark.Request;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class GetRequest {
     private final LogFile logFile = LogFile.getLogFile();
@@ -84,7 +90,7 @@ public class GetRequest {
      */
     protected ModelAndView getAdminNGWord(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<NGWord> ngWords = HandleDB.ngWord().findAll();
+        List<NGWord> ngWords = HandleDB.ngWord().select(SelectOptions.get());
         return new ModelAndView(getResponseMap(req, ngWords), "admin.ngword.mustache.html");
     }
 

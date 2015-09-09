@@ -2,6 +2,7 @@ package models.requests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.Contribution;
+import databases.entities.NGWord;
 import databases.entities.User;
 import models.contributions.HandleContribution;
 import models.payloads.DeletePayload;
@@ -12,9 +13,11 @@ import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
 import models.posts.utils.ResponseType;
 import models.users.HandleUser;
+import org.seasar.doma.jdbc.SelectOptions;
 import spark.Request;
 import spark.Response;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ContributionRequest implements DBRequest {
@@ -32,9 +35,10 @@ public class ContributionRequest implements DBRequest {
         try {
             // postPayloadを生成する
             PostPayload payload = new ObjectMapper().readValue(HandlePayload.unescapeUnicode(request.body()), PostPayload.class);
+            List<NGWord> ngWordList = HandleDB.ngWord().selectAll();
             if (!payload.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
-            } else if (!HandlePayload.isValidContent(HandleDB.ngWord().findAll(), payload)) {
+            } else if (!HandlePayload.isValidContent(ngWordList, payload)) {
                 return setBadRequest(response, ErrorCode.NGWORD_CONTAINS);
             }
 

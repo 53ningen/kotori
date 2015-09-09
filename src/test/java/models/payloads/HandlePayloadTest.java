@@ -26,7 +26,7 @@ public class HandlePayloadTest {
         PostPayload payload = new PostPayload();
         payload.setTitle("foo");
         payload.setContent("テスト");
-        List<NGWord> ngWords = handleDBForNGWord.findAll();
+        List<NGWord> ngWords = handleDBForNGWord.selectAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);
@@ -41,7 +41,7 @@ public class HandlePayloadTest {
         PostPayload payload = new PostPayload();
         payload.setTitle("テスト");
         payload.setContent("hoge");
-        List<NGWord> ngWords = handleDBForNGWord.findAll();
+        List<NGWord> ngWords = handleDBForNGWord.selectAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);

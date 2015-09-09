@@ -10,6 +10,8 @@ import models.posts.utils.ResponseType;
 import spark.Request;
 import spark.Response;
 
+import java.util.Optional;
+
 public class NGWordRequest implements DBRequest {
 
     /**
@@ -27,14 +29,16 @@ public class NGWordRequest implements DBRequest {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
             }
 
-            int result = HandleDB.ngWord().insert(ngWord);
-            if (result < 1) {
+            Optional<NGWord> ngWordOpt = Optional.ofNullable(HandleDB.ngWord().insert(ngWord))
+                                                 .map(words -> words.get(0));
+
+            if (!ngWordOpt.isPresent()) {
                 return setInternalServerError(response);
             }
 
             setOK(response, ResponseType.APPLICATION_JSON);
 
-            return convertObjectToJson(ngWord);
+            return convertObjectToJson(ngWordOpt.get());
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }

@@ -6,6 +6,7 @@ import databases.entities.NGWord;
 import helper.DaoImplHelper;
 import org.junit.Rule;
 import org.junit.Test;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class NGWordDaoTest {
     public void 用意したテストデータを全件取得できる() throws Exception {
         tm.required(() -> {
             // exercise
-            List<NGWord> ngWords = dao.findAll();
+            List<NGWord> ngWords = dao.select(SelectOptions.get());
             NGWord ngWord = ngWords.get(0);
 
             // verify

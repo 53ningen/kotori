@@ -8,7 +8,7 @@
    * サーバからのjsonレスポンスをDOMに反映する
    */
   var createNGWord = function(data) {
-    var ngword = '<div class="ng"><div class="ng__word"><span class="ng-word">'+data.word+'</span></div></div>';
+    var ngword = '<div class="ng"><div class="ng__word"><span class="ng-id">'+data.id+'</span><span class="ng-word">'+data.word+'</span></div><div class="ng__delete"><form id="delete-ng"><input class="delete-id" type="hidden" name="id" value="'+data.id+'"></form><i class="fa fa-trash-o"></i></div></div>';
     return ngword;
   };
 
