@@ -28,7 +28,7 @@ public class HandleDBForNGUser {
      * NGユーザのリストを全件返す
      * @return NGユーザリスト
      */
-    public List<NGUser> findAll() {
+    public List<NGUser> selectAll() {
         return tm.required(() -> ngUserDao.select(SelectOptions.get()));
     }
 

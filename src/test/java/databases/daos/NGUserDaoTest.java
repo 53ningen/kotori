@@ -33,7 +33,7 @@ public class NGUserDaoTest {
             assertNotNull(ngUsers);
             assertThat(ngUsers.size(), greaterThan(1));
             assertThat(ngUser.getId(), is(2));
-            assertThat(ngUser.getWord(), is("piyopiyo"));
+            assertThat(ngUser.getWord(), is("nguser"));
         });
     }
 

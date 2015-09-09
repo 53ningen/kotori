@@ -10,12 +10,12 @@ public class NGUser implements NGInterface {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username")
-    private String word;
+    @Column(name = "userid")
+    private String userid;
 
     @Override
     public boolean isValid() {
-        return !word.isEmpty();
+        return !userid.isEmpty();
     }
 
     @Override
@@ -25,11 +25,11 @@ public class NGUser implements NGInterface {
 
     @Override
     public String getWord() {
-        return word;
+        return userid;
     }
 
     @Override
-    public void setWord(String username) {
-        this.word = username;
+    public void setWord(String userid) {
+        this.userid = userid;
     }
 }

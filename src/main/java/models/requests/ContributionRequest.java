@@ -13,7 +13,6 @@ import models.posts.handles.HandleDB;
 import models.posts.utils.ErrorCode;
 import models.posts.utils.ResponseType;
 import models.users.HandleUser;
-import org.seasar.doma.jdbc.SelectOptions;
 import spark.Request;
 import spark.Response;
 
@@ -44,6 +43,10 @@ public class ContributionRequest implements DBRequest {
 
             // ログインしているUser情報を取得する
             Optional<User> userOpt = HandleUser.createUser(request);
+
+            if (!HandlePayload.isValidUser(HandleDB.ngUser().selectAll(), userOpt)) {
+                return setBadRequest(response, ErrorCode.NGUSER);
+            }
 
             Optional<Contribution> contributionOpt = userOpt.map(user -> new Contribution(payload, user))
                                                             .map(cont -> HandleDB.contribution().insert(cont))

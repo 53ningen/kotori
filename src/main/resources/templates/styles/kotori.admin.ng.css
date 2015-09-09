@@ -193,6 +193,9 @@ header {
   width: 95%;
   word-wrap: break-word;
 }
+.ng .ng__word .ng-id {
+  margin-right: .5rem;
+}
 .ng .ng__delete {
   position: absolute;
   bottom: 1rem;

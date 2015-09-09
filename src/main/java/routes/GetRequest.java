@@ -101,7 +101,7 @@ public class GetRequest {
      */
     protected ModelAndView getAdminNGUser(Request req) {
         handleRequest.updateHandleRequest(req);
-        List<NGUser> ngUsers = HandleDB.ngUser().findAll();
+        List<NGUser> ngUsers = HandleDB.ngUser().selectAll();
         return new ModelAndView(getResponseMap(req, ngUsers), "admin.nguser.mustache.html");
     }
 

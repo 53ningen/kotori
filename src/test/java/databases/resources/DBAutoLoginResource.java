@@ -37,6 +37,13 @@ public class DBAutoLoginResource extends ExternalResource {
             when(al.getUsername()).thenReturn("小泉花陽");
             jedis.hset(al.getToken(), "userid", al.getUserid());
             jedis.hset(al.getToken(), "username", al.getUsername());
+
+            al = mock(AutoLogin.class);
+            when(al.getToken()).thenReturn("nguser_token");
+            when(al.getUserid()).thenReturn("nguser");
+            when(al.getUsername()).thenReturn("NGユーザ");
+            jedis.hset(al.getToken(), "userid", al.getUserid());
+            jedis.hset(al.getToken(), "username", al.getUsername());
         }
     }
 
