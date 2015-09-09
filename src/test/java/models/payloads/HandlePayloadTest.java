@@ -1,14 +1,18 @@
 package models.payloads;
 
+import databases.entities.NGUser;
 import databases.entities.NGWord;
+import databases.entities.User;
 import databases.resources.DBNGUserResource;
 import databases.resources.DBNGWordResource;
+import models.posts.handles.HandleDB;
 import models.posts.handles.HandleDBForNGWord;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -18,7 +22,6 @@ public class HandlePayloadTest {
     public final DBNGWordResource ngWordResource = new DBNGWordResource();
     @Rule
     public final DBNGUserResource ngUserResource = new DBNGUserResource();
-    private HandleDBForNGWord handleDBForNGWord = new HandleDBForNGWord();
 
     @Test
     public void PayloadがNGワードを含んでいなければtrueを返す() throws Exception {
@@ -26,7 +29,7 @@ public class HandlePayloadTest {
         PostPayload payload = new PostPayload();
         payload.setTitle("foo");
         payload.setContent("テスト");
-        List<NGWord> ngWords = handleDBForNGWord.findAll();
+        List<NGWord> ngWords = HandleDB.ngWord().selectAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);
@@ -41,10 +44,36 @@ public class HandlePayloadTest {
         PostPayload payload = new PostPayload();
         payload.setTitle("テスト");
         payload.setContent("hoge");
-        List<NGWord> ngWords = handleDBForNGWord.findAll();
+        List<NGWord> ngWords = HandleDB.ngWord().selectAll();
 
         // exercise
         Boolean stu = HandlePayload.isValidContent(ngWords, payload);
+
+        // verify
+        assertFalse(stu);
+    }
+
+    @Test
+    public void UserがNGユーザでなければtrueを返す() throws Exception {
+        // setup
+        User user = new User("hoge", "");
+        List<NGUser> ngUsers = HandleDB.ngUser().selectAll();
+
+        // exercise
+        Boolean stu = HandlePayload.isValidUser(ngUsers, Optional.of(user));
+
+        // verify
+        assertTrue(stu);
+    }
+
+    @Test
+    public void UserがNGユーザであればfalseを返す() throws Exception {
+        // setup
+        User user = new User("hogehoge", "");
+        List<NGUser> ngUsers = HandleDB.ngUser().selectAll();
+
+        // exercise
+        Boolean stu = HandlePayload.isValidUser(ngUsers, Optional.of(user));
 
         // verify
         assertFalse(stu);

@@ -1,0 +1,117 @@
+<configuration>
+
+    <!-- ログ出力先 -->
+    <property name="LoggingDir" value="src/main/resources/logs/" />
+    <!-- ルートのログレベル -->
+    <property name="ROOT_LEVEL" value="INFO" />
+    <timestamp key="byDate" datePattern="yyyyMMdd"/>
+
+    <!-- コンソール出力 -->
+    <appender name="STDOUT1" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level> <!-- コンソール出力のログレベル -->
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level %marker %logger - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- DEBUG出力 -->
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+        <file>${LoggingDir}debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LoggingDir}history/%d{yyyy-MM-dd}/debug.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS} level:%level %marker thread:%thread logger:%logger message:%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- INFO出力 -->
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LoggingDir}info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LoggingDir}history/%d{yyyy-MM-dd}/info.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}	level:%level %marker thread:%thread	logger:%logger message:%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- ERROR出力 -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <file>${LoggingDir}error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LoggingDir}history/%d{yyyy-MM-dd}/error.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}	level:%level %marker thread:%thread logger:%logger message:%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- SQL操作出力 -->
+    <appender name="SQL_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${LoggingDir}sql_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LoggingDir}history/%d{yyyy-MM-dd}/sql_info.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>time:%d{yyyy-MMM-dd HH:mm:ss.SSS}  level:%level %marker message:%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 非同期出力 -->
+    <appender name="ASYNC_STDOUT1" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT1"/>
+    </appender>
+
+    <appender name="ASYNC_INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="INFO"/>
+    </appender>
+
+    <appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ERROR"/>
+    </appender>
+
+    <appender name="ASYNC_DEBUG" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="DEBUG"/>
+    </appender>
+
+    <!-- Product毎のログ出力設定 -->
+    <logger name="logger.CommonsJdbcLogger" level="DEBUG">
+        <appender-ref ref="SQL_INFO" />
+    </logger>
+
+    <!-- rootレベル定義 -->
+    <root level="${ROOT_LEVEL}">
+        <appender-ref ref="STDOUT1"/>
+        <appender-ref ref="INFO"/>
+        <appender-ref ref="ERROR"/>
+    </root>
+</configuration>

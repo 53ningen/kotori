@@ -23,6 +23,9 @@
   .ng__word {
     width: 95%;
     word-wrap: break-word;
+    .ng-id {
+      margin-right: .5rem;
+    }
   }
 
   .ng__delete {

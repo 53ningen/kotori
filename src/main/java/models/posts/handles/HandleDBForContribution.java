@@ -13,6 +13,7 @@ import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import java.util.Collections;
 import java.util.List;
 
 public class HandleDBForContribution {
@@ -30,7 +31,7 @@ public class HandleDBForContribution {
         return tm.required(() -> {
             int result = contributionDao.insert(contribution);
             if (result < 1) {
-                return null;
+                return Collections.<Contribution>emptyList();
             }
             options = DBSelectOptions.getDBSelectOptions().setOptions(1);
 

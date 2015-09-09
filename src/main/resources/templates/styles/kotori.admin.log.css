@@ -171,38 +171,11 @@ header {
 }
 
 /**
- * NG Components
+ * Log Components
  */
-#form-ng {
-  padding: 1rem 1rem 0;
-  height: 28px;
-}
-
-#nglist {
+#log {
   padding: 1rem;
 }
-
-.ng {
-  position: relative;
-  padding: 1rem;
-  margin: 1rem 0;
-  border: 1px solid #60B99A;
-  z-index: 10;
-}
-.ng .ng__word {
-  width: 95%;
-  word-wrap: break-word;
-}
-.ng .ng__word .ng-id {
-  margin-right: .5rem;
-}
-.ng .ng__delete {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  transition: all .3s;
-}
-.ng .ng__delete:hover {
-  color: #F77825;
-  cursor: pointer;
+#log .log__files > a:hover {
+  color: #60B99A;
 }

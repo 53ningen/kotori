@@ -31,6 +31,15 @@ public class HandleDBForUser extends HandleDB {
     }
 
     /**
+     * AdminUserをDBから取得する
+     * @param userid ユーザID
+     * @return 該当ユーザがAdminであればOptionalのUserインスタンスを返す
+     */
+    public Optional<User> selectAdminUser(String userid) {
+        return tm.required(() -> userDao.selectAdminUser(userid));
+    }
+
+    /**
      * UserをDBから削除する
      * @param user Userインスタンス
      * @return 処理した投稿数

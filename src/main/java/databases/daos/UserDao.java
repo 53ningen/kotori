@@ -8,6 +8,7 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.jdbc.UniqueConstraintException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Dao(config = DBConfig.class)
@@ -18,6 +19,9 @@ public interface UserDao {
 
     @Select
     Optional<User> select(String userid, String password);
+
+    @Select
+    Optional<User> selectAdminUser(String userid);
 
     @Select
     String selectUsername(String userid);

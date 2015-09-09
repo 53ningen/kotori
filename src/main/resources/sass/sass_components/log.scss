@@ -1,0 +1,13 @@
+@import "assets";
+@import "mixins";
+
+/**
+ * Log Components
+ */
+#log {
+  padding: 1rem;
+
+  .log__files > a:hover {
+    color: $main-color;
+  }
+}

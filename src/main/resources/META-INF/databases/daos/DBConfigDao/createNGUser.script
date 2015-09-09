@@ -1,7 +1,7 @@
 create table if not exists nguser (
     id int(11) unsigned not null primary key auto_increment,
-    username varchar(255) not null
+    userid varchar(255) not null
 );
 
-insert into nguser(username) values ('hogehoge');
-insert into nguser(username) values ('piyopiyo');
+insert into nguser(userid) values ('hogehoge');
+insert into nguser(userid) values ('nguser');

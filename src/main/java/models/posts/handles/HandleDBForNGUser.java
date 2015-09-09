@@ -4,8 +4,11 @@ import bulletinBoard.DBConfig;
 import databases.daos.NGUserDao;
 import databases.entities.NGUser;
 import helper.DaoImplHelper;
+import models.posts.utils.DBSelectOptions;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import java.util.Collections;
 import java.util.List;
 
 public class HandleDBForNGUser {
@@ -13,20 +16,35 @@ public class HandleDBForNGUser {
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
 
     /**
-     * NGユーザのリストを返す
+     * NGワードのリストを返す
+     * @param options SelectOptions
+     * @return NGワードリスト
+     */
+    public List<NGUser> select(SelectOptions options) {
+        return tm.required(() -> ngUserDao.select(options));
+    }
+
+    /**
+     * NGユーザのリストを全件返す
      * @return NGユーザリスト
      */
-    public List<NGUser> findAll() {
-        return tm.required(ngUserDao::findAll);
+    public List<NGUser> selectAll() {
+        return tm.required(() -> ngUserDao.select(SelectOptions.get()));
     }
 
     /**
      * 受け取ったNGユーザをDBに格納する
      * @param ngUser NGUserインスタンス
-     * @return 処理した投稿数
+     * @return 格納されたNGUserインスタンス
      */
-    public int insert(NGUser ngUser) {
-        return tm.required(() -> ngUserDao.insert(ngUser));
+    public List<NGUser> insert(NGUser ngUser) {
+        return tm.required(() -> {
+            int result = ngUserDao.insert(ngUser);
+            if (result < 1) {
+                return Collections.<NGUser>emptyList();
+            }
+            return ngUserDao.select(DBSelectOptions.getDBSelectOptions().setOptions(1));
+        });
     }
 
     /**

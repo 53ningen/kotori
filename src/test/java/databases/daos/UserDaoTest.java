@@ -2,6 +2,7 @@ package databases.daos;
 
 import bulletinBoard.DBConfig;
 import databases.entities.User;
+import databases.resources.DBAdminResource;
 import databases.resources.DBUserResource;
 import helper.DaoImplHelper;
 import org.junit.Rule;
@@ -9,12 +10,18 @@ import org.junit.Test;
 import org.seasar.doma.jdbc.UniqueConstraintException;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class UserDaoTest {
     @Rule
-    public final DBUserResource resource = new DBUserResource();
+    public final DBUserResource userResource = new DBUserResource();
+    @Rule
+    public final DBAdminResource adminResource = new DBAdminResource();
     private final UserDao dao = DaoImplHelper.get(UserDao.class);
     private final TransactionManager tm = DBConfig.singleton().getTransactionManager();
 
@@ -48,6 +55,35 @@ public class UserDaoTest {
 
             // verify
             assertThat(result, is(0));
+        });
+    }
+
+    @Test
+    public void admin権限を持っているuseridの場合Userインスタンスが返る() throws Exception {
+        tm.required(() -> {
+            // setup
+            String userid = "hanayo";
+
+            // exercise
+            Optional<User> user = dao.selectAdminUser(userid);
+
+            // verify
+            assertTrue(user.isPresent());
+            assertThat(user.get().getUsername(), is("小泉花陽"));
+        });
+    }
+
+    @Test
+    public void admin権限を持っていないuseridの場合空のOptionalが返る() throws Exception {
+        tm.required(() -> {
+            // setup
+            String userid = "testuser";
+
+            // exercise
+            Optional<User> user = dao.selectAdminUser(userid);
+
+            // verify
+            assertThat(user, is(Optional.empty()));
         });
     }
 

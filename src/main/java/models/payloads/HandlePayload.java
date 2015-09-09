@@ -1,9 +1,12 @@
 package models.payloads;
 
 import databases.entities.NGInterface;
+import databases.entities.NGUser;
 import databases.entities.NGWord;
+import databases.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +14,7 @@ public class HandlePayload {
 
     /**
      * 投稿内容にNGワードが含まれていないか判定する
+     * @param ngWords NGワードリスト
      * @param postPayload 投稿内容
      * @return boolean
      */
@@ -18,6 +22,18 @@ public class HandlePayload {
         if (ngWords.isEmpty()) return true;
         else if (containsNGWord(ngWords, postPayload.getTitle()) ||
                  containsNGWord(ngWords, postPayload.getContent())) return false;
+        return true;
+    }
+
+    /**
+     * 投稿者idがNG指定されていないか判定する
+     * @param ngUsers NGユーザリスト
+     * @param userOpt 投稿ユーザ
+     * @return boolean
+     */
+    public static boolean isValidUser(List<NGUser> ngUsers, Optional<User> userOpt) {
+        if (!userOpt.isPresent() || ngUsers.isEmpty()) return true;
+        else if (containsNGWord(ngUsers, userOpt.get().getUserid())) return false;
         return true;
     }
 

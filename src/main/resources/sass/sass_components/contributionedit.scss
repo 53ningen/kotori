@@ -12,6 +12,8 @@
     width: calc(100% - 2rem);
     height: calc(100% - 2rem);
     padding: 1rem;
+    visibility: hidden;
+    z-index: 99;
     @include transition;
 
     #update-contribution {
@@ -19,27 +21,19 @@
       @include transition;
 
       .update-text {
-        margin-top: .5rem;
-        width: 85%;
+        width: calc(100% - 6px);
       }
     }
+  }
 
-    .edit-guide {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      margin-right: -2px;
-      @include transition;
-      &:hover {
-        color: $topic-color;
-        cursor: pointer;
-      }
-    }
+  .contribution__dummy {
+    height: 50px;
   }
 
   .contribution__submit {
     position: absolute;
     bottom: 1rem;
     right: 1rem;
+    font-size: $sml-text;
   }
 }
