@@ -27,7 +27,7 @@
    * 編集ボタンをクリックした時のイベント
    **/
   $document.on('click', '.update-guide', function() {
-    var $updateform = $('#update-contribution');
+    var $updateform = $(this).parents('.contribution').find('form.update-contribution');
 
     if ($updateform.hasClass('active')) {
       $updateform.css({
@@ -43,7 +43,7 @@
   /**
    * 更新
    */
-  $document.on('submit', '#update-contribution', function(e) {
+  $document.on('submit', 'form.update-contribution', function(e) {
     e.preventDefault();
     var $this = $(this);
 
@@ -82,7 +82,7 @@
       showCancelButton: true,
       closeOnConfirm: false
     }, function() {
-      $this.kotoriAjax({
+      $this.find('form.delete-contribution').kotoriAjax({
         url: '/api/admin/delete'
       })
       .done(function() {

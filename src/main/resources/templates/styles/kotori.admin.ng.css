@@ -194,7 +194,11 @@ header {
   word-wrap: break-word;
 }
 .ng .ng__word .ng-id {
+  float: left;
   margin-right: .5rem;
+}
+.ng .ng__word .ng-word {
+  float: left;
 }
 .ng .ng__delete {
   position: absolute;

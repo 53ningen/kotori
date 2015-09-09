@@ -51,16 +51,12 @@
     <section id="nglist">
       {{#list}}
       <div class="ng">
-        <div class="ng__word">
-          <span class="ng-id">
-            {{id}}
-          </span>
-          <span class="ng-word">
-            {{word}}
-          </span>
+        <div class="ng__word cf">
+          <div class="ng-id">{{id}}</div>
+          <div class="ng-word">{{word}}</div>
         </div>
         <div class="ng__delete">
-          <form id="delete-ng">
+          <form class="delete-ng">
             <input class="delete-id" type="hidden" name="id" value="{{id}}">
           </form>
           <i class="fa fa-trash-o"></i>

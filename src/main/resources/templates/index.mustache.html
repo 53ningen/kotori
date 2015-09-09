@@ -118,12 +118,11 @@
       {{#contributions}}
       <div class="contribution">
         <div class="contribution__user cf">
-          <div class="contribution__user--icon">
-            icon
-          </div>
-          <div class="contribution__user--name">
+          <div class="contribution__user--username">
             {{username}}
-            <small class="contribution__user--userid">@{{userid}}</small>
+          </div>
+          <div class="contribution__user--userid">
+            <small>@{{userid}}</small>
           </div>
         </div>
         <div class="contribution__body">
@@ -146,10 +145,12 @@
       {{/contributions}}
       {{^contributions}}
       <div class="contribution">
-        <h2 class="empty">
-          Oops!
-        </h2>
-        該当する投稿は見つかりませんでした。
+        <div class="contribution__empty">
+          <h2 class="empty">
+            Oops!
+          </h2>
+          該当する投稿は見つかりませんでした。
+        </div>
       </div>
       {{/contributions}}
     </section>

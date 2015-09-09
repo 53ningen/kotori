@@ -7,7 +7,7 @@
    * サーバからのjsonレスポンスをDOMに反映する
    */
   var createContribution = function(data) {
-    var contribution = '<div class="contribution"><div class="contribution__header"><div class="delete-guide"><form id="delete-contribution"><input class="delete-id" type="hidden" name="id" value="'+data.id+'"></form><i class="fa fa-trash-o"></i></div></div><div class="contribution__user cf"><div class="contribution__user--icon">icon</div><div class="contribution__user--name">'+data.username+'<small>@'+data.userid+'</small></div></div><div class="contribution__body"><div class="contribution__body--title">'+data.title+'</div><div class="contribution__body--content">'+data.content+'</div></div><div class="contribution__footer"><span class="contribution__footer--new">New</span> '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
+    var contribution = '<div class="contribution"><div class="contribution__header"><div class="delete-guide"><form class="delete-contribution"><input class="delete-id" type="hidden" name="id" value="'+data.id+'"></form><i class="fa fa-trash-o"></i></div></div><div class="contribution__user cf"><div class="contribution__user--username">'+data.username+'</div><div class="contribution__user--userid"><small>@'+data.userid+'</small></div></div><div class="contribution__body"><div class="contribution__body--title">'+data.title+'</div><div class="contribution__body--content">'+data.content+'</div></div><div class="contribution__footer"><span class="contribution__footer--new">New</span> '+data.editedCreatedTime+' ・ #'+data.id+'</div></div>';
     return contribution;
   };
 
@@ -57,7 +57,7 @@
       showCancelButton: true,
       closeOnConfirm: false
     }, function() {
-      $('#delete-contribution').kotoriAjax({
+      $this.find('form.delete-contribution').kotoriAjax({
         url: '/api/delete'
       })
       .done(function() {
