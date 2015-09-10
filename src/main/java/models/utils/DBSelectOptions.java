@@ -1,4 +1,4 @@
-package models.posts.utils;
+package models.utils;
 
 import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;

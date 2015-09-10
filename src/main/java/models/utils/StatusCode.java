@@ -1,4 +1,4 @@
-package models.posts.utils;
+package models.utils;
 
 public enum StatusCode {
     HTTP_BAD_REQUEST(400),

@@ -2,7 +2,7 @@ package routes;
 
 import databases.entities.User;
 import logger.LogFile;
-import models.posts.utils.StatusCode;
+import models.utils.StatusCode;
 import models.users.HandleUser;
 import spark.Request;
 import spark.Response;

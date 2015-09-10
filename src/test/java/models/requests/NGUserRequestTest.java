@@ -1,10 +1,9 @@
 package models.requests;
 
 import databases.resources.DBNGUserResource;
-import databases.resources.DBNGWordResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
-import models.posts.utils.ErrorCode;
+import models.utils.ErrorCode;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;

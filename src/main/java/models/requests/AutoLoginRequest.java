@@ -2,8 +2,8 @@ package models.requests;
 
 import databases.entities.AutoLogin;
 import databases.entities.User;
-import models.posts.handles.HandleDB;
-import models.posts.utils.ErrorCode;
+import models.handles.HandleDB;
+import models.utils.ErrorCode;
 import spark.Request;
 import spark.Response;
 

@@ -1,4 +1,4 @@
-package models.posts.utils;
+package models.utils;
 
 public enum ResponseType {
     APPLICATION_JSON("application/json");
