@@ -74,6 +74,20 @@ input:focus, textarea:focus {
 }
 
 /**
+ * Tooltipster Theme
+ */
+.tooltipster-kotori {
+  border-radius: 2px;
+  background: #60B99A;
+  color: #FAFAFA;
+}
+.tooltipster-kotori .tooltipster-content {
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+  padding: .5rem;
+}
+
+/**
  * Header Settings
  */
 header {
@@ -182,6 +196,7 @@ header {
   padding: 0 1rem;
 }
 .contribution .contribution__body .contribution__body--title {
+  font-weight: bold;
   height: 28px;
 }
 .contribution .contribution__body .contribution__body--content {
@@ -201,27 +216,20 @@ header {
 .pagination {
   position: relative;
   height: 40px;
-  padding: 0 1rem;
 }
-.pagination .pagination__prev {
-  position: absolute;
-  top: 0;
-  left: 1rem;
-  z-index: 10;
+.pagination .pagination__prev,
+.pagination .pagination__current,
+.pagination .pagination__next {
+  float: left;
 }
 .pagination .pagination__current {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  z-index: 1;
+  letter-spacing: -1rem;
 }
-.pagination .pagination__next {
+
+.pagination--bottom {
   position: absolute;
   top: 0;
   right: 1rem;
-  z-index: 10;
 }
 
 /**

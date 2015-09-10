@@ -1,0 +1,16 @@
+@import "assets";
+
+/**
+ * Tooltipster Theme
+ */
+.tooltipster-kotori {
+  border-radius: 2px;
+  background: $main-color;
+  color: $white-color;
+
+  .tooltipster-content {
+    font-size: $sml-text;
+    line-height: $sml-text;
+    padding: .5rem;
+  }
+}
