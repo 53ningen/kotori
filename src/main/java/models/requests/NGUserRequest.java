@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import databases.entities.NGUser;
 import models.payloads.DeletePayload;
 import models.payloads.HandlePayload;
-import models.posts.handles.HandleDB;
-import models.posts.utils.ErrorCode;
-import models.posts.utils.ResponseType;
+import models.handles.HandleDB;
+import models.utils.ErrorCode;
+import models.utils.ResponseType;
 import spark.Request;
 import spark.Response;
 

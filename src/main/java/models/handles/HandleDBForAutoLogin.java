@@ -1,4 +1,4 @@
-package models.posts.handles;
+package models.handles;
 
 import bulletinBoard.RedisServer;
 import databases.entities.AutoLogin;

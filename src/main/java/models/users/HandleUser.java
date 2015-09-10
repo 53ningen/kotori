@@ -6,8 +6,8 @@ import spark.Request;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static models.posts.handles.HandleDB.autoLogin;
-import static models.posts.handles.HandleDB.user;
+import static models.handles.HandleDB.autoLogin;
+import static models.handles.HandleDB.user;
 
 public class HandleUser {
     private static final String AUTH_TOKEN = "auth_token";

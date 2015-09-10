@@ -1,4 +1,4 @@
-package models.posts.utils;
+package models.utils;
 
 public enum ErrorCode {
     PARAMETER_INVALID("パラメータが不正のため投稿できませんでした"),

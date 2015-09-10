@@ -15,13 +15,13 @@ import java.util.Optional;
 public interface ContributionDao {
 
     @Select
-    List<Contribution> findWithLimit(SelectOptions options);
+    List<Contribution> selectWithLimit(SelectOptions options);
 
     @Select
-    Contribution findById(int id);
+    Contribution selectById(int id);
 
     @Select
-    List<Contribution> findByKeyword(SelectOptions options, String keyword);
+    List<Contribution> selectByKeyword(SelectOptions options, String keyword);
 
     @Select
     List<Contribution> select(SelectOptions options, String userid);

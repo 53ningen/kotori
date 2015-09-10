@@ -1,16 +1,15 @@
-package models.posts.handles;
+package models.handles;
 
 import bulletinBoard.DBConfig;
 import databases.daos.NGWordDao;
 import databases.entities.NGWord;
 import helper.DaoImplHelper;
-import models.posts.utils.DBSelectOptions;
+import models.utils.DBSelectOptions;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class HandleDBForNGWord {
     private final NGWordDao ngWordDao = DaoImplHelper.get(NGWordDao.class);

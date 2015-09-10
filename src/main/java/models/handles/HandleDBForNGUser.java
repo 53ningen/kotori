@@ -1,10 +1,10 @@
-package models.posts.handles;
+package models.handles;
 
 import bulletinBoard.DBConfig;
 import databases.daos.NGUserDao;
 import databases.entities.NGUser;
 import helper.DaoImplHelper;
-import models.posts.utils.DBSelectOptions;
+import models.utils.DBSelectOptions;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 

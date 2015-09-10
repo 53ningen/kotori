@@ -3,7 +3,7 @@ package models.requests;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.posts.utils.Status;
+import models.utils.Status;
 import spark.Request;
 import spark.Response;
 
