@@ -4,7 +4,7 @@ import databases.entities.User;
 import databases.resources.DBAutoLoginResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
-import models.posts.utils.ErrorCode;
+import models.utils.ErrorCode;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;

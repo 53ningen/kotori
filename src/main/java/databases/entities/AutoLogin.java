@@ -2,7 +2,7 @@ package databases.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import models.posts.utils.CSRFToken;
+import models.utils.CSRFToken;
 
 public class AutoLogin {
 

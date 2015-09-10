@@ -5,8 +5,7 @@ import databases.entities.NGWord;
 import databases.entities.User;
 import databases.resources.DBNGUserResource;
 import databases.resources.DBNGWordResource;
-import models.posts.handles.HandleDB;
-import models.posts.handles.HandleDBForNGWord;
+import models.handles.HandleDB;
 import org.junit.Rule;
 import org.junit.Test;
 

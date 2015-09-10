@@ -1,4 +1,4 @@
-package models.posts.handles;
+package models.handles;
 
 public class HandleDB {
     private static final HandleDBForContribution handleDBForContribution = new HandleDBForContribution();

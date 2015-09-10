@@ -1,4 +1,4 @@
-package models.posts.utils;
+package models.utils;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

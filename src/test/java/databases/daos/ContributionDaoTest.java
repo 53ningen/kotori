@@ -10,7 +10,6 @@ import models.payloads.PostPayload;
 import models.payloads.UpdatePayload;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.Delete;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
@@ -31,7 +30,7 @@ public class ContributionDaoTest {
     public void 用意したテストデータをidを指定して取得できる() throws Exception {
         tm.required(() -> {
             // exercise
-            Contribution contribution = dao.findById(1);
+            Contribution contribution = dao.selectById(1);
 
             // verify
             assertThat(contribution.getId(), is(1));
@@ -49,7 +48,7 @@ public class ContributionDaoTest {
             SelectOptions options = SelectOptions.get().offset(0).limit(10);
 
             // exercise
-            List<Contribution> contributions = dao.findWithLimit(options);
+            List<Contribution> contributions = dao.selectWithLimit(options);
             Contribution contribution = contributions.get(1);
 
             // verify
@@ -103,7 +102,7 @@ public class ContributionDaoTest {
             String keyword = "%テスト%";
 
             // exercise
-            List<Contribution> contributions = dao.findByKeyword(options, keyword);
+            List<Contribution> contributions = dao.selectByKeyword(options, keyword);
 
             // verify
             assertThat(contributions.size(), is(3));
@@ -119,7 +118,7 @@ public class ContributionDaoTest {
             String keyword = "%テスト%";
 
             // exercise
-            List<Contribution> contributions = dao.findByKeyword(options, keyword);
+            List<Contribution> contributions = dao.selectByKeyword(options, keyword);
 
             // verify
             assertThat(contributions.size(), is(1));
@@ -136,7 +135,7 @@ public class ContributionDaoTest {
 
             // exercise
             int result = dao.updateById(payload);
-            Contribution resultContribution = dao.findById(1);
+            Contribution resultContribution = dao.selectById(1);
 
             // verify
             assertThat(result, is(1));

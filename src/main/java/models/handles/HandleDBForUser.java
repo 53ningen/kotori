@@ -1,4 +1,4 @@
-package models.posts.handles;
+package models.handles;
 
 import bulletinBoard.DBConfig;
 import databases.daos.UserDao;

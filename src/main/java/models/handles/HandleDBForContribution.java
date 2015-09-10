@@ -1,4 +1,4 @@
-package models.posts.handles;
+package models.handles;
 
 import bulletinBoard.DBConfig;
 import databases.daos.ContributionDao;
@@ -8,7 +8,7 @@ import helper.DaoImplHelper;
 import models.contributions.HandleContribution;
 import models.payloads.DeletePayload;
 import models.payloads.UpdatePayload;
-import models.posts.utils.DBSelectOptions;
+import models.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.tx.TransactionManager;
@@ -74,7 +74,7 @@ public class HandleDBForContribution {
     public List<Contribution> findWithLimit(HandleRequest req)
     {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.findWithLimit(options)));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectWithLimit(options)));
     }
 
     /**
@@ -84,7 +84,7 @@ public class HandleDBForContribution {
      */
     public List<Contribution> findByKeyword(HandleRequest req) {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.findByKeyword(options, req.getQuery())));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectByKeyword(options, req.getQuery())));
     }
 
     /**

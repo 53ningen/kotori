@@ -1,6 +1,6 @@
 package models.paginations;
 
-import models.posts.utils.DBSelectOptions;
+import models.utils.DBSelectOptions;
 import models.requests.HandleRequest;
 import org.junit.Before;
 import org.junit.Test;
