@@ -74,6 +74,20 @@ input:focus, textarea:focus {
 }
 
 /**
+ * Tooltipster Theme
+ */
+.tooltipster-kotori {
+  border-radius: 2px;
+  background: #60B99A;
+  color: #FAFAFA;
+}
+.tooltipster-kotori .tooltipster-content {
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+  padding: .5rem;
+}
+
+/**
  * Header Settings
  */
 header {
@@ -117,12 +131,28 @@ header {
   height: 40px;
   padding: 1rem 1rem 0;
 }
-#guide .guide__limit, #guide .guide__pagination {
+#guide .guide__wrapper, #guide .guide__pagination {
   position: absolute;
-  bottom: 0;
+  top: 1rem;
 }
-#guide .guide__limit {
+#guide .guide__wrapper {
   left: 1rem;
+  letter-spacing: -1rem;
+}
+#guide .guide__toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+#guide .guide__btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s;
 }
 #guide .guide__pagination {
   right: 1rem;
@@ -134,7 +164,6 @@ header {
 
 .contribution {
   position: relative;
-  padding: 1rem;
   margin: 1rem 0;
   border: 1px solid #60B99A;
 }
@@ -148,12 +177,14 @@ header {
   color: #F77825;
   margin: 0 0 .5rem;
 }
+.contribution .contribution__empty {
+  padding: 1rem;
+}
 .contribution .contribution__header .delete-guide, .contribution .contribution__header .update-guide {
   position: absolute;
-  top: 1rem;
+  top: .5rem;
   text-align: right;
   font-size: 1rem;
-  line-height: 1rem;
   z-index: 100;
   transition: all .3s;
 }
@@ -167,22 +198,21 @@ header {
 .contribution .contribution__header .update-guide {
   right: 2.5rem;
 }
-.contribution .contribution__user .contribution__user--icon, .contribution .contribution__user .contribution__user--name {
+.contribution .contribution__user {
+  padding: .5rem 1rem;
+  border-bottom: 1px solid #60B99A;
+}
+.contribution .contribution__user .contribution__user--username, .contribution .contribution__user .contribution__user--userid {
   float: left;
 }
-.contribution .contribution__user .contribution__user--icon {
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  color: #FAFAFA;
-  background-color: #D3CE3D;
-  border-radius: 3px;
+.contribution .contribution__user .contribution__user--username {
+  margin-right: .5rem;
 }
-.contribution .contribution__user .contribution__user--name {
-  padding-left: .5rem;
+.contribution .contribution__body {
+  padding: 0 1rem;
 }
 .contribution .contribution__body .contribution__body--title {
+  font-weight: bold;
   height: 28px;
 }
 .contribution .contribution__body .contribution__body--content {
@@ -191,6 +221,7 @@ header {
   word-wrap: break-word;
 }
 .contribution .contribution__footer {
+  padding: 0 1rem .5rem;
   margin-top: 1.5rem;
   font-size: 0.8rem;
 }
@@ -201,27 +232,20 @@ header {
 .pagination {
   position: relative;
   height: 40px;
-  padding: 0 1rem;
 }
-.pagination .pagination__prev {
-  position: absolute;
-  top: 0;
-  left: 1rem;
-  z-index: 10;
+.pagination .pagination__prev,
+.pagination .pagination__current,
+.pagination .pagination__next {
+  float: left;
 }
 .pagination .pagination__current {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  z-index: 1;
+  letter-spacing: -1rem;
 }
-.pagination .pagination__next {
+
+.pagination--bottom {
   position: absolute;
   top: 0;
   right: 1rem;
-  z-index: 10;
 }
 
 /**
@@ -237,18 +261,6 @@ footer .nav-footer--sns {
   top: 50%;
   margin-top: -20px;
   left: 1rem;
-}
-
-.wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #F1EFA5;
-  opacity: 0;
-  z-index: 1;
-  transition: all .3s;
 }
 
 /**

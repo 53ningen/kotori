@@ -2,9 +2,10 @@
   "name": "bulletin-board",
   "version": "0.0.1",
   "dependencies": {
+    "fontawesome": "~4.4.0",
     "jquery": "~2.1.4",
     "normalize.css": "~3.0.3",
-    "fontawesome": "~4.4.0",
-    "sweetalert": "~1.1.0"
+    "sweetalert": "~1.1.0",
+    "tooltipster": "~3.3.0"
   }
 }

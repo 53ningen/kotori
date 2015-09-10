@@ -11,12 +11,30 @@
 
   %guide-pos {
     position: absolute;
-    bottom: 0;
+    top: 1rem;
   }
 
-  .guide__limit {
+  .guide__wrapper {
     @extend %guide-pos;
     left: 1rem;
+    letter-spacing: -1rem;
+  }
+
+  .guide__toggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  .guide__btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    @include transition;
   }
 
   .guide__pagination {
@@ -31,7 +49,6 @@
 
 .contribution {
   position: relative;
-  padding: 1rem;
   margin: 1rem 0;
   border: 1px solid $main-color;
 
@@ -47,13 +64,16 @@
     margin: 0 0 .5rem;
   }
 
+  .contribution__empty {
+    padding: 1rem;
+  }
+
   .contribution__header {
     %guide {
       position: absolute;
-      top: 1rem;
+      top: .5rem;
       text-align: right;
       font-size: $nml-text;
-      line-height: $nml-text;
       z-index: 100;
       @include transition;
       &:hover {
@@ -74,28 +94,25 @@
   }
 
   .contribution__user {
+    padding: .5rem 1rem;
+    border-bottom: 1px solid $main-color;
     %float--left {
       float: left;
     }
-    .contribution__user--icon {
+    .contribution__user--username {
       @extend %float--left;
-      width: 50px;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
-      color: $white-color;
-      background-color: $sub-color;
-      @include radius(3px);
+      margin-right: .5rem;
     }
-    .contribution__user--name {
+    .contribution__user--userid {
       @extend %float--left;
-      padding-left: .5rem;
     }
   }
 
   .contribution__body {
+    padding: 0 1rem;
     @extend %margin--top;
     .contribution__body--title {
+      font-weight: bold;
       height: 28px;
     }
     .contribution__body--content {
@@ -106,6 +123,7 @@
   }
 
   .contribution__footer {
+    padding: 0 1rem .5rem;
     margin-top: 1.5rem;
     font-size: $sml-text - .1;
     .contribution__footer--new {
@@ -117,28 +135,20 @@
 .pagination {
   position: relative;
   height: 40px;
-  padding: 0 1rem;
 
-  .pagination__prev {
-    position: absolute;
-    top: 0;
-    left: 1rem;
-    z-index: 10;
+  .pagination__prev,
+  .pagination__current,
+  .pagination__next {
+    float: left;
   }
 
   .pagination__current {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    z-index: 1;
+    letter-spacing: -1rem;
   }
+}
 
-  .pagination__next {
-    position: absolute;
-    top: 0;
-    right: 1rem;
-    z-index: 10;
-  }
+.pagination--bottom {
+  position: absolute;
+  top: 0;
+  right: 1rem;
 }

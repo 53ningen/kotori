@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../bower_components/normalize.css/normalize.css">
   <link rel="stylesheet" href="../bower_components/fontawesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="../bower_components/sweetalert/dist/sweetalert.css">
+  <link rel="stylesheet" href="../bower_components/tooltipster/css/tooltipster.css">
   <!-- endbower -->
   <!-- build:css -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
@@ -22,14 +23,19 @@
       <a href="{{path}}">NGWord</a>
     </h1>
     <nav class="nav-header--right">
-      <a href="/admin">
-        <button class="btn btn--header">
-          <i class="fa fa-cog"></i>
+      <a href="/admin/nguser">
+        <button class="btn btn--header tooltip" title="NGユーザ">
+          <i class="fa fa-user-times"></i>
         </button>
       </a>
-      <a href="/">
+      <a href="/admin/log">
+        <button class="btn btn--header btn--margin tooltip" title="サーバーログ">
+          <i class="fa fa-file-text-o"></i>
+        </button>
+      </a>
+      <a href="/admin" class="tooltip" title="管理ページ">
         <button class="btn btn--header btn--margin">
-          <i class="fa fa-sign-out"></i>
+          <i class="fa fa-cog"></i>
         </button>
       </a>
     </nav>
@@ -51,16 +57,12 @@
     <section id="nglist">
       {{#list}}
       <div class="ng">
-        <div class="ng__word">
-          <span class="ng-id">
-            {{id}}
-          </span>
-          <span class="ng-word">
-            {{word}}
-          </span>
+        <div class="ng__word cf">
+          <div class="ng-id">{{id}}</div>
+          <div class="ng-word">{{word}}</div>
         </div>
         <div class="ng__delete">
-          <form id="delete-ng">
+          <form class="delete-ng">
             <input class="delete-id" type="hidden" name="id" value="{{id}}">
           </form>
           <i class="fa fa-trash-o"></i>
@@ -75,6 +77,7 @@
   <!-- bower:js -->
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
   <script src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="../bower_components/tooltipster/js/jquery.tooltipster.min.js"></script>
   <!-- endbower -->
   <!-- build:js -->
   <script src="../scripts/kotori.ajax.js"></script>

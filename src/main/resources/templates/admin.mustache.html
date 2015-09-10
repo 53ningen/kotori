@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
   <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
+  <link rel="stylesheet" href="bower_components/tooltipster/css/tooltipster.css">
   <!-- endbower -->
   <!-- build:css -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Quicksand">
@@ -18,33 +19,28 @@
 <body>
   <!-- startHeader -->
   <header>
-    <nav class="nav-header--left">
-      <button class="btn btn--header btn--search">
-        <i class="fa fa-search"></i>
-      </button>
-    </nav>
     <h1 class="heading">
       <a href="{{path}}">Admin</a>
     </h1>
     <nav class="nav-header--right">
-      <a href="/admin/ngword">
+      <a href="/admin/ngword" class="tooltip" title="NGワード">
         <button class="btn btn--header">
           <i class="fa fa-commenting"></i>
         </button>
       </a>
       <a href="/admin/nguser">
-        <button class="btn btn--header btn--margin">
+        <button class="btn btn--header btn--margin tooltip" title="NGユーザ">
           <i class="fa fa-user-times"></i>
         </button>
       </a>
       <a href="/admin/log">
-        <button class="btn btn--header btn--margin">
+        <button class="btn btn--header btn--margin tooltip" title="サーバーログ">
           <i class="fa fa-file-text-o"></i>
         </button>
       </a>
       <a href="/">
-        <button class="btn btn--header btn--margin">
-          <i class="fa fa-sign-out"></i>
+        <button class="btn btn--header btn--margin tooltip" title="ホーム">
+          <i class="fa fa-home"></i>
         </button>
       </a>
     </nav>
@@ -55,74 +51,83 @@
   <main>
     <!-- startSection#guide -->
     <section id="guide">
-      <div class="guide__limit">
-        <button class="btn btn--sub btn--notlink">
-          <i class="fa fa-comments"></i>
-        </button>
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
-          <button class="btn btn--guide btn--margin">
-            <span class="btn__text">10</span>
+      <div class="guide__wrapper">
+        <div class="guide__toggle">
+          <button class="btn btn--sub btn--limit tooltip" title="表示件数を変更する">
+            <i class="fa fa-comments"></i>
           </button>
-        </a>
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
-          <button class="btn btn--guide btn--margin">
-            <span class="btn__text">30</span>
-          </button>
-        </a>
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
-          <button class="btn btn--guide btn--margin">
-            <span class="btn__text">50</span>
-          </button>
-        </a>
+        </div>
+        <div class="guide__limit">
+          <div class="guide__btn">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
+              <button class="btn btn--guide">
+                <span class="btn__text">10</span>
+              </button>
+            </a>
+          </div>
+          <div class="guide__btn">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
+              <button class="btn btn--guide">
+                <span class="btn__text">30</span>
+              </button>
+            </a>
+          </div>
+          <div class="guide__btn">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
+              <button class="btn btn--guide">
+                <span class="btn__text">50</span>
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="guide__pagination">
+        {{#pagination}}
+        <div class="pagination cf">
+          {{#hasPrev}}
+          <div class="pagination__prev">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
+              <button class="btn btn--guide">
+                <i class="fa fa-angle-left"></i>
+              </button>
+            </a>
+          </div>
+          {{/hasPrev}}
+          <div class="pagination__current">
+            {{#prevList}}
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
+              <button class="btn btn--guide btn--small btn--margin">
+                <span class="btn__text">{{page}}</span>
+              </button>
+            </a>
+            {{/prevList}}
+            <button class="btn btn--sub btn--notlink btn--margin">
+              <span class="btn__text">{{current}}</span>
+            </button>
+            {{#nextList}}
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
+              <button class="btn btn--guide btn--small btn--margin">
+                <span class="btn__text">{{page}}</span>
+              </button>
+            </a>
+            {{/nextList}}
+          </div>
+          {{#hasNext}}
+          <div class="pagination__next">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
+              <button class="btn btn--margin btn--guide">
+                <i class="fa fa-angle-right"></i>
+              </button>
+            </a>
+          </div>
+          {{/hasNext}}
+        </div>
+        {{/pagination}}
       </div>
     </section>
     <!-- endSection#guide -->
 
-    <!-- startSectio.pagination -->
-    {{#pagination}}
-    <section class="pagination">
-      {{#hasPrev}}
-      <div class="pagination__prev">
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
-          <button class="btn btn--guide">
-            <i class="fa fa-angle-left"></i>
-          </button>
-        </a>
-      </div>
-      {{/hasPrev}}
-      <div class="pagination__current">
-        {{#prevList}}
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
-          <button class="btn btn--guide btn--small btn--margin">
-            <span class="btn__text">{{page}}</span>
-          </button>
-        </a>
-        {{/prevList}}
-        <button class="btn btn--sub btn--margin">
-          <span class="btn__text">{{current}}</span>
-        </button>
-        {{#nextList}}
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{page}}">
-          <button class="btn btn--guide btn--small btn--margin">
-            <span class="btn__text">{{page}}</span>
-          </button>
-        </a>
-        {{/nextList}}
-      </div>
-      {{#hasNext}}
-      <div class="pagination__next">
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
-          <button class="btn btn--guide">
-            <i class="fa fa-angle-right"></i>
-          </button>
-        </a>
-      </div>
-      {{/hasNext}}
-    </section>
-    {{/pagination}}
-    <!-- endSectio.pagination -->
-
-    <!-- startSectio#contributions -->
+    <!-- startSection#contributions -->
     <section id="contributions">
       {{#contributions}}
       <div class="contribution">
@@ -131,19 +136,18 @@
             <i class="fa fa-pencil-square-o"></i>
           </div>
           <div class="delete-guide">
-            <form id="delete-contribution">
+            <form class="delete-contribution">
               <input class="delete-id" type="hidden" name="id" value="{{id}}">
             </form>
             <i class="fa fa-trash-o"></i>
           </div>
         </div>
         <div class="contribution__user cf">
-          <div class="contribution__user--icon">
-            icon
-          </div>
-          <div class="contribution__user--name">
+          <div class="contribution__user--username">
             {{username}}
-            <small class="contribution__user--userid">@{{userid}}</small>
+          </div>
+          <div class="contribution__user--userid">
+            <small>@{{userid}}</small>
           </div>
         </div>
         <div class="contribution__body">
@@ -163,7 +167,7 @@
           {{editedCreatedTime}} ・ #{{id}}
         </div>
         <div class="contribution__edit">
-          <form id="update-contribution">
+          <form class="update-contribution">
             <input type="hidden" class="update-id" name="id" value="{{id}}">
             <div class="contribution__dummy"></div>
             <div class="contribution__body">
@@ -183,18 +187,21 @@
       {{/contributions}}
       {{^contributions}}
       <div class="contribution">
-        <h2 class="empty">
-          Oops!
-        </h2>
-        該当する投稿は見つかりませんでした。
+        <div class="contribution__empty">
+          <h2 class="empty">
+            Oops!
+          </h2>
+          該当する投稿は見つかりませんでした。
+        </div>
       </div>
       {{/contributions}}
     </section>
-    <!-- endSectio#contributions -->
+    <!-- endSection#contributions -->
 
-    <!-- startSectio.pagination -->
-    {{#pagination}}
+    <!-- startSection.pagination -->
     <section class="pagination">
+    {{#pagination}}
+    <div class="pagination--bottom cf">
       {{#hasPrev}}
       <div class="pagination__prev">
         <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
@@ -212,7 +219,7 @@
           </button>
         </a>
         {{/prevList}}
-        <button class="btn btn--sub btn--margin">
+        <button class="btn btn--sub btn--notlink btn--margin">
           <span class="btn__text">{{current}}</span>
         </button>
         {{#nextList}}
@@ -226,7 +233,7 @@
       {{#hasNext}}
       <div class="pagination__next">
         <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
-          <button class="btn btn--guide">
+          <button class="btn btn--guide btn--margin">
             <i class="fa fa-angle-right"></i>
           </button>
         </a>
@@ -234,7 +241,7 @@
       {{/hasNext}}
     </section>
     {{/pagination}}
-    <!-- endSectio.pagination -->
+    <!-- endSection.pagination -->
 
   </main>
   <!-- endMain-->
@@ -252,22 +259,10 @@
   </footer>
   <!-- endFooter -->
 
-  <!-- startSearch -->
-  <div id="search">
-    <form id="search-contribution">
-      <div class="search-wrapper cf">
-        <div class="search-wrapper__text">
-          投稿検索
-        </div>
-        <input class="search-keyword" type="text" placeholder="キーワードを入力" maxlength="20">
-      </div>
-    </form>
-  </div>
-  <!-- endSearch -->
-
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="bower_components/tooltipster/js/jquery.tooltipster.min.js"></script>
   <!-- endbower -->
   <!-- build:js -->
   <script src="scripts/kotori.ajax.js"></script>

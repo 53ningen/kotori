@@ -74,6 +74,20 @@ input:focus, textarea:focus {
 }
 
 /**
+ * Tooltipster Theme
+ */
+.tooltipster-kotori {
+  border-radius: 2px;
+  background: #60B99A;
+  color: #FAFAFA;
+}
+.tooltipster-kotori .tooltipster-content {
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+  padding: .5rem;
+}
+
+/**
  * Header Settings
  */
 header {
@@ -194,7 +208,11 @@ header {
   word-wrap: break-word;
 }
 .ng .ng__word .ng-id {
+  float: left;
   margin-right: .5rem;
+}
+.ng .ng__word .ng-word {
+  float: left;
 }
 .ng .ng__delete {
   position: absolute;

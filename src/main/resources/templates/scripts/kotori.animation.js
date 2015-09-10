@@ -39,4 +39,24 @@
     toggleHeader($search, $post);
   });
 
+  /**
+   * 投稿数変更ボタンをクリックした時のイベント
+   */
+  $('.btn--limit').on('click', function() {
+    $('.guide__btn').each(function(index) {
+      var $this = $(this);
+      if ($this.hasClass('active')) {
+        $this.animate({
+          opacity: 0,
+          left: 0
+        }, 300).removeClass('active');
+      } else {
+        $this.addClass('active').animate({
+          opacity: 1,
+          left: (index + 1) * 45 + 'px'
+        }, 300)
+      }
+    });
+  });
+
 }(jQuery));
