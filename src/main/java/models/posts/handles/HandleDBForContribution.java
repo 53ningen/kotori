@@ -74,7 +74,7 @@ public class HandleDBForContribution {
     public List<Contribution> findWithLimit(HandleRequest req)
     {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.findWithLimit(options)));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectWithLimit(options)));
     }
 
     /**
@@ -84,7 +84,7 @@ public class HandleDBForContribution {
      */
     public List<Contribution> findByKeyword(HandleRequest req) {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.findByKeyword(options, req.getQuery())));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectByKeyword(options, req.getQuery())));
     }
 
     /**
