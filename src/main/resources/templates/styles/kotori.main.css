@@ -131,12 +131,28 @@ header {
   height: 40px;
   padding: 1rem 1rem 0;
 }
-#guide .guide__limit, #guide .guide__pagination {
+#guide .guide__wrapper, #guide .guide__pagination {
   position: absolute;
-  bottom: 0;
+  top: 1rem;
 }
-#guide .guide__limit {
+#guide .guide__wrapper {
   left: 1rem;
+  letter-spacing: -1rem;
+}
+#guide .guide__toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+#guide .guide__btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s;
 }
 #guide .guide__pagination {
   right: 1rem;

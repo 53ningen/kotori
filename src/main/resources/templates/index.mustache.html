@@ -20,10 +20,10 @@
   <!-- startHeader -->
   <header>
     <nav class="nav-header--left">
-      <button class="btn btn--header btn--write tooltip" title="新規投稿">
+      <button class="btn btn--header btn--write">
         <i class="fa fa-pencil"></i>
       </button>
-      <button class="btn btn--header btn--margin btn--search tooltip" title="投稿検索">
+      <button class="btn btn--header btn--margin btn--search">
         <i class="fa fa-search"></i>
       </button>
     </nav>
@@ -47,25 +47,35 @@
   <main>
     <!-- startSection#guide -->
     <section id="guide">
-      <div class="guide__limit">
-        <button class="btn btn--sub btn--notlink tooltip" title="表示数を変更する">
-          <i class="fa fa-comments"></i>
-        </button>
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
-          <button class="btn btn--guide btn--margin">
-            <span class="btn__text">10</span>
+      <div class="guide__wrapper">
+        <div class="guide__toggle">
+          <button class="btn btn--sub btn--limit">
+            <i class="fa fa-comments"></i>
           </button>
-        </a>
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
-          <button class="btn btn--guide btn--margin">
-            <span class="btn__text">30</span>
-          </button>
-        </a>
-        <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
-          <button class="btn btn--guide btn--margin">
-            <span class="btn__text">50</span>
-          </button>
-        </a>
+        </div>
+        <div class="guide__limit">
+          <div class="guide__btn">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=10">
+              <button class="btn btn--guide">
+                <span class="btn__text">10</span>
+              </button>
+            </a>
+          </div>
+          <div class="guide__btn">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=30">
+              <button class="btn btn--guide">
+                <span class="btn__text">30</span>
+              </button>
+            </a>
+          </div>
+          <div class="guide__btn">
+            <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]=50">
+              <button class="btn btn--guide">
+                <span class="btn__text">50</span>
+              </button>
+            </a>
+          </div>
+        </div>
       </div>
       <div class="guide__pagination">
         {{#pagination}}
