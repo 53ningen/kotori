@@ -73,6 +73,7 @@
       type: options.type,
       contentType: 'application/json',
       data: json,
+      timeout: 10000,
     })
     .done(function(data) {
       defer.resolve(data);
