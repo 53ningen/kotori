@@ -24,7 +24,11 @@
     width: 95%;
     word-wrap: break-word;
     .ng-id {
+      float: left;
       margin-right: .5rem;
+    }
+    .ng-word {
+      float: left;
     }
   }
 

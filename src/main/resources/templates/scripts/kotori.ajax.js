@@ -1,6 +1,14 @@
 ;(function($) {
   'use strict';
 
+  /**
+   * tooltipster
+   */
+  $('.tooltip').tooltipster({
+    theme: 'tooltipster-kotori',
+    hideOnClick: true
+  });
+
   $.fn.kotoriAjax = function(options) {
     var $this = this;
     var json = createJsonData($this);
