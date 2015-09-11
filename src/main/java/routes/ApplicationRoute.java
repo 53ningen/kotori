@@ -69,8 +69,14 @@ public class ApplicationRoute {
         });
 
         before("/search", (req, res) -> {
-            if (!getRequest.isLogin(req)) { // 未ログインであればログインページに飛ばす
+            if (!getRequest.isLogin(req)) {
                 redirect(res, "/login");
+            }
+        });
+
+        before("/login", (req, res) -> {
+            if (getRequest.isLogin(req)) { // ログイン済であればホームへ飛ばす
+                redirect(res, "/");
             }
         });
 
