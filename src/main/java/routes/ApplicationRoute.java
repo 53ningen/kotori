@@ -24,10 +24,7 @@ public class ApplicationRoute {
     private final GetRequest getRequest = new GetRequest();
 
     private ApplicationRoute() {
-        initServerConf();
-        initRoutesBefore();
-        initRoutesGet();
-        initRoutesPost();
+        staticFileLocation("/templates"); // 静的ファイルのパスを設定
     }
 
     /**
@@ -38,11 +35,21 @@ public class ApplicationRoute {
     }
 
     /**
-     * サーバの設定を行う
+     * サーバのポート設定を行う
+     * NOTE. 必ずルーティング設定の前に呼び出さなければならない
      */
-    private void initServerConf() {
-        port(9000); // ポート番号を設定
-        staticFileLocation("/templates"); // 静的ファイルのパスを設定
+    public void initServerPort(int port) throws IllegalArgumentException {
+        if (port < 0 || port > 65535) throw new IllegalArgumentException("port out of range:" + port);
+        port(port); // ポート番号を設定: デフォルトは4567
+    }
+
+    /**
+     * サーバのルーティング設定を行う
+     */
+    public void initServerRoutes() {
+        initRoutesBefore();
+        initRoutesGet();
+        initRoutesPost();
     }
 
     /**
