@@ -33,7 +33,7 @@ public class LogFile {
             URL url = LogFile.class.getResource(LOGFILE_PATH + path);
             File directory = new File(url.toURI());
             return Stream.of(directory.list()).filter(name -> name.contains(".log")).collect(Collectors.toList());
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | NullPointerException e){
             return Collections.emptyList();
         }
     }
@@ -47,7 +47,7 @@ public class LogFile {
             URL url = LogFile.class.getResource(HISTORY_PATH);
             File directory = new File(url.toURI());
             return Stream.of(directory.list()).filter(name -> !name.contains(".log")).collect(Collectors.toList());
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | NullPointerException e) {
             return Collections.emptyList();
         }
     }
