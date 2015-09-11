@@ -1,7 +1,7 @@
 package databases.daos;
 
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import databases.entities.Contribution;
 import models.payloads.DeletePayload;
 import models.payloads.UpdatePayload;
@@ -9,7 +9,6 @@ import org.seasar.doma.*;
 import org.seasar.doma.jdbc.SelectOptions;
 
 import java.util.List;
-import java.util.Optional;
 
 @Dao(config = DBConfig.class)
 public interface ContributionDao {

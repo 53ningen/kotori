@@ -1,6 +1,6 @@
 package models.handles;
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import databases.daos.NGUserDao;
 import databases.entities.NGUser;
 import helper.DaoImplHelper;

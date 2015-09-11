@@ -1,6 +1,6 @@
 package models.handles;
 
-import bulletinBoard.RedisServer;
+import kotori.RedisServer;
 import databases.entities.AutoLogin;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

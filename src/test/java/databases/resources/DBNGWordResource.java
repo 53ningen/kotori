@@ -1,6 +1,6 @@
 package databases.resources;
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import databases.daos.DBConfigDao;
 import helper.DaoImplHelper;
 import org.junit.rules.ExternalResource;

@@ -1,6 +1,6 @@
 package databases.daos;
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Script;
 
