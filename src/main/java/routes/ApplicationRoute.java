@@ -69,25 +69,25 @@ public class ApplicationRoute {
 
         before("/api/*", (req, res) -> {
             if (!getRequest.isLogin(req)) { // 未ログイン時のapi利用を許可しない
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode()); // 401 Unauthorizedを返す
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode()); // 403 Forbiddenを返す
             }
         });
 
         before("/api/admin/*", (req, res) -> {
             if (!getRequest.isAdmin(req)) {
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode());
             }
         });
 
         before("/admin", (req, res) -> {
             if (!getRequest.isAdmin(req)) {
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode());
             }
         });
 
         before("/admin/*", (req, res) -> {
             if (!getRequest.isAdmin(req)) {
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode());
             }
         });
     }
