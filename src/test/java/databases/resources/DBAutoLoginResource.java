@@ -1,6 +1,6 @@
 package databases.resources;
 
-import bulletinBoard.RedisServer;
+import kotori.RedisServer;
 import databases.entities.AutoLogin;
 import org.junit.rules.ExternalResource;
 import redis.clients.jedis.Jedis;

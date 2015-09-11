@@ -1,6 +1,6 @@
 package databases.daos;
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import databases.resources.DBNGUserResource;
 import databases.entities.NGUser;
 import helper.DaoImplHelper;

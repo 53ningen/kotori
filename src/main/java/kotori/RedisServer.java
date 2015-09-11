@@ -1,4 +1,4 @@
-package bulletinBoard;
+package kotori;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;

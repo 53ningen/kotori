@@ -1,6 +1,6 @@
 package models.handles;
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import databases.daos.ContributionDao;
 import databases.entities.Contribution;
 import databases.entities.User;

@@ -1,6 +1,6 @@
 package databases.daos;
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import databases.entities.User;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
@@ -8,7 +8,6 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.jdbc.UniqueConstraintException;
 
-import java.util.List;
 import java.util.Optional;
 
 @Dao(config = DBConfig.class)
