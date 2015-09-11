@@ -59,7 +59,7 @@ public class UserRequest implements DBRequest {
 
             Optional<User> userOpt = HandleDB.user().select(user);
             if (!userOpt.isPresent()) {
-                return setBadRequest(response, ErrorCode.LOGIN_FAILED);
+                return setUnauthorized(response, ErrorCode.LOGIN_FAILED);
             }
 
             return setOK(response);

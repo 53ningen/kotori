@@ -4,6 +4,7 @@ import spark.Response;
 
 public interface Status {
     StatusCode HTTP_BAD_REQUEST = StatusCode.HTTP_BAD_REQUEST;
+    StatusCode HTTP_UNAUTHORIZED = StatusCode.HTTP_UNAUTHORIZED;
     StatusCode HTTP_INTERNAL_SERVER_ERROR = StatusCode.HTTP_INTERNAL_SERVER_ERROR;
     StatusCode HTTP_OK = StatusCode.HTTP_OK;
 
@@ -30,10 +31,22 @@ public interface Status {
     /**
      * 400 BadRequest を設定する
      * @param response レスポンス
-     * @return 空文字
+     * @param errorCode エラーコード
+     * @return エラー文
      */
     default String setBadRequest(Response response, ErrorCode errorCode) {
         response.status(HTTP_BAD_REQUEST.getStatusCode());
+        return errorCode.getErrorMsg();
+    }
+
+    /**
+     * 401 Unauthorized を設定する
+     * @param response レスポンス
+     * @param errorCode エラーコード
+     * @return エラー文
+     */
+    default String setUnauthorized(Response response, ErrorCode errorCode) {
+        response.status(HTTP_UNAUTHORIZED.getStatusCode());
         return errorCode.getErrorMsg();
     }
 

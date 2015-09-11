@@ -9,6 +9,7 @@ import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import static spark.Spark.*;
@@ -68,25 +69,25 @@ public class ApplicationRoute {
 
         before("/api/*", (req, res) -> {
             if (!getRequest.isLogin(req)) { // 未ログイン時のapi利用を許可しない
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode()); // 401 Unauthorizedを返す
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode()); // 403 Forbiddenを返す
             }
         });
 
         before("/api/admin/*", (req, res) -> {
             if (!getRequest.isAdmin(req)) {
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode());
             }
         });
 
         before("/admin", (req, res) -> {
             if (!getRequest.isAdmin(req)) {
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode());
             }
         });
 
         before("/admin/*", (req, res) -> {
             if (!getRequest.isAdmin(req)) {
-                halt(StatusCode.HTTP_UNAUTHORIZED.getStatusCode());
+                halt(StatusCode.HTTP_FORBIDDEN.getStatusCode());
             }
         });
     }
@@ -110,15 +111,15 @@ public class ApplicationRoute {
         get("/admin/log", ((req, res) -> getRequest.getLog(req)), engine);
 
         get("/admin/log/latest/:filename", (req, res) -> {
-            Optional<String> resultOpt = logFile.getFileText(req.params("filename"));
-            if (!resultOpt.isPresent()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
-            return resultOpt.orElse("Logfile is not found.");
+            List<String> resultList = logFile.getFileText(req.params("filename"));
+            if (resultList.isEmpty()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
+            return resultList.toString();
         });
 
         get("/admin/log/:date/:filename", (req, res) -> {
-           Optional<String> resultOpt = logFile.getFileText("history/" + req.params("date") + "/" + req.params("filename"));
-            if (!resultOpt.isPresent()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
-            return resultOpt.orElse("Logfile is not found.");
+            List<String> resultList = logFile.getFileText("history/" + req.params("date") + "/" + req.params("filename"));
+            if (resultList.isEmpty()) halt(StatusCode.HTTP_NOTFOUND.getStatusCode());
+            return resultList.toString();
         });
 
         get("/admin/ngword", ((req, res) -> getRequest.getAdminNGWord(req)), engine);
