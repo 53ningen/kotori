@@ -1,6 +1,6 @@
 package databases.daos;
 
-import bulletinBoard.DBConfig;
+import kotori.DBConfig;
 import databases.entities.User;
 import databases.resources.DBAdminResource;
 import databases.resources.DBUserResource;

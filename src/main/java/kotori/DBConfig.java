@@ -1,4 +1,4 @@
-package bulletinBoard;
+package kotori;
 
 import javax.sql.DataSource;
 
