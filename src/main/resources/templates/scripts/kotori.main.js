@@ -75,7 +75,7 @@
         $this.showSuccessAlert();
       })
       .fail(function() {
-        var msg = "投稿の削除に失敗しました";
+        var msg = "削除に失敗しました。既に削除済みの可能性があります";
         $this.showErrorAlert(msg);
       });
     });
