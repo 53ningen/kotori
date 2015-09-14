@@ -1,5 +1,6 @@
 package models.requests;
 
+import databases.resources.DBNGUserResource;
 import databases.resources.DBUserResource;
 import helper.RequestHelper;
 import helper.ResponseHelper;
@@ -24,6 +25,8 @@ public class UserRequestTest {
     public static class 挿入テスト {
         @Rule
         public final DBUserResource userResource = new DBUserResource();
+        @Rule
+        public final DBNGUserResource nguserResource = new DBNGUserResource();
         private UserRequest userRequest = new UserRequest();
         private Request request;
         private Response response;
@@ -65,6 +68,19 @@ public class UserRequestTest {
         public void ユーザIDが登録済みならエラーを返す() throws Exception {
             // setup
             String content = "{\"username\":\"username\", \"userid\":\"hanayo\", \"password\":\"password\"}";
+            when(request.body()).thenReturn(content);
+
+            // exercise
+            userRequest.insert(request, response);
+
+            // verify
+            verify(response).status(400);
+        }
+
+        @Test
+        public void ユーザIDがNGリストにあればエラーを返す() throws Exception {
+            // setup
+            String content = "{\"username\":\"username\", \"userid\":\"nguser\", \"password\":\"password\"}";
             when(request.body()).thenReturn(content);
 
             // exercise

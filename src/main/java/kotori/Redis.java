@@ -3,19 +3,19 @@ package kotori;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-public class RedisServer {
-    private static final RedisServer redisServer = new RedisServer();
+public class Redis {
+    private static final Redis redis = new Redis();
     private JedisPool pool = null;
 
-    private RedisServer() {
-        setRedisServer();
+    private Redis() {
+        setRedis();
     }
 
-    public static RedisServer getRedisServer() {
-        return redisServer;
+    public static Redis getRedis() {
+        return redis;
     }
 
-    private void setRedisServer() {
+    private void setRedis() {
         pool = new JedisPool(new JedisPoolConfig(), "localhost");
     }
 

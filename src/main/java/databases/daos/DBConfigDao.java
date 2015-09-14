@@ -37,4 +37,7 @@ public interface DBConfigDao {
     @Script
     void dropAdmin();
 
+    @Script
+    void createDatabase();
+
 }

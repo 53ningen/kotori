@@ -1,6 +1,6 @@
 package models.handles;
 
-import kotori.RedisServer;
+import kotori.Redis;
 import databases.entities.AutoLogin;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class HandleDBForAutoLogin extends HandleDB {
     private Jedis jedis;
-    private final JedisPool pool = RedisServer.getRedisServer().getJedisPool();
+    private final JedisPool pool = Redis.getRedis().getJedisPool();
 
     /**
      * AutoLogin情報がDBに存在するか確認する
