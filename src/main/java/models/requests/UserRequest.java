@@ -27,6 +27,8 @@ public class UserRequest implements DBRequest {
             User user = createUser(request);
             if (!user.isValid()) {
                 return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
+            } else if (!HandlePayload.isValidUser(HandleDB.ngUser().selectAll(), Optional.of(user))) {
+                return setBadRequest(response, ErrorCode.REGISTERED_ID);
             }
 
             int result = HandleDB.user().insert(user);
