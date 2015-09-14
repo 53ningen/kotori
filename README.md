@@ -14,20 +14,22 @@ $ bower install
 
 ## Setup
 
-KotoriはRedisとMySQLが必要です。
+KotoriはDBにMySQLとRedisを使用します。
 予め起動しておいてください。
 
-MySQLへの接続はプロパティファイルによって指定します。
+MySQL/Redisへの接続はプロパティファイルによって指定します。
 `src/main/resources` 以下に `dbsettings.properties` という名前で設定ファイルを置いてください。
 設定ファイルは例えば以下のように記述します。
 
 ```dbsettings.properties
-hostname=jdbc:mysql://localhost:3306/dbname
-username=root
-password=password
+mysql_hostname=jdbc:mysql://localhost:3306/dbname
+mysql_username=root
+mysql_password=password
+redis_hostname=localhost
 ```
 
-`hostname`は必ずデータベース名を含めてください。
+`mysql_hostname`は必ずデータベース名を含めてください。
+`redis_hostname`は省略が可能です。省略した場合は`localhost`が自動的に設定されます。
 
 ## Build
 

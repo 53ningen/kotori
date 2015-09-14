@@ -27,9 +27,9 @@ public class DBConfig implements Config {
         dialect = new MysqlDialect();
         ResourceBundle resource = ResourceBundle.getBundle("dbsettings");
         dataSource = new LocalTransactionDataSource(
-                resource.getString("hostname"),
-                resource.getString("username"),
-                resource.getString("password"));
+                resource.getString("mysql_hostname"),
+                resource.getString("mysql_username"),
+                resource.getString("mysql_password"));
         jdbcLogger = new CommonsJdbcLogger();
         transactionManager = new LocalTransactionManager(
                 dataSource.getLocalTransaction(jdbcLogger));
