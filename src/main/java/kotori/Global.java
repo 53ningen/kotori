@@ -8,7 +8,8 @@ public class Global {
 
     public static void main(String args[]) {
 
-        RedisServer.getRedisServer();
+        Redis.getRedis();
+        MySQL.setupDatabase();
         ApplicationRoute application = ApplicationRoute.getApplicationRoute();
 
         try {

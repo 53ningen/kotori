@@ -1,6 +1,6 @@
 package databases.resources;
 
-import kotori.RedisServer;
+import kotori.Redis;
 import databases.entities.AutoLogin;
 import org.junit.rules.ExternalResource;
 import redis.clients.jedis.Jedis;
@@ -10,7 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class DBAutoLoginResource extends ExternalResource {
-    private final JedisPool pool = RedisServer.getRedisServer().getJedisPool();
+    private final JedisPool pool = Redis.getRedis().getJedisPool();
 
     @Override
     protected void before() throws Throwable {
