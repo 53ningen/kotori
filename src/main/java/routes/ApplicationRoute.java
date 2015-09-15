@@ -22,6 +22,7 @@ public class ApplicationRoute {
     private final LogFile logFile = LogFile.getLogFile();
     private final PostRequest postRequest = new PostRequest();
     private final GetRequest getRequest = new GetRequest();
+    private Optional<User> userOpt;
 
     private ApplicationRoute() {
         staticFileLocation("/templates"); // 静的ファイルのパスを設定
@@ -59,18 +60,24 @@ public class ApplicationRoute {
         before("/", (req, res) -> {
             if (!getRequest.isLogin(req)) { // 未ログインであればログインページに飛ばす
                 redirect(res, "/login");
+            } else {
+                userOpt = HandleUser.createUser(req);
             }
         });
 
         before("/my", (req, res) -> {
             if (!getRequest.isLogin(req)) {
                 redirect(res, "/login");
+            } else {
+                userOpt = HandleUser.createUser(req);
             }
         });
 
         before("/search", (req, res) -> {
             if (!getRequest.isLogin(req)) {
                 redirect(res, "/login");
+            } else {
+                userOpt = HandleUser.createUser(req);
             }
         });
 
@@ -95,6 +102,8 @@ public class ApplicationRoute {
         before("/admin", (req, res) -> {
             if (!getRequest.isAdmin(req)) {
                 halt(StatusCode.HTTP_FORBIDDEN.getStatusCode());
+            } else {
+                userOpt = HandleUser.createUser(req);
             }
         });
 
@@ -111,15 +120,15 @@ public class ApplicationRoute {
     private void initRoutesGet() {
         MustacheTemplateEngine engine = new MustacheTemplateEngine();
 
-        get("/", ((req, res) -> getRequest.getPage(req, "index.mustache.html")), engine);
+        get("/", ((req, res) -> userOpt.map(user -> getRequest.getPage(req, user, "index.mustache.html")).get()), engine);
 
-        get("/my", ((req, res) -> HandleUser.createUser(req).map(user -> getRequest.getMypage(req, user)).get()), engine);
+        get("/my", ((req, res) -> userOpt.map(user -> getRequest.getMypage(req, user)).get()), engine);
 
         get("/login", ((req, res) -> getRequest.getLogin(req)), engine);
 
-        get("/search", ((req, res) -> getRequest.getSearch(req)), engine);
+        get("/search", ((req, res) -> userOpt.map(user -> getRequest.getSearch(req, user)).get()), engine);
 
-        get("/admin", ((req, res) -> getRequest.getPage(req, "admin.mustache.html")), engine);
+        get("/admin", ((req, res) -> userOpt.map(user -> getRequest.getPage(req, user, "admin.mustache.html")).get()), engine);
 
         get("/admin/log", ((req, res) -> getRequest.getLog(req)), engine);
 

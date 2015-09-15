@@ -127,6 +127,16 @@
     <section id="contributions">
       {{#contributions}}
       <div class="contribution">
+        {{#isDeletable}}
+        <div class="contribution__header">
+          <div class="delete-guide">
+            <form class="delete-contribution">
+              <input class="delete-id" type="hidden" name="id" value="{{id}}">
+            </form>
+            <i class="fa fa-trash-o"></i>
+          </div>
+        </div>
+        {{/isDeletable}}
         <div class="contribution__user cf">
           <div class="contribution__user--username">
             {{username}}
