@@ -37,7 +37,7 @@ public class HandleContributionTest {
         when(contribution.getCreatedAt()).thenReturn(LocalDateTime.of(2015, 8, 3, 12, 24, 36));
 
         // exercise
-        Contribution editedContribution = handleContribution.addInformationContribution(contribution);
+        Contribution editedContribution = handleContribution.addInformationContribution(contribution, user);
 
         // verify
         assertNotNull(editedContribution);
@@ -63,7 +63,7 @@ public class HandleContributionTest {
         contributions.add(contribution);
 
         // exercise
-        List<Contribution> editedContributions = handleContribution.addInformationContributions(contributions);
+        List<Contribution> editedContributions = handleContribution.addInformationContributions(contributions, user);
 
         // verify
         assertNotNull(editedContributions);

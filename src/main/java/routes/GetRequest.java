@@ -31,9 +31,9 @@ public class GetRequest {
      * @param viewFile HTMLファイル名
      * @return ModelAndView
      */
-    protected ModelAndView getPage(Request req, String viewFile) {
+    protected ModelAndView getPage(Request req, User user, String viewFile) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = HandleDB.contribution().findWithLimit(handleRequest);
+        List<Contribution> contributions = HandleDB.contribution().findWithLimit(handleRequest, user);
         return new ModelAndView(getResponseMap(req, contributions, ""), viewFile);
     }
 
@@ -77,9 +77,9 @@ public class GetRequest {
      * @param req リクエスト
      * @return ModelAndView
      */
-    protected ModelAndView getSearch(Request req) {
+    protected ModelAndView getSearch(Request req, User user) {
         handleRequest.updateHandleRequest(req);
-        List<Contribution> contributions = HandleDB.contribution().findByKeyword(handleRequest);
+        List<Contribution> contributions = HandleDB.contribution().findByKeyword(handleRequest, user);
         return new ModelAndView(getResponseMap(req, contributions, "q"), "index.mustache.html");
     }
 
