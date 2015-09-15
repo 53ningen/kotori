@@ -12,14 +12,6 @@
   };
 
   /**
-   * tooltipster
-   */
-  $('.tooltip').tooltipster({
-    theme: 'tooltipster-kotori',
-    hideOnClick: true
-  });
-
-  /**
    * 投稿
    */
   $('#post-contribution').on('submit', function(e) {

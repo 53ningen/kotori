@@ -69,22 +69,24 @@ public class HandleDBForContribution {
     /**
      * pageの位置からlimit分だけ投稿情報をID降順で返す
      * @param req クエリリクエスト
+     * @param user ユーザ情報
      * @return 投稿リスト
      */
-    public List<Contribution> findWithLimit(HandleRequest req)
+    public List<Contribution> findWithLimit(HandleRequest req, User user)
     {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectWithLimit(options)));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectWithLimit(options), user));
     }
 
     /**
      * 指定されたキーワードを含む投稿情報をID降順で返す
      * @param req クエリリクエスト
+     * @param user ユーザ情報
      * @return 投稿リスト
      */
-    public List<Contribution> findByKeyword(HandleRequest req) {
+    public List<Contribution> findByKeyword(HandleRequest req, User user) {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectByKeyword(options, req.getQuery())));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.selectByKeyword(options, req.getQuery()), user));
     }
 
     /**
@@ -95,6 +97,6 @@ public class HandleDBForContribution {
      */
     public List<Contribution> selectByUser(HandleRequest req, User user) {
         options = DBSelectOptions.getDBSelectOptions().setOptions(req);
-        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.select(options, user.getUserid())));
+        return tm.required(() -> handleContribution.addInformationContributions(contributionDao.select(options, user.getUserid()), user));
     }
 }

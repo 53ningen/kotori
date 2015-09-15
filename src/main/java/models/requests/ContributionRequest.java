@@ -56,7 +56,7 @@ public class ContributionRequest implements DBRequest {
             }
 
             // Contributionに新着情報を付与する
-            Contribution editedContribution = handleContribution.addInformationContribution(contributionOpt.get());
+            Contribution editedContribution = handleContribution.addInformationContribution(contributionOpt.get(), userOpt.get());
 
             // ステータスコード200 OKを設定する
             setOK(response, ResponseType.APPLICATION_JSON);
