@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -70,5 +69,30 @@ public class HandleContributionTest {
         assertThat(editedContributions.get(0).getIsNew(), is(true));
         assertThat(editedContributions.get(1).getIsNew(), is(false));
         assertThat(editedContributions.get(2).getIsNew(), is(false));
+    }
+
+    @Test
+    public void 自身の投稿は削除可能フラグがtrueになっている() throws Exception {
+        // setup
+        Contribution contribution = new Contribution(payload, user);
+
+        // exercise
+        Contribution editedContribution = handleContribution.addInformationContribution(contribution, user);
+
+        // verify
+        assertTrue(editedContribution.getIsDeletable());
+    }
+
+
+    @Test
+    public void 他人の投稿は削除可能フラグがfalseになっている() throws Exception {
+        // setup
+        Contribution contribution = new Contribution(payload, user);
+
+        // exercise
+        Contribution editedContribution = handleContribution.addInformationContribution(contribution, new User("rin", "星空凛"));
+
+        // verify
+        assertFalse(editedContribution.getIsDeletable());
     }
 }
