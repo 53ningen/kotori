@@ -2,25 +2,19 @@
   'use strict';
 
   var $document = $(document);
-  $('.update-text').css({ height: $('.contribution__body--content').height() + 'px' });
 
   /**
    * 投稿の更新を適用する
    */
-  var applyUpdate = function($el) {
+  var applyUpdate = function($el, res) {
     var $contribution = $el.parents('.contribution');
 
     $el.css({
       opacity: 0
     }).removeClass('active');
 
-    var editedData = {};
-    $el.serializeArray().forEach(function(el) {
-      editedData[el.name] = el.value;
-    });
-
-    $contribution.find('.contribution__body--title').first().text(editedData.title);
-    $contribution.find('.contribution__body--content').first().text(editedData.content);
+    $contribution.find('.contribution__body--title').first().html(res.title);
+    $contribution.find('.contribution__body--content').first().html(res.content);
   }
 
   /**
@@ -34,6 +28,7 @@
         opacity: 0
       }).removeClass('active');
     } else {
+      $('.update-text').css({ height: $('.contribution__body--content').height() + 'px' });
       $updateform.addClass('active').css({
         opacity: 1
       });
@@ -57,8 +52,8 @@
       $this.kotoriAjax({
         url: '/api/admin/update'
       })
-      .done(function() {
-        applyUpdate($this);
+      .done(function(res) {
+        applyUpdate($this, res);
         $this.showSuccessAlert();
       })
       .fail(function() {
