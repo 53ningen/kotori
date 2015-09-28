@@ -43,7 +43,7 @@ public class HandleContribution {
      * @param str 改行コードを含む文字列
      * @return 置換された文字列
      */
-    private String replaceNewLineToTag(String str) {
+    public String replaceNewLineToTag(String str) {
         if (str == null) return "";
         else return str.replaceAll("\\\\n", "<br>");
     }

@@ -44,6 +44,7 @@
       .replace(/\"/g, "\\\"")
       .replace(/\//g, "\\\/")
       .replace(/\r/g, "")
+      .replace(/<br>/g, "\n")
       .replace(/\W/g, function (c) {
       return "\\u" + ("000" + c.charCodeAt(0).toString(16)).slice(-4);
     });

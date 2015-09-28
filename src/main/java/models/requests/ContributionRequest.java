@@ -139,13 +139,18 @@ public class ContributionRequest implements DBRequest {
             }
 
             // Payloadのパラメータが正しければDBを更新する
-            int result = HandleDB.contribution().update(payload);
-            if (result < 1) {
+            Optional<Contribution> contributionOpt = HandleDB.contribution().update(payload);
+
+            if (!contributionOpt.isPresent()) {
                 return setInternalServerError(response);
             }
 
             // ステータスコード200 OKを設定する
-            return setOK(response);
+            setOK(response, ResponseType.APPLICATION_JSON);
+
+            contributionOpt.ifPresent(contribution -> contribution.setContent(handleContribution.replaceNewLineToTag(contribution.getContent())));
+
+            return convertObjectToJson(contributionOpt.get());
         } catch (Exception e) {
             return setBadRequest(response, ErrorCode.PARAMETER_INVALID);
         }
