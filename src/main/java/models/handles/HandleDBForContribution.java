@@ -15,6 +15,7 @@ import org.seasar.doma.jdbc.tx.TransactionManager;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class HandleDBForContribution {
     private final ContributionDao contributionDao = DaoImplHelper.get(ContributionDao.class);
@@ -44,8 +45,14 @@ public class HandleDBForContribution {
      * @param payload 更新データ
      * @return 処理した投稿数
      */
-    public int update(UpdatePayload payload) {
-        return tm.required(() -> contributionDao.updateById(payload));
+    public Optional<Contribution> update(UpdatePayload payload) {
+        return tm.required(() -> {
+            int result = contributionDao.updateById(payload);
+            if (result < 1) {
+                return Optional.<Contribution>empty();
+            }
+            return Optional.ofNullable(contributionDao.selectById(payload.getId()));
+        });
     }
 
     /**
