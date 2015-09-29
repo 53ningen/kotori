@@ -21,14 +21,15 @@
    * 編集ボタンをクリックした時のイベント
    **/
   $document.on('click', '.update-guide', function() {
-    var $updateform = $(this).parents('.contribution').find('form.update-contribution');
+    var $contribution = $(this).parents('.contribution');
+    var $updateform = $contribution.find('form.update-contribution');
 
     if ($updateform.hasClass('active')) {
       $updateform.css({
         opacity: 0
       }).removeClass('active');
     } else {
-      $('.update-text').css({ height: $('.contribution__body--content').height() + 'px' });
+      $contribution.find('.update-text').css({ height: $contribution.find('.contribution__body--content').height() + 'px' });
       $updateform.addClass('active').css({
         opacity: 1
       });
