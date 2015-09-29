@@ -137,7 +137,6 @@ header {
 }
 #guide .guide__wrapper {
   left: 1rem;
-  letter-spacing: -1rem;
 }
 #guide .guide__toggle {
   position: absolute;
@@ -237,9 +236,6 @@ header {
 .pagination .pagination__current,
 .pagination .pagination__next {
   float: left;
-}
-.pagination .pagination__current {
-  letter-spacing: -1rem;
 }
 
 .pagination--bottom {
@@ -366,6 +362,14 @@ footer .nav-footer--sns {
 
 .btn--margin {
   margin-left: 5px;
+}
+
+.btn--lmargin {
+  margin-right: 5px;
+}
+
+.btn--rmargin {
+  margin-left: 10px;
 }
 
 .btn--notlink:hover {

@@ -17,7 +17,6 @@
   .guide__wrapper {
     @extend %guide-pos;
     left: 1rem;
-    letter-spacing: -1rem;
   }
 
   .guide__toggle {
@@ -140,10 +139,6 @@
   .pagination__current,
   .pagination__next {
     float: left;
-  }
-
-  .pagination__current {
-    letter-spacing: -1rem;
   }
 }
 

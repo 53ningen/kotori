@@ -87,7 +87,7 @@
           {{#hasPrev}}
           <div class="pagination__prev">
             <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
-              <button class="btn btn--guide">
+              <button class="btn btn--guide btn--lmargin">
                 <i class="fa fa-angle-left"></i>
               </button>
             </a>
@@ -115,7 +115,7 @@
           {{#hasNext}}
           <div class="pagination__next">
             <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
-              <button class="btn btn--margin btn--guide">
+              <button class="btn btn--rmargin btn--guide">
                 <i class="fa fa-angle-right"></i>
               </button>
             </a>
@@ -205,7 +205,7 @@
       {{#hasPrev}}
       <div class="pagination__prev">
         <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{prev}}">
-          <button class="btn btn--guide">
+          <button class="btn btn--guide btn--lmargin">
             <i class="fa fa-angle-left"></i>
           </button>
         </a>
@@ -233,7 +233,7 @@
       {{#hasNext}}
       <div class="pagination__next">
         <a href="{{path}}?{{#query}}{{key}}={{value}}&{{/query}}s[limit]={{limit}}&s[page]={{next}}">
-          <button class="btn btn--guide btn--margin">
+          <button class="btn btn--guide btn--rmargin">
             <i class="fa fa-angle-right"></i>
           </button>
         </a>
