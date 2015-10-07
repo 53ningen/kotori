@@ -11,21 +11,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class LogFile {
-    private static final LogFile logFile = new LogFile();
-    private final String LOGFILE_PATH;
-    private final String HISTORY_PATH;
 
-    public LogFile() {
-        LOGFILE_PATH = "/logs";
-        HISTORY_PATH = LOGFILE_PATH + "/history";
-    }
+    private static final LogFile LOG_FILE = new LogFile();
+    private static final String LOGFILE_PATH = "/logs";
+    private static final String HISTORY_PATH = LOGFILE_PATH + "/history";
 
     public static LogFile getLogFile() {
-        return logFile;
+        return LOG_FILE;
     }
 
     /**
      * ログファイルの一覧を返す
+     *
      * @return String型のList
      */
     public List<String> getLogFileNames(String path) {
@@ -33,13 +30,14 @@ public class LogFile {
             URL url = LogFile.class.getResource(LOGFILE_PATH + path);
             File directory = new File(url.toURI());
             return Stream.of(directory.list()).filter(name -> name.contains(".log")).collect(Collectors.toList());
-        } catch (URISyntaxException | NullPointerException e){
+        } catch (URISyntaxException | NullPointerException e) {
             return Collections.emptyList();
         }
     }
 
     /**
      * ログディレクトリの一覧を返す
+     *
      * @return String型のList
      */
     public List<String> getLogDirectoryNames() {
@@ -54,6 +52,7 @@ public class LogFile {
 
     /**
      * ファイル名から中身のテキストを返す
+     *
      * @param filename ファイル名
      * @return 1行ごとのリスト
      */
@@ -65,4 +64,5 @@ public class LogFile {
             return Collections.emptyList();
         }
     }
+
 }
