@@ -9,45 +9,41 @@ import redis.clients.jedis.exceptions.JedisDataException;
 import java.util.Optional;
 
 public class HandleDBForAutoLogin extends HandleDB {
-    private Jedis jedis;
+
     private final JedisPool pool = Redis.getRedis().getJedisPool();
 
     /**
      * AutoLogin情報がDBに存在するか確認する
+     *
      * @param token トークン
      * @return DBに存在していればtrueを返す
      */
-    public boolean existToken(String token) {
-        try {
-            jedis = pool.getResource();
+    public boolean existToken(final String token) {
+        try (final Jedis jedis = pool.getResource()) {
             return jedis.exists(token);
-        } finally {
-            if (jedis != null) jedis.close();
         }
     }
 
     /**
      * KeyとFieldから対応するValueを取得する
+     *
      * @param token トークン
      * @return DBに存在していればvalueを返す
      */
-    public Optional<String> select(String token, String field) {
-        try {
-            jedis = pool.getResource();
+    public Optional<String> select(final String token, final String field) {
+        try (final Jedis jedis = pool.getResource()) {
             return Optional.ofNullable(jedis.hget(token, field));
-        } finally {
-            if (jedis != null) jedis.close();
         }
     }
 
     /**
      * AutoLogin情報をDBに格納する
+     *
      * @param al AutoLoginインスタンス
      * @return 成功時または既にメンバが存在している場合は1を返す
      */
-    public Long insert(AutoLogin al) {
-        try {
-            jedis = pool.getResource();
+    public Long insert(final AutoLogin al) {
+        try (final Jedis jedis = pool.getResource()) {
             String key = al.getToken();
             if (jedis.exists(key)) {
                 return 1L;
@@ -62,22 +58,18 @@ public class HandleDBForAutoLogin extends HandleDB {
             }
         } catch (JedisDataException e) {
             return 0L;
-        } finally {
-            if (jedis != null) jedis.close();
         }
     }
 
     /**
      * AutoLogin情報をDBから削除する
+     *
      * @param token トークン
      * @return 成功時は1を、メンバが存在しない場合は0を返す
      */
-    public Long delete(String token) {
-        try {
-            jedis = pool.getResource();
+    public Long delete(final String token) {
+        try (final Jedis jedis = pool.getResource()) {
             return jedis.del(token);
-        } finally {
-            if (jedis != null) jedis.close();
         }
     }
 }
