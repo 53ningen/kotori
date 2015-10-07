@@ -3,43 +3,40 @@ package models.users;
 import databases.entities.User;
 import spark.Request;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import static models.handles.HandleDB.autoLogin;
 import static models.handles.HandleDB.user;
 
 public class HandleUser {
+
     private static final String AUTH_TOKEN = "auth_token";
     private static final String USERID = "userid";
     private static final String USERNAME = "username";
-    private static final int USER_INFO_SIZE = 2;
 
     /**
      * OptionalなUserインスタンスを生成する
+     *
      * @param request リクエスト
      * @return Optional型でラップされたUserインスタンス
      */
-    public static Optional<User> createUser(Request request) {
-        HashMap<String, String> userMap = new HashMap<>();
-        Optional<String> tokenOpt = Optional.ofNullable(request.cookie(AUTH_TOKEN));
-        tokenOpt.ifPresent(token -> {
-            autoLogin().select(token, USERID).ifPresent(id -> userMap.put(USERID, id));
-            autoLogin().select(token, USERNAME).ifPresent(name -> userMap.put(USERNAME, name));
-        });
-
-        return userMap.size() == USER_INFO_SIZE ? Optional.of(new User(userMap.get(USERID), userMap.get(USERNAME))) : Optional.empty();
+    public static Optional<User> createUser(final Request request) {
+        final Optional<String> authToken = Optional.ofNullable(request.cookie(AUTH_TOKEN));
+        final Optional<String> userId = authToken.flatMap(token -> autoLogin().select(token, USERID));
+        final Optional<String> userName = authToken.flatMap(token -> autoLogin().select(token, USERNAME));
+        return userId.flatMap(id -> userName.map(name -> new User(id, name)));
     }
 
     /**
      * UserインスタンスにUsernameの情報を追加する
+     *
      * @param user Userインスタンス
      * @return 更新されたUserインスタンス
      */
-    public static User updateUser(User user) {
+    public static User updateUser(final User user) {
         if (user.getUsername() == null) {
-            Optional<String> usernameOpt = Optional.ofNullable(user().selectUsername(user.getUserid()));
-            usernameOpt.ifPresent(user::setUsername);
+            Optional.ofNullable(user().selectUsername(user.getUserid()))
+                    .ifPresent(user::setUsername);
         }
         return user;
     }
